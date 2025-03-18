@@ -1,5 +1,5 @@
 # OOP24-STH
-Email dei componenti
+Email dei componenti:
 
 samuele.bizzocchi3@studio.unibo.it
 
@@ -33,6 +33,9 @@ Meccanica delle collisioni.
 
 Suddivisione del lavoro
 Filippo Merlini: Game engine, gestione degli eventi e delle entità.
+
 Samuele Bizzocchi: Fisica di base e meccanica delle collisioni.
+
 Francesco Giancaterino: Rendering dell'ambiente e gameloop. Schermata home (di apertura del gioco) e pausa
+
 Nicolas Mancini: Nemici e ostacoli fissi, aspetto del personaggio.
