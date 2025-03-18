@@ -1,9 +1,11 @@
 # OOP24-STH
 Email dei componenti
+
 samuele.bizzocchi3@studio.unibo.it
 filippo.merlini2@studio.unibo.it
 nicolas.mancini@studio.unibo.it
 frances.giancaterin2@studio.unibo.it
+
 Il gruppo si pone come obbiettivo di realizzare un gioco arcade in 2D ispirato fortemente a "Sonic the Hedgehog" del 1991. Il gioco avrà disponibile un solo livello composto da un percorso con nemici ed ostacoli da evitare, e bonus da prendere (detti anelli); al completamento del percorso al giocatore verrà assegnato un punteggio in base al tempo di completamento e al numero di anelli raccolti e portati fino al traguardo, con ostacoli che se non evitati causano la perdita di anelli.
 
 Funzionalità principali:
