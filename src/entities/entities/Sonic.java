@@ -8,6 +8,7 @@ public class Sonic extends Entity{
     private boolean left;
     private boolean down;
     private boolean right;
+
     Sonic(){
         super(0, 0, 0, 0, 0, 0, 5, 7);
     }
@@ -50,5 +51,9 @@ public class Sonic extends Entity{
 
     public void setAction(action a){
         this.playerAction = a;
+    }
+
+    public void setDirection(direction d){
+        this.playerDirection = d;
     }
 }

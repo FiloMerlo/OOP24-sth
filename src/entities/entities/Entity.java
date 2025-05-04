@@ -12,6 +12,7 @@ public abstract class Entity {
     protected int height; // indica l'altezza a partire dal centro dell'entità.
     protected Rectangle hitbox;
     public Entity(int xPos, int yPos, int xSpeed, int ySpeed, int groundSpeed, int  groundAngle, int width, int height){
+
         this.xPos = xPos;
         this.yPos = yPos;
         this.xSpeed = xSpeed;
@@ -65,4 +66,3 @@ public abstract class Entity {
         return xPos;
     }
 }
-
