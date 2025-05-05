@@ -1,52 +1,61 @@
 package entities;
-import javax.swing.JPanel;
 
-public enum action {idle, walking, running, falling, damage, crouch};
-public class Sonic extends Entity{
-    private action playerAction = idle;
+import java.awt.Graphics;
+
+public enum Action { IDLE, WALKING, RUNNING, FALLING, DAMAGE, CROUCH }
+public enum Direction { LEFT, RIGHT }
+
+public class Sonic extends Entity {
+    private Action playerAction = Action.IDLE;
+    private Direction playerDirection = Direction.RIGHT;
+
     private boolean left;
-    private boolean down;
     private boolean right;
-    public boolean getLeft(){
-        return left;
+    private boolean down;
+
+    public Sonic(int x, int y, int xSpeed, int ySpeed) {
+        super(x, y, xSpeed, ySpeed, 0, 0, 16, 16);
     }
-    public boolean getDown(){
-        return down;
-    }
-    public boolean getRight(){
-        return right;
-    }
-    public void setLeft(boolean bool){
-        left = bool;
-    }
-    public void setDown(boolean bool){
-        down = bool;
-    }
-    public void setRight(boolean bool){
-        right = bool;
-    }
-    
-    public void update(){
+
+    public boolean getLeft() { return left; }
+    public boolean getRight() { return right; }
+    public boolean getDown() { return down; }
+
+    public void setLeft(boolean bool) { left = bool; }
+    public void setRight(boolean bool) { right = bool; }
+    public void setDown(boolean bool) { down = bool; }
+
+    public void setAction(Action a) { this.playerAction = a; }
+    public void setDirection(Direction d) { this.playerDirection = d; }
+
+    public Action getAction() { return playerAction; }
+    public Direction getDirection() { return playerDirection; }
+
+    public void update() {
         updatePos();
         updateAction();
-        //qui si fa anche l'update delle animazioni
-    }
-    public void updateAction(){ //rivaluta, in base alla velocità, se sonic è fermo, sta camminando o correndo
-        
     }
 
-    public void updatePos(){
-        if (left && !right){
-            x -= xSpeed;
-        } else if (!left && right){
-            x += xSpeed;
+    public void draw(Graphics g, int offsetX, int offsetY) {
+    }
+     
+    private void updatePos() {
+        if (left && !right) {
+            xPos -= xSpeed;
+            playerDirection = Direction.LEFT;
+        } else if (right && !left) {
+            xPos += xSpeed;
+            playerDirection = Direction.RIGHT;
         }
     }
 
-    public void setAction(action a){
-        this.playerAction = a;
-    }
-    public void setDirection(direction d){
-        this.playerDirection = d;
+    private void updateAction() {
+        if (!left && !right) {
+            playerAction = Action.IDLE;
+        } else if (xSpeed <= 2) {
+            playerAction = Action.WALKING;
+        } else {
+            playerAction = Action.RUNNING;
+        }
     }
 }

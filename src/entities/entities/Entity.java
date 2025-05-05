@@ -1,13 +1,15 @@
-//QUESTA CLASSE ASTRATTA è PENSATA PER CREARE TUTTI I NEMICI. NON HO FATTO ALTRO CHE IMPLEMENTARE LA LOGICA DEL GIOCO ORIGINALE
 package entities;
+
+import java.awt.Graphics;
+
 public abstract class Entity {
     protected int xPos, yPos;
     protected int xSpeed, ySpeed;
     protected int groundSpeed, groundAngle;
-    protected int widthR; //R sta per "raggio". indica la larghezza a partire dal centro dell'entità
-    protected int heightR; // indica l'altezza a partire dal centro dell'entità.
+    protected int widthR;
+    protected int heightR;
 
-    public Entity(int xPos, int yPos, int xSpeed, int ySpeed, int groundSpeed, int  groundAngle, int widthR, int heightR){
+    public Entity(int xPos, int yPos, int xSpeed, int ySpeed, int groundSpeed, int groundAngle, int widthR, int heightR) {
         this.xPos = xPos;
         this.yPos = yPos;
         this.xSpeed = xSpeed;
@@ -18,22 +20,15 @@ public abstract class Entity {
         this.heightR = heightR;
     }
 
-    public int getGroundSpeed(){
-        return groundSpeed;
-    }
-    public int getGroundAngle(){
-        return groundAngle;
-    }
-    public int getXSpeed(){
-        return xSpeed;
-    }
-    public int getYSpeed(){
-        return ySpeed;
-    }
-    public int getXpos(){
-        return xPos;
-    }
-    public int getYpos(){
-        return xPos;
-    }
+    public int getGroundSpeed() { return groundSpeed; }
+    public int getGroundAngle() { return groundAngle; }
+    public int getXSpeed() { return xSpeed; }
+    public int getYSpeed() { return ySpeed; }
+    public int getXpos() { return xPos; }
+    public int getYpos() { return yPos; }
+    public int getWidthR() { return widthR; }
+    public int getHeightR() { return heightR; }
+
+    public abstract void update();
+    public abstract void draw(Graphics g, int offsetX, int offsetY);
 }
