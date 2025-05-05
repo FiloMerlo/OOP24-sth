@@ -21,7 +21,7 @@ public class ChasingEnemy extends Entity {
         if (distance < chaseRange) {
             g += sonicX < xPos ? -xSpeed : xSpeed;
         } else {
-            // Torna alla posizione iniziale
+             
             if (xPos < spawnX) xPos += xSpeed;
             else if (get > spawnX) xPos -= xSpeed;
         }
