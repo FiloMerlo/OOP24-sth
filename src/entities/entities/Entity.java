@@ -5,12 +5,12 @@ import java.awt.Color;
 import java.awt.Rectangle;
 
 public abstract class Entity {
-    protected float xPos, yPos;
-    protected float xSpeed, ySpeed;
-    protected float groundSpeed, groundAngle;
-    protected int width; //R sta per "raggio". indica la larghezza a partire dal centro dell'entità
-    protected int height; // indica l'altezza a partire dal centro dell'entità.
-    protected Rectangle hitbox;
+    private float xPos, yPos;
+    private float xSpeed, ySpeed;
+    private float groundSpeed, groundAngle;
+    private int width, height;
+    private int[][] lvlData;
+    private Rectangle hitbox;
     public Entity(int xPos, int yPos, int xSpeed, int ySpeed, int groundSpeed, int  groundAngle, int width, int height){
 
         this.xPos = xPos;
@@ -21,11 +21,12 @@ public abstract class Entity {
         this.groundAngle = groundAngle;
         this.width = width;
         this.height = height;
-        updateHitbox();
+        moveHitbox();
     }
 
-    public void updateHitbox(){
-        hitbox = new Rectangle((int)x, (int)y, width, height);
+
+    protected void moveHitbox(){
+        hitbox.setLocation(xPos, yPos);
     }
     
     protected void drawHitbox(Graphics g){
@@ -40,10 +41,9 @@ public abstract class Entity {
         if (y < 0 || y > Game.GameWindow.height){
             return true;
         }
-
-        float xIndex = x / Game.tileSize;
-        float yIndex = y / Game.tileSize;
-        //TODO
+        if (isTile(x, y, lvlData)){
+            return true;
+        }
         return false;
     }
 
