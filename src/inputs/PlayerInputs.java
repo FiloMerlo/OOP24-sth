@@ -5,7 +5,7 @@ import java.awt.event.KeyListener;
 
 public class PlayerInputs implements KeyListener{
     private Character character;
-    punlic PlayerInputs(Character character){
+    public PlayerInputs(Character character){
         this.character = character;  
     }
     /**
@@ -17,7 +17,7 @@ public class PlayerInputs implements KeyListener{
         switch (e.getKeyCode()) {
             case KeyEvent.VK_A:
                 character.getEntity().setLeft(true);
-                character.moveX(-3);
+                character.moveX(character);
                 break;
             case KeyEvent.VK_D:
                 character.getEntity().setRight(true);

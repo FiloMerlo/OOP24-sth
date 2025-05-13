@@ -2,15 +2,9 @@ package entities;
 import javax.swing.JPanel;
 import main.Game;
 
-public enum action {idle, walking, running, falling, damage, crouch};
-public class Sonic extends Entity{
-    private action playerAction = idle;
-    private boolean left;
-    private boolean down;
-    private boolean right;
-
-    Sonic(){
-        super(0, 0, 0, 0, 0, 0, 5, 7);
+public class Physics extends Entity{
+    Physics(int width, int height){
+        super(0, 0, 0, 0, 0, 0, width, height);
     }
 
     public boolean getLeft(){

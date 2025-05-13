@@ -6,18 +6,20 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import javax.swing.JPanel;
 import PlayerInputs;
-
+public enum action {idle, walking, running, falling, damage, crouch};
 public class Character extends JPanel{
-    private int xPos, yPos;
+    private int xPos, yPos, width, height;
     private BufferedImage img;
     private ArrayList<ArrayList<BufferedImage>> animations; //potrebbe funzionare anche sotto forma di matrice credo ...
-    private Sonic sonic;
-
+    private Physics physics;
+    private action playerAction = idle;
+    private boolean left, down, right;
     public Character(){
+
         addKeyListener(new PlayerInputs(this));
     }
-    public Sonic getEntity(){
-        return sonic;
+    public SonicPhysics getPhysics(){
+        return physics;
     }
 
     public void moveX(int movement){

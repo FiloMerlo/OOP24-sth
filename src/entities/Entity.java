@@ -3,15 +3,20 @@ package entities;
 
 import java.awt.Color;
 import java.awt.Rectangle;
+import org.dyn4j.dynamics.World;
+import org.dyn4j.geometry.Geometry;
+import org.dyn4j.geometry.MassType;
+import org.dyn4j.dynamics.Body;
+import org.dyn4j.geometry;
 
 public abstract class Entity {
     private float xPos, yPos;
     private float xSpeed, ySpeed;
     private float groundSpeed, groundAngle;
     private int width, height;
-    private int[][] lvlData;
-    private Rectangle hitbox;
-    public Entity(int xPos, int yPos, int xSpeed, int ySpeed, int groundSpeed, int  groundAngle, int width, int height){
+    private Body hitbox;
+    //private Rectangle hitbox;
+    public Entity(int xPos, int yPos, int xSpeed, int ySpeed, int groundSpeed, int  groundAngle, int width, int height, org.dyn4j.world.World<PhysicsBody> whereAmI){
 
         this.xPos = xPos;
         this.yPos = yPos;
@@ -21,19 +26,21 @@ public abstract class Entity {
         this.groundAngle = groundAngle;
         this.width = width;
         this.height = height;
-        moveHitbox();
+        //creo la hitbox del personaggio e le dò la capacità di collidere con le altre entità
+        this.hitbox = new Body();
+        hitbox.addFixture(new Geometry.createRectangle(width, height));
+        hitbox.setMass(MassType.NORMAL);
+        hitbox.setGravityScale(0.5);
+        whereAmI.addBody(hitbox);
+        //moveHitbox();
     }
-
-
-    protected void moveHitbox(){
+    /*protected void moveHitbox(){
         hitbox.setLocation(xPos, yPos);
     }
-    
     protected void drawHitbox(Graphics g){
         g.setColor(Color.RED);
         g.drawRect(hitbox.x, hitbox.y, hitbox.width, hitbox.height);
     }
-
     public static boolean isColliding(float x, float y, int width, int height, int[][] lvlData){
         if(x < 0 || x > Game.GameWindow.width){
             return true;
@@ -45,7 +52,7 @@ public abstract class Entity {
             return true;
         }
         return false;
-    }
+    }*/
 
     public float getGroundSpeed(){
         return groundSpeed;
