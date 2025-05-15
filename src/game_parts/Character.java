@@ -1,4 +1,4 @@
-package main;
+package game_parts;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.KeyListener;

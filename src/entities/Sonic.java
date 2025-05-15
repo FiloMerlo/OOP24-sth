@@ -1,10 +1,29 @@
 package entities;
-import javax.swing.JPanel;
-import main.Game;
+import colliders.*;
+import java.util.HashMap;
 
-public class Physics extends Entity{
-    Physics(int width, int height){
-        super(0, 0, 0, 0, 0, 0, width, height);
+public enum direction{left, up, right, down};
+
+public class Sonic extends Entity{
+    private direction dir = direction.right;
+    private float speedMod;
+    private int rings;
+    private HashMap<String, Collider> colliders = new HashMap<>();
+    private HashMap<String, Boolean> canMove = new HashMap<>();
+
+    public Sonic(float xPos , float yPos){
+        super.Entity(xPos, yPos);
+        this.width = 15;
+        this.height = 20;
+        this.xSpeed = 5;
+        this.ySpeed = 5;
+        this.rings = 0;
+        this.speedMod = 0.5;
+        this.canMove.put(left, true);
+        this.canMove.put(up, true);
+        this.canMove.put(right, true);
+        this.canMove.put(down, false);
+        this.colliders.put(left, new HorizontalCollider(xPos - width/2, yPos - height/2, 1, 1, null, this));
     }
 
     public boolean getLeft(){
