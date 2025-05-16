@@ -8,12 +8,10 @@ public class GroundCollider extends Collider {
         super.collision();
         //sonic deve smettere di cadere
         ((Sonic)entity).setMovement("down", flase);
-        ((Sonic)entity).grounded(); //azzera la velocità verticale di sonic
     }
     @Override
     public void collEnded(){
         super.collEnded();
         ((Sonic)entity).setMovement("down", true);
-        ((Sonic)entity).fall();
     }
 }

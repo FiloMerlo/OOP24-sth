@@ -5,7 +5,6 @@ public class HorizontalCollider extends Collider{
     direction dir;
     public HorizontalCollider(int x, int y, int width, int height, ArrayList<Wall> list, Sonic sonic) {
         super(x, y, width, height, list, sonic);
-        dir = (sonic).getDirection();
     }
     @Override
     public void collision(){
