@@ -32,14 +32,8 @@ public class Sonic extends Entity{
         initializeColliders(tiles);
         playerDirection = right;
         jumping = 0;
-
-        addKeyListener(new PlayerInputs(this));
     }
 
-    public void paintComponent(Graphics g){
-        super.paintComponent(g);
-        g.fillRect(xPos, yPos, width, height);
-    }
     public void playerLoop(){
         updatePos();
         updateAction();

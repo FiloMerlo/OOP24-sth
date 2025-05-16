@@ -24,9 +24,9 @@ public abstract class Collider extends javax.swing.JPanel{
     //Verifica
     public void check(){
         for (Tile tile : tiles) {
-            if(sensor.intersects(t) && colliding == false){
+            if(sensor.intersects(t.getSensor()) && colliding == false){
                 collision();
-            } else if (sensor.intersects(t) == false && colliding){
+            } else if (sensor.intersects(t.getSensor()) == false && colliding){
                 collEnded();
             }
         }

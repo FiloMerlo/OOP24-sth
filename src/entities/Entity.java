@@ -2,7 +2,7 @@
 package entities;
 import javax.swing.JPanel;
 
-public abstract class Entity extends JPanel {
+public abstract class Entity {
     private string name;
     private float xPos, yPos, xSpeed, ySpeed, width, height;
     private Collider hitbox;
