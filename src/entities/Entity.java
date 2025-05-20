@@ -2,12 +2,14 @@ package entities;
 
 import java.awt.Graphics;
 
+/**
+ * rappresenta un'entità generica del gioco con posizione e dimensioni.
+ */
 public abstract class Entity {
     protected int xPos, yPos;
     protected int xSpeed, ySpeed;
     protected int groundSpeed, groundAngle;
-    protected int widthR;
-    protected int heightR;
+    protected int widthR, heightR;
 
     public Entity(int xPos, int yPos, int xSpeed, int ySpeed, int groundSpeed, int groundAngle, int widthR, int heightR) {
         this.xPos = xPos;
@@ -31,4 +33,11 @@ public abstract class Entity {
 
     public abstract void update();
     public abstract void draw(Graphics g, int offsetX, int offsetY);
+
+    /**
+     * infligge danno a sonic se applicabile
+     */
+    public void doDamage(Sonic sonic) {
+        // vuoto per entità non ostili
+    }
 }

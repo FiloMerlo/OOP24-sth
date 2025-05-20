@@ -3,6 +3,9 @@ package entities;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
+/**
+ * nemico che insegue sonic entro un certo raggio.
+ */
 public class ChasingEnemy extends Entity {
     private BufferedImage sprite;
     private int spawnX, spawnY, chaseRange;
@@ -12,22 +15,34 @@ public class ChasingEnemy extends Entity {
         this.spawnX = x;
         this.spawnY = y;
         this.chaseRange = chaseRange;
-        sprite = SpriteLoader.getChasingEnemySprite();
+        this.sprite = SpriteLoader.getChasingEnemySprite();
     }
 
     public void update(int sonicX) {
         int distance = Math.abs(sonicX - xPos);
 
         if (distance < chaseRange) {
-            g += sonicX < xPos ? -xSpeed : xSpeed;
+            xPos += sonicX < xPos ? -xSpeed : xSpeed;
         } else {
-             
             if (xPos < spawnX) xPos += xSpeed;
-            else if (get > spawnX) xPos -= xSpeed;
+            else if (xPos > spawnX) xPos -= xSpeed;
         }
     }
 
+    @Override
+    public void update() {
+        
+    }
+
+    @Override
     public void draw(Graphics g, int offsetX, int offsetY) {
         g.drawImage(sprite, xPos - widthR - offsetX, yPos - heightR - offsetY, null);
+    }
+
+    @Override
+    public void doDamage(Sonic sonic) {
+        if (!sonic.isHurt()) {
+            sonic.setHurt(true);
+        }
     }
 }

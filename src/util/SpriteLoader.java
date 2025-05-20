@@ -11,14 +11,10 @@ public class SpriteLoader {
         spriteSheet = ImageIO.read(getClass().getResourceAsStream(path));
     }
 
-    public BufferedImage getFrame(int col, int row, int frameWidth, int frameHeight) {
-        return spriteSheet.getSubimage(col * frameWidth, row * frameHeight, frameWidth, frameHeight);
-    }
-
-    public BufferedImage[] getFrames(int row, int totalFrames, int frameWidth, int frameHeight) {
+    public BufferedImage[] getFramesByPixels(int startX, int startY, int totalFrames, int frameWidth, int frameHeight) {
         BufferedImage[] frames = new BufferedImage[totalFrames];
         for (int i = 0; i < totalFrames; i++) {
-            frames[i] = getFrame(i, row, frameWidth, frameHeight);
+            frames[i] = spriteSheet.getSubimage(startX + i * frameWidth, startY, frameWidth, frameHeight);
         }
         return frames;
     }
