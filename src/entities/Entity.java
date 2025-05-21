@@ -1,3 +1,4 @@
+ 
 //QUESTA CLASSE ASTRATTA è PENSATA PER CREARE TUTTI I NEMICI E SONIC. NON HO FATTO ALTRO CHE IMPLEMENTARE LA LOGICA DEL GIOCO ORIGINALE
 package entities;
 import javax.swing.JPanel;
@@ -26,7 +27,11 @@ public abstract class Entity {
     public float getYpos(){
         return xPos;
     }
-
+ public int getGroundSpeed() { return groundSpeed; }
+    public int getGroundAngle() { return groundAngle; }
+  
+    public int getWidthR() { return widthR; }
+    public int getHeightR() { return heightR; }
     //Questa sezione non mi riguarda (Samuele) perché sono metodi che tanto devo Overridare
     public void moveX(){
         
@@ -36,5 +41,14 @@ public abstract class Entity {
     }
     public void eliminate(){
         
+    }
+   public abstract void update();
+    public abstract void draw(Graphics g, int offsetX, int offsetY);
+
+    /**
+     * infligge danno a sonic se applicabile
+     */
+    public void doDamage(Sonic sonic) {
+        // vuoto per entità non ostili
     }
 }
