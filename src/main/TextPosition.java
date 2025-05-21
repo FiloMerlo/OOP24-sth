@@ -16,3 +16,5 @@ public class TextPosition {
         g.drawString(text, x, y);
     }
 }
+
+//classe da sistema a causa di ridondanze 
