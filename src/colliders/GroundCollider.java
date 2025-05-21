@@ -7,7 +7,7 @@ public class GroundCollider extends Collider {
     public void collision(){
         super.collision();
         //sonic deve smettere di cadere
-        ((Sonic)entity).setMovement("down", flase);
+        ((Sonic)entity).setMovement("down", false);
     }
     @Override
     public void collEnded(){

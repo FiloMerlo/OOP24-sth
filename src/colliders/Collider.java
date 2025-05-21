@@ -1,7 +1,7 @@
 package colliders;
 import java.awt.Rectangle;
 import java.util.ArrayList;
-import entities;
+import entities.*;
 
 public abstract class Collider extends javax.swing.JPanel{
     /*I Collider sono praticamente dei JPanel che contengono un rettangolo che funge da sensore per le collisioni.
