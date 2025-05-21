@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.image.BufferStrategy;
 
 public class GamePanel extends Canvas implements Runnable {
-    public static final int SCREEN_W = 800;
+    public static final int SCREEN_W = 800;  //implementare lo schermo responsive DEX
     public static final int SCREEN_H = 600;
 
     private Thread thread;
