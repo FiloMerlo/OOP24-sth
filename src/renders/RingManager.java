@@ -1,4 +1,4 @@
-package entities;
+package renders;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;

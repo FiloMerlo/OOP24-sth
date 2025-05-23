@@ -1,3 +1,4 @@
+package game_parts;
 /**
  * rappresenta le varie azioni che sonic può eseguire
  * e che determinano l'animazione corrente.

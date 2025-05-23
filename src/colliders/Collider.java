@@ -8,14 +8,14 @@ public abstract class Collider extends javax.swing.JPanel{
       estendendo JPanel possono essere posizionati dentro ad un altro Jpanel con il sistema di allineamento.*/
     private Rectangle sensor;
     private List<Tile> tiles;
-    private Entity entity;
+    private Sonic sonic;
     private boolean colliding;
     /*Nelle sottoclassi saranno le differenze nei parametri deicostruttori 
     a differenziare i vari Collider, oltre alla funzione collide()*/
-    public Collider(int width, int height, ArrayList<Tile> list, Entity e){
+    public Collider(int width, int height, ArrayList<Tile> list, Sonic s){
         sensor = new Rectangle(0, 0, width, height);
         tiles = list;
-        entity = e;
+        Sonic = s;
         colliding = false;
     }
     public Rectangle getSensor(){

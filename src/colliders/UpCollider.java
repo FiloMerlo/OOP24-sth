@@ -10,12 +10,12 @@ public class UpCollider extends Collider{
         super.collision();
         //Sonic ha battuto la testa sul soffitto! quindi deve iniziare a scendere
         System.out.println("Ouch! Ho sbattuto la testa ...");
-        ((Sonic)entity).setMovement("up", false);
-        ((Sonic)entity).fall();
+        sonic.setMovement(up, false);
+        sonic.fall();
     }
     @Override
     public void collEnded(){
         super.collEnded();
-        ((Sonic)entity).setMovement("up", true);
+        sonic.setMovement(up, true);
     }
 }

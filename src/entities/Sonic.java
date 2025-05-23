@@ -1,19 +1,22 @@
 package entities;
- 
+ /*TODO aggiorna la playerAction dove serve */
 import colliders.*;
 import game_parts.direction;
+import game_parts.TileType;
+
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Sonic extends Entity{
     private direction dir = direction.right;
-    private float speedMod, maxSpeed;
-    private int rings;
+    private float speedMod = 0.5, maxSpeed = 15, jSpeed = 3;
+    private int rings = 0, jumping = 0;
     private HashMap<direction, Collider> colliders = new HashMap<>();
     private HashMap<direction, Boolean> canMove = new HashMap<>();
     private ArrayList<Tile> tiles = new ArrayList<>();
-    private int jumping, jSpeed; //valore che indica quanti frame di salto ha Sonic da "spendere" per sollevarsi
+
     private action playerAction = action.idle;
     private SonicAnimator animator;
    private boolean isJumping, isRunning, isInAir = false;
@@ -35,23 +38,18 @@ public class Sonic extends Entity{
   */
     public Sonic(float x , float y, ArrayList<Tile> t){
         super(x, y);
+        tiles = t;
         width = 15;
         height = 20;
         xSpeed = 5;
         ySpeed = 10;
-        jSpeed = 3;
-        speedMod = 0.5;
-        maxSpeed = 15;
-        rings = 0;
         canMove.put(left, true);
         canMove.put(up, true);
         canMove.put(right, true);
         canMove.put(down, false);
-        tiles = t;
         initializeColliders(tiles);
-        playerDirection = right;
-        jumping = 0;
-         animator = new SonicAnimator();
+        animator = new SonicAnimator();
+        hitbox = new Rectangle(13, 18);
     }
 
     public void playerLoop(){
@@ -63,80 +61,34 @@ public class Sonic extends Entity{
         updateAction();
     }
     public void initializeColliders(ArrayList<Tile> tiles){ 
-        ArrayList<Tile> ceilings = new ArrayList<>();    
+        //Dò ad ogni Collider solo le Tile con cui può interagire
+        ArrayList<Tile> ceilings = new ArrayList<>();
         ArrayList<Tile> floors = new ArrayList<>();    
-        ArrayList<Tile> walls = new ArrayList<>();    
+        ArrayList<Tile> leftWalls = new ArrayList<>();   
+        ArrayList<Tile> rightWalls = new ArrayList<>(); 
         for (Tile t : tiles){
-            if (t.getType() == "ceiling"){
+            if (t.getType() == ceiling){
                 ceilings.add(t);
-            } else if (t.getType() == "floor"){
+            } else if (t.getType() == floor){
                 floors.add(t);
-            } else if (t.getType() == "wall"){
-                walls.add(t);
+            } else if (t.getType() == leftWall){
+                leftWalls.add(t);
+            } else if (t.getType() == rightWall){
+                rightWalls.add(t);
             }
         }
         colliders.put(up, new UpCollider(xPos, yPos + height/2, 1, 1, ceilings, this));
         colliders.put(down, new DownCollider(xPos, yPos - height/2, 1, 1, floors, this));
-        colliders.put(left, new HorizontalCollider(xPos - width/2, yPos, 1, 1, walls, this));
-        colliders.put(right, new HorizontalCollider(xPos + width/2, yPos, 1, 1, walls, this));
-        hitbox = new Collider();
-    }
-    
-   public void updatePos() {
-        boolean changedDirection = false;
-
-        if (left && !right) {
-            changedDirection = wasMovingRight && isRunning;
-            xPos -= xSpeed;
-        } else if (!left && right) {
-            changedDirection = wasMovingLeft && isRunning;
-            xPos += xSpeed;
-        }
-
-        wasMovingLeft = left;
-        wasMovingRight = right;
-
-        if (changedDirection) {
-            playerAction = action.skidding;
-        }
-
-        if (up && !isJumping) {
-            yPos -= 10;
-            isJumping = true;
-            isInAir = true;
-        }
-
-        if (isJumping) {
-            yPos += 5;
-            if (yPos >= groundY()) {
-                yPos = groundY();
-                isJumping = false;
-                isInAir = false;
-            }
-        }
-    }
-
-    private void updateAction() {
-        if (isHurt) {
-            playerAction = action.hurt;
-        } else if (playerAction == action.skidding) {
-            // resta skidding
-        } else if (isJumping) {
-            playerAction = action.jumping;
-        } else if (isInAir) {
-            playerAction = action.falling;
-        } else if (left || right) {
-            playerAction = isRunning ? action.running : action.walking;
-        } else {
-            playerAction = action.idle;
-        }
+        colliders.put(left, new HorizontalCollider(xPos - width/2, yPos, 1, 1, leftWalls, this));
+        colliders.put(right, new HorizontalCollider(xPos + width/2, yPos, 1, 1, rightWalls, this));
+        hitbox = new Rectangle();
     }
 
     @Override
     public void draw(Graphics g, int offsetX, int offsetY) {
         BufferedImage currentFrame = animator.getFrame(playerAction);
         g.drawImage(currentFrame, xPos + offsetX, yPos + offsetY, null);
-    }
+    } 
 
     public void setDirection(direction d){
         this.playerDirection = d;
@@ -175,6 +127,7 @@ public class Sonic extends Entity{
     public void jump(){
         if (canMove.get(down) == false){
             jumping = 5;
+            isJumping = true;
         }
     }
 
