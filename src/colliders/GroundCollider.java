@@ -9,10 +9,12 @@ public class GroundCollider extends Collider {
         super.collision();
         //sonic deve smettere di cadere
         sonic.setMovement(down, false);
+        sonic.determineAction();
     }
     @Override
     public void collEnded(){
         super.collEnded();
         sonic.setMovement(down, true);
+        sonic.setAction(falling);
     }
 }

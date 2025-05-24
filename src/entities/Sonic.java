@@ -2,12 +2,15 @@ package entities;
  /*TODO aggiorna la playerAction dove serve */
 import colliders.*;
 import game_parts.direction;
+import game_parts.action;
 import game_parts.TileType;
 
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.checkerframework.checker.units.qual.s;
 
 public class Sonic extends Entity{
     private direction dir = direction.right;
@@ -17,13 +20,8 @@ public class Sonic extends Entity{
     private HashMap<direction, Boolean> canMove = new HashMap<>();
     private ArrayList<Tile> tiles = new ArrayList<>();
 
-    private action playerAction = action.idle;
+    private action playerAction = idle;
     private SonicAnimator animator;
-   private boolean isJumping, isRunning, isInAir = false;
-    private boolean isHurt = false;
-    private boolean wasMovingLeft = false;
-    private boolean wasMovingRight = false;
-  
   
   /*
    private boolean left, right, up, down;
@@ -83,15 +81,30 @@ public class Sonic extends Entity{
         colliders.put(right, new HorizontalCollider(xPos + width/2, yPos, 1, 1, rightWalls, this));
         hitbox = new Rectangle();
     }
-
     @Override
     public void draw(Graphics g, int offsetX, int offsetY) {
         BufferedImage currentFrame = animator.getFrame(playerAction);
         g.drawImage(currentFrame, xPos + offsetX, yPos + offsetY, null);
     } 
-
+    
     public void setDirection(direction d){
         this.playerDirection = d;
+    }
+    public void setMovement(direction dir, boolean bool){
+        canMove.replace(dir, bool);
+    }
+    public void setAction(action a){
+        playerAction = a;
+    }
+    public void determineAction(){
+        if (xSpeed > 15){
+                setAction(dashing);
+            } else if (xSpeed > 10){
+                setAction(running);
+            } else if(xSpeed > 0){
+                setAction(walking);
+            } else {
+                setAction(idle);}
     }
     @Override
     public void moveX(direction dir){
@@ -106,6 +119,9 @@ public class Sonic extends Entity{
             if (xSpeed < maxSpeed && canMove.get(down) == false){
                 xSpeed += speedMod;
             }
+            determineAction();
+        } else{
+            brake();
         }
         
     }
@@ -127,12 +143,8 @@ public class Sonic extends Entity{
     public void jump(){
         if (canMove.get(down) == false){
             jumping = 5;
-            isJumping = true;
+            setAction(jumping);
         }
-    }
-
-    public void setMovement(direction dir, boolean bool){
-        canMove.replace(dir, bool);
     }
 
     public void checkCollisions(){
@@ -143,36 +155,18 @@ public class Sonic extends Entity{
 
     public void loseRings(){
         rings = 0;
+        setAction(hurt);
     }
 
     public void brake(){
         xSpeed = 5;
+        setAction(idle);
+        //ora non sto usando l'azione skiddling perché devo ancora implementare il momentum dopo la fine della pressione dei comandi di movimento.
     }
 
     public Rectangle getHitbox(){
         return hitbox.getSensor();
     }
- public void setLeft(boolean left) { this.left = left; }
-    public void setRight(boolean right) { this.right = right; }
-    public void setUp(boolean up) { this.up = up; }
-    public void setDown(boolean down) { this.down = down; }
-    public void startRunning() { isRunning = true; }
-    public void stopRunning() { isRunning = false; }
-    public void stopJumping() { isJumping = false; }
-    public void setHurt(boolean hurt) { this.isHurt = hurt; }
-    public boolean isHurt() { return isHurt; }
-
-    public void takeDamage(RingManager ringManager) {
-        if (isHurt) {
-            ringManager.scatterRings(xPos, yPos, 10);
-            isHurt = false;
-        }
-    }
 
     public action getPlayerAction() { return playerAction; }
-
-    private int groundY() {
-        return 300;
-    }
-
 }

@@ -29,9 +29,10 @@ public class PlayerInputs implements KeyListener{
     }
     public void keyReleased(KeyEvent e) {
         switch (e.getKeyCode()) {
-            case KeyEvent.VK_SPACE:
+            case KeyEvent.VK_A:
+                character.brake();
                 break;
-            default:
+            case KeyEvent.VK_D:
                 character.brake();
                 break;
         }
