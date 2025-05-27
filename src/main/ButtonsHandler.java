@@ -3,10 +3,10 @@ package main;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-public class InputHandler extends KeyAdapter {
+public class ButtonsHandler extends KeyAdapter {
     private final GamePanel panel;
 
-    public InputHandler(GamePanel panel) {
+    public ButtonsHandler(GamePanel panel) {
         this.panel = panel;
     }
 
