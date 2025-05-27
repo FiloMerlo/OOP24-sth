@@ -6,7 +6,7 @@ import entities.*;
 public abstract class Collider extends javax.swing.JPanel{
     /*I Collider sono praticamente dei JPanel che contengono un rettangolo che funge da sensore per le collisioni.
       estendendo JPanel possono essere posizionati dentro ad un altro Jpanel con il sistema di allineamento.*/
-    private Rectangle sensor;
+    private Rectangle sensor; //usato per rilevare se uno spazio è occupato da una Tile
     private List<Tile> tiles;
     private Sonic sonic;
     private boolean colliding;
@@ -15,18 +15,18 @@ public abstract class Collider extends javax.swing.JPanel{
     public Collider(int width, int height, ArrayList<Tile> list, Sonic s){
         sensor = new Rectangle(0, 0, width, height);
         tiles = list;
-        Sonic = s;
+        sonic = s;
         colliding = false;
     }
-    public Rectangle getSensor(){
+    public Rectangle getSpace(){
         return sensor;
     }
     //Verifica
     public void check(){
         for (Tile tile : tiles) {
-            if(sensor.intersects(t.getSensor()) && colliding == false){
+            if(sensor.intersects(t.getSpace()) && colliding == false){
                 collision();
-            } else if (sensor.intersects(t.getSensor()) == false && colliding){
+            } else if (sensor.intersects(t.getSpace()) == false && colliding){
                 collEnded();
             }
         }

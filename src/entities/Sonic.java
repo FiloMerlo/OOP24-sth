@@ -1,5 +1,4 @@
 package entities;
- /*TODO aggiorna la playerAction dove serve */
 import colliders.*;
 import game_parts.direction;
 import game_parts.action;
@@ -152,18 +151,15 @@ public class Sonic extends Entity{
             c.check();
         }
     }
-
     public void loseRings(){
         rings = 0;
         setAction(hurt);
     }
-
     public void brake(){
         xSpeed = 5;
         setAction(idle);
         //ora non sto usando l'azione skiddling perché devo ancora implementare il momentum dopo la fine della pressione dei comandi di movimento.
     }
-
     public Rectangle getHitbox(){
         return hitbox.getSensor();
     }
