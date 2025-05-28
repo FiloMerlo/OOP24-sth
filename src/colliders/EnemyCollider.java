@@ -1,20 +1,29 @@
+package colliders;
 import javax.naming.TimeLimitExceededException;
-
+import game_parts.action;
+import entities.Enemy;
+import entities.Sonic;
 import org.dyn4j.geometry.Rectangle;
 
-public class EnemyCollider {
+public class EnemyCollider extends Collider{
     private Sonic sonic;
-    private Entity enemy;
-    private Rectangle sensor;
-    public EnemyCollider(Entity e, Sonic s){
-        enemy = e;
+    public EnemyCollider(ArrayList<Tile> list, Enemy enemy, Sonic s){
+        super(enemy.getWidth(), enemy.getHeight(), list, enemy);
         sonic = s;
     }
 
     @Override
-    public void check(){
+    public void checkCollisions(){
         if (sensor.intersects(s.getSensor())){
-            entity.collision();
+            collision();
+        }
+    }
+    @Override
+    public void collision(){
+        if(s.getPlayerAction() == jumping){
+            owner.die();
+        } else {
+            sonic.takeDamage();
         }
     }
 }

@@ -24,6 +24,7 @@ dependencies {
     // This dependency is used by the application.
     implementation(libs.guava)
     implementation("org.dyn4j:dyn4j:5.0.2")
+    implementation 'org.jbox2d:jbox2d-library:2.2.1.1'
 }
 
 // Apply a specific Java toolchain to ease working on different environments.

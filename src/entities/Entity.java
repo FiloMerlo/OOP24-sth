@@ -27,9 +27,7 @@ public abstract class Entity {
     public float getYpos(){
         return xPos;
     }
- public int getGroundSpeed() { return groundSpeed; }
-    public int getGroundAngle() { return groundAngle; }
-  
+      
     public int getWidthR() { return widthR; }
     public int getHeightR() { return heightR; }
     //Questa sezione non mi riguarda (Samuele) perché sono metodi che tanto devo Overridare

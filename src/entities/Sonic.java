@@ -152,11 +152,19 @@ public class Sonic extends Entity{
             c.check();
         }
     }
-    public void loseRings(){
+    public void takeDamage(){
         if (playerAction != hurt){
-            rings = 0;
-            setAction(hurt);
+            if (rings > 0){
+                rings = 0;
+                setAction(hurt);
+            } else {
+                die();
+            }
+            
         }
+    }
+    public void gotRing(){
+        rings++;
     }
     public void brake(){
         xSpeed = 5;
