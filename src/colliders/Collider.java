@@ -18,7 +18,7 @@ public abstract class Collider extends javax.swing.JPanel{
         sonic = s;
         colliding = false;
     }
-    public Rectangle getSpace(){
+    public Rectangle getSensor(){
         return sensor;
     }
     //Verifica

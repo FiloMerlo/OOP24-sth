@@ -18,6 +18,7 @@ public class Sonic extends Entity{
     private HashMap<direction, Collider> colliders = new HashMap<>();
     private HashMap<direction, Boolean> canMove = new HashMap<>();
     private ArrayList<Tile> tiles = new ArrayList<>();
+    private boolean hurt = false;
 
     private action playerAction = idle;
     private SonicAnimator animator;
@@ -152,8 +153,10 @@ public class Sonic extends Entity{
         }
     }
     public void loseRings(){
-        rings = 0;
-        setAction(hurt);
+        if (playerAction != hurt){
+            rings = 0;
+            setAction(hurt);
+        }
     }
     public void brake(){
         xSpeed = 5;
