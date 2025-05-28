@@ -13,9 +13,9 @@ public abstract class Collider{
     /*Nelle sottoclassi saranno le differenze nei parametri deicostruttori 
     a differenziare i vari Collider, oltre alla funzione collide()*/
     public Collider(int width, int height, ArrayList<Tile> list, Object obj){
-        sensor = new Rectangle(0, 0, width, height);
-        tiles = list;
         owner = obj;
+        sensor = new Rectangle(owner.getX(), owner.getY(), width, height);
+        tiles = list;
     }
 
     @Override
@@ -31,6 +31,9 @@ public abstract class Collider{
     public abstract void checkCollisions();
     public abstract void collision();
 
+    public void updatePos(){
+        sensor.setLocation(owner.getX(), owner.getY());
+    }
     public Rectangle getSensor(){
         return sensor;
     }
