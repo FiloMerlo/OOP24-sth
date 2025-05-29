@@ -22,10 +22,9 @@ public class PlayerPhysics extends Physics{
     private boolean hurt = false;
     private action playerAction = idle;
 
-    public PlayerPhysics(ArrayList<Tile> t){
+    public PlayerPhysics(MovableBody b, ArrayList<Tile> t){
+        super(1, 5, b);
         tiles = t;
-        xSpeed = 1;
-        ySpeed = 5;
         canMove.put(left, true);
         canMove.put(up, true);
         canMove.put(right, true);
