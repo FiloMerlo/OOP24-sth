@@ -3,30 +3,41 @@ import entities.Ring;
 import entities.Sonic;
 
 public class RingCollider extends Collider{
-    private Sonic sonic;
-    public RingCollider(ArrayList<Tile> list, Ring r, Sonic s) {
-        super(r.getWidth(), r.getHeight(), list, r);
+    private Entity sonic;
+    public RingCollider(ArrayList<Tile> list, RingPhysics rP, Entity s) {
+        super(list, rP);
         sonic = s;
+        sensor = physic.getHitbox();
     }
 
     public void checkCollisions(){
-        /*Check if it has been picked up by sonic */
-        if (sensor.intersects(sonic.getSensor())){
+        /*SE I COLLISORI NON FUNZIONANO COME DOVREBBERO, PROVATE PRIMA DI TUTTO A DECOMMENTARE QUESTA PARTE DI CODICE E COMMENTARE L'IF ATTUALMENTE IN USO 
+            Point ringGlobal = SwingUtilities.convertPoint(physic.getBody(), sensor.getLocation(), physic.getBody().getOwner().getFrame());
+            Point sonicGlobal = SwingUtilities.convertPoint(sonic.getComponent(Body.class), sonic.getComponent(Physics.class).getHitbox().getLocation(), sonic.getFrame());
+            Rectangle sonicRect = new Rectangle(sonicGlobal.x, sonicGlobal.y, sonicGlobal.width, sonicGlobal.height);
+            Rectangle ingRect = new Rectangle(ringGlobal.x, ringGlobal.y, ringGlobal.width, ringGlobal.height);
+            if (ringRect.intersects(sonicRect)){
+                pickUp();
+            } else {
+             for (Tile t : tiles) {
+                if (ringRect.intersects(t.getSpace())) {
+                collision();
+            }
+            }
+            }
+        */
+        if (sonic.getComponent(Physics.class).getHitbox().intersects(sensor)) {
             pickUp();
-        } else{ /*Check if it collides with a surface. 
-                if so, it bounces */
+        } else {
             for (Tile t : tiles) {
                 if (sensor.intersects(t.getSpace())) {
-                    collision();
+                    physic.bounce();//bounce
                 }
             }
         }
     }
-    public void collision(){ /*collision must be used because it's an abstract method */
-        (Ring(owner)).getPhysics().bounce();
-    }
     public void pickUp(){
-        sonic.gotRing();
-        owner.die();
+        sonic.getComponent(Physics.class).gotRing();
+        physic.kill();
     }
 }

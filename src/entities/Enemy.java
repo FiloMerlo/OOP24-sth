@@ -3,13 +3,13 @@
 package entities;
 import javax.swing.JPanel;
 
-public abstract class Entity {
+public abstract class Enemy {
     private string name;
     private float xPos, yPos, xSpeed, ySpeed, width, height;
     private Collider hitbox;
     private BufferedImage sprite;
     //private Rectangle hitbox;
-    public Entity(float xPos, float yPos){
+    public Enemy(float xPos, float yPos){
         this.xPos = xPos;
         this.yPos = yPos;
         //Il resto dei parametri vengono inizializzati nelle sottoclassi

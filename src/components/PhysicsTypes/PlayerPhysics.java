@@ -11,52 +11,29 @@ import java.util.Map;
 
 import org.checkerframework.checker.units.qual.s;
 
-public class Sonic extends Entity{
-    private direction dir = direction.right;
+public class PlayerPhysics extends Physics{
+    private direction direction = right;
     private float speedMod = 0.5, maxSpeed = 15, jSpeed = 3;
     private int rings = 0, jumping = 0;
-    private HashMap<direction, Collider> colliders = new HashMap<>();
+    private HashMap<direction, PlayerCollider> colliders = new HashMap<>();
     private HashMap<direction, Boolean> canMove = new HashMap<>();
     private ArrayList<Tile> tiles = new ArrayList<>();
     private boolean hurt = false;
-
-    private action playerAction = idle;
+    
+    //Nicolas questo è per te, lo sai te che metodi chiamare
     private SonicAnimator animator;
-  
-  /*
-   private boolean left, right, up, down;
-   
 
-    public Sonic(int xPos, int yPos, int xSpeed, int ySpeed, int groundSpeed, int groundAngle, int widthR, int heightR) {
-        super(xPos, yPos, xSpeed, ySpeed, groundSpeed, groundAngle, widthR, heightR);
-     
-    }
-
-  
-  */
-    public Sonic(float x , float y, ArrayList<Tile> t){
-        super(x, y);
+    public PlayerPhysics(ArrayList<Tile> t){
         tiles = t;
-        width = 15;
-        height = 20;
-        xSpeed = 5;
-        ySpeed = 10;
+        xSpeed = 1;
+        ySpeed = 5;
         canMove.put(left, true);
         canMove.put(up, true);
         canMove.put(right, true);
-        canMove.put(down, false);
+        canMove.put(down, true);
         initializeColliders(tiles);
-        animator = new SonicAnimator();
-        hitbox = new Rectangle(13, 18);
-    }
-
-    public void playerLoop(){
-        update();
-    }
-   @Override
-    public void update() {
-        updatePos();
-        updateAction();
+        animator = body.getOwner().getComponent(SonicAnimator.class);
+        hitbox = new Rectangle(0, 0,body.getWidth(), body.getHeight());
     }
     public void initializeColliders(ArrayList<Tile> tiles){ 
         //Dò ad ogni Collider solo le Tile con cui può interagire
@@ -80,6 +57,16 @@ public class Sonic extends Entity{
         colliders.put(left, new HorizontalCollider(xPos - width/2, yPos, 1, 1, leftWalls, this));
         colliders.put(right, new HorizontalCollider(xPos + width/2, yPos, 1, 1, rightWalls, this));
         hitbox = new Rectangle();
+    }
+    @Override
+    public void update() {
+        if (dead){
+            body.getOwner().delete(); //setta deleted = true
+        } else {
+            for (PlayerCollider pc : colliders) {
+                
+            }
+        }
     }
     @Override
     public void draw(Graphics g, int offsetX, int offsetY) {

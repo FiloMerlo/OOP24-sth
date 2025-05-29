@@ -1,6 +1,7 @@
 package colliders;
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import entities.Entity;
 
 import entities.*;
 
@@ -9,13 +10,12 @@ public abstract class Collider{
       estendendo JPanel possono essere posizionati dentro ad un altro Jpanel con il sistema di allineamento.*/
     private Rectangle sensor; //usato per rilevare se uno spazio è occupato da una Tile
     private ArrayList<Tile> tiles;
-    private Object owner;
+    private Physic physic;
     /*Nelle sottoclassi saranno le differenze nei parametri deicostruttori 
     a differenziare i vari Collider, oltre alla funzione collide()*/
-    public Collider(int width, int height, ArrayList<Tile> list, Object obj){
-        owner = obj;
-        sensor = new Rectangle(owner.getX(), owner.getY(), width, height);
+    public Collider(ArrayList<Tile> list, Physics p){
         tiles = list;
+        physic = p;
     }
 
     @Override
@@ -29,16 +29,15 @@ public abstract class Collider{
     }   
 
     public abstract void checkCollisions();
-    public abstract void collision();
 
     public void updatePos(){
-        sensor.setLocation(owner.getX(), owner.getY());
+        sensor.setLocation(physic.getX(), physic.getY());
     }
     public Rectangle getSensor(){
         return sensor;
     }
-    public Object getOwner(){
-        return owner;
+    public Object getphysic(){
+        return physic;
     }
 
 }
