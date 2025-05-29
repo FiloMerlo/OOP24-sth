@@ -80,6 +80,30 @@ public class Sonic extends Entity{
         animator = new SonicAnimator();
     }
 
+    }
+
+  
+    public Sonic(float x , float y, ArrayList<Tile> t){
+        super(x, y);
+        width = 15;
+        height = 20;
+        xSpeed = 5;
+        ySpeed = 10;
+        jSpeed = 3;
+        speedMod = 0.5;
+        maxSpeed = 15;
+        rings = 0;
+        canMove.put(left, true);
+        canMove.put(up, true);
+        canMove.put(right, true);
+        canMove.put(down, false);
+        tiles = t;
+        initializeColliders(tiles);
+        playerDirection = right;
+        jumping = 0;
+         animator = new SonicAnimator();
+    }
+
     public void playerLoop(){
         update();
     }
@@ -269,7 +293,7 @@ public class Sonic extends Entity{
     }
 
      
-    public void setLeft(boolean left) { this.left = left; }
+  
     public void setDirection(direction d){
         this.playerDirection = d;
     }
@@ -378,4 +402,4 @@ public class Sonic extends Entity{
     }}
  
 
-}
+
