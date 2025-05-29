@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+
 import org.checkerframework.checker.units.qual.s;
 
 public class PlayerPhysics extends Physics{
@@ -19,9 +20,7 @@ public class PlayerPhysics extends Physics{
     private HashMap<direction, Boolean> canMove = new HashMap<>();
     private ArrayList<Tile> tiles = new ArrayList<>();
     private boolean hurt = false;
-    
-    //Nicolas questo è per te, lo sai te che metodi chiamare
-    private SonicAnimator animator;
+    private action playerAction = idle;
 
     public PlayerPhysics(ArrayList<Tile> t){
         tiles = t;
@@ -33,7 +32,6 @@ public class PlayerPhysics extends Physics{
         canMove.put(down, true);
         initializeColliders(tiles);
         animator = body.getOwner().getComponent(SonicAnimator.class);
-        hitbox = new Rectangle(0, 0,body.getWidth(), body.getHeight());
     }
     public void initializeColliders(ArrayList<Tile> tiles){ 
         //Dò ad ogni Collider solo le Tile con cui può interagire
@@ -52,11 +50,12 @@ public class PlayerPhysics extends Physics{
                 rightWalls.add(t);
             }
         }
-        colliders.put(up, new UpCollider(xPos, yPos + height/2, 1, 1, ceilings, this));
-        colliders.put(down, new DownCollider(xPos, yPos - height/2, 1, 1, floors, this));
-        colliders.put(left, new HorizontalCollider(xPos - width/2, yPos, 1, 1, leftWalls, this));
-        colliders.put(right, new HorizontalCollider(xPos + width/2, yPos, 1, 1, rightWalls, this));
-        hitbox = new Rectangle();
+        float width = body.getWidth(), height = body.getHeight();
+        colliders.put(up, new PlayerCollider(width/2, 0, 1, 1, ceilings, this));
+        colliders.put(down, new PlayerCollider(width/2, height, 1, 1, floors, this));
+        colliders.put(left, new PlayerCollider(0, height/2, 1, 1, leftWalls, this));
+        colliders.put(right, new PlayerCollider(width, height/2, 1, 1, rightWalls, this));
+        hitbox = new Rectangle(0, 0, width, height);
     }
     @Override
     public void update() {

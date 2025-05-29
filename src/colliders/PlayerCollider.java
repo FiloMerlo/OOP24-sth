@@ -5,7 +5,7 @@ import game_parts.direction;
 public class PlayerCollider extends Collider {
     private boolean colliding = false;
     private direction direction;
-    public PlayerCollider(ArrayList<Tile> list, Sonic s, direction d, float offX, float offY) {
+    public PlayerCollider(ArrayList<Tile> list, SonicPhysic s, direction d, float offX, float offY) {
         super(1, 1, list, s);
         direction = d;
         offsetX = offX;
