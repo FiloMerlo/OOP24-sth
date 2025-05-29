@@ -1,37 +1,48 @@
+ 
+//QUESTA CLASSE ASTRATTA è PENSATA PER CREARE TUTTI I NEMICI E SONIC. NON HO FATTO ALTRO CHE IMPLEMENTARE LA LOGICA DEL GIOCO ORIGINALE
 package entities;
+import javax.swing.JPanel;
 
-import java.awt.Graphics;
-
-/**
- * rappresenta un'entità generica del gioco con posizione e dimensioni.
- */
 public abstract class Entity {
-    protected int xPos, yPos;
-    protected int xSpeed, ySpeed;
-    protected int groundSpeed, groundAngle;
-    protected int widthR, heightR;
-
-    public Entity(int xPos, int yPos, int xSpeed, int ySpeed, int groundSpeed, int groundAngle, int widthR, int heightR) {
+    private string name;
+    private float xPos, yPos, xSpeed, ySpeed, width, height;
+    private Collider hitbox;
+    private BufferedImage sprite;
+    //private Rectangle hitbox;
+    public Entity(float xPos, float yPos){
         this.xPos = xPos;
         this.yPos = yPos;
-        this.xSpeed = xSpeed;
-        this.ySpeed = ySpeed;
-        this.groundSpeed = groundSpeed;
-        this.groundAngle = groundAngle;
-        this.widthR = widthR;
-        this.heightR = heightR;
+        //Il resto dei parametri vengono inizializzati nelle sottoclassi
     }
 
-    public int getGroundSpeed() { return groundSpeed; }
+    public float getXSpeed(){
+        return xSpeed;
+    }
+    public float getYSpeed(){
+        return ySpeed;
+    }
+    public float getXpos(){
+        return xPos;
+    }
+    public float getYpos(){
+        return xPos;
+    }
+ public int getGroundSpeed() { return groundSpeed; }
     public int getGroundAngle() { return groundAngle; }
-    public int getXSpeed() { return xSpeed; }
-    public int getYSpeed() { return ySpeed; }
-    public int getXpos() { return xPos; }
-    public int getYpos() { return yPos; }
+  
     public int getWidthR() { return widthR; }
     public int getHeightR() { return heightR; }
-
-    public abstract void update();
+    //Questa sezione non mi riguarda (Samuele) perché sono metodi che tanto devo Overridare
+    public void moveX(){
+        
+    }
+    public void moveY(){
+        
+    }
+    public void eliminate(){
+        
+    }
+   public abstract void update();
     public abstract void draw(Graphics g, int offsetX, int offsetY);
 
     /**

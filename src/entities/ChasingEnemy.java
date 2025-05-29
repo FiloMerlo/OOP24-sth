@@ -1,42 +1,60 @@
 package entities;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
-/**
- * nemico che insegue sonic entro un certo raggio.
- */
 public class ChasingEnemy extends Entity {
-    private BufferedImage sprite;
-    private int spawnX, spawnY, chaseRange;
+    private ChasingEnemyAnimator animator;
+    private int spawnX, chaseRange;
+    private boolean facingRight = true;
+
+    private int baseWidth = 36;
+    private int baseHeight = 36;
 
     public ChasingEnemy(int x, int y, int widthR, int heightR, int chaseRange) {
         super(x, y, 1, 0, 0, 0, widthR, heightR);
         this.spawnX = x;
-        this.spawnY = y;
         this.chaseRange = chaseRange;
-        this.sprite = SpriteLoader.getChasingEnemySprite();
+        this.animator = new ChasingEnemyAnimator();
     }
 
     public void update(int sonicX) {
         int distance = Math.abs(sonicX - xPos);
-
         if (distance < chaseRange) {
-            xPos += sonicX < xPos ? -xSpeed : xSpeed;
+            facingRight = sonicX >= xPos;
+            xPos += facingRight ? xSpeed : -xSpeed;
         } else {
-            if (xPos < spawnX) xPos += xSpeed;
-            else if (xPos > spawnX) xPos -= xSpeed;
+            if (xPos < spawnX) {
+                xPos += xSpeed;
+                facingRight = true;
+            } else if (xPos > spawnX) {
+                xPos -= xSpeed;
+                facingRight = false;
+            }
         }
     }
 
     @Override
-    public void update() {
-        
-    }
+    public void update() {}
 
     @Override
     public void draw(Graphics g, int offsetX, int offsetY) {
-        g.drawImage(sprite, xPos - widthR - offsetX, yPos - heightR - offsetY, null);
+        Graphics2D g2d = (Graphics2D) g;
+        BufferedImage frame = animator.getFrame();
+
+        float scale = Sonic.getCurrentScale();
+        int scaledWidth = (int)(baseWidth * scale);
+        int scaledHeight = (int)(baseHeight * scale);
+
+        int drawX = xPos - offsetX;
+        int drawY = yPos - offsetY;
+
+        if (!facingRight) {
+            g2d.drawImage(frame, drawX + scaledWidth, drawY, -scaledWidth, scaledHeight, null);
+        } else {
+            g2d.drawImage(frame, drawX, drawY, scaledWidth, scaledHeight, null);
+        }
     }
 
     @Override

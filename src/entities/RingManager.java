@@ -5,9 +5,6 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * gestisce gli anelli nel livello e la dispersione quando sonic viene colpito.
- */
 public class RingManager {
     private List<Ring> rings;
     private BufferedImage[] ringFrames;

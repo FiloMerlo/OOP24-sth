@@ -1,4 +1,4 @@
-package main;
+package game_parts;
 public class Game {
     private GameWindow gameWindow;
     private GamePanel gamePanel;
