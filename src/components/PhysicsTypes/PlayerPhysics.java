@@ -139,6 +139,9 @@ public class PlayerPhysics extends Physics{
     public void takeDamage(){
         if (playerAction != hurt){
             if (rings > 0){
+                for (int i = 0; i < rings; i++){
+                    
+                }
                 rings = 0;
                 setAction(hurt);
             } else {

@@ -1,4 +1,6 @@
 package colliders;
+import java.util.HashMap;
+
 import javax.naming.TimeLimitExceededException;
 import javax.swing.text.html.parser.Entity;
 
@@ -30,6 +32,17 @@ public class EnemyCollider extends Collider{
         if (sensor.intersects(sonicHitbox)){
             collision();
         }
+        else {
+            for (Tile tile : tiles) {
+                if (sensor.intersects(tile.getSpace())){
+                    if (tile.getType() == leftWall){
+                        physic.setLimit(left, tile.getX());
+                    } else if (tile.getType() == rightWall){
+                        physic.setLimit(right, tile.getX());
+                    }
+                }
+            }
+        }
     }
     @Override
     public void collision(){
@@ -38,5 +51,9 @@ public class EnemyCollider extends Collider{
         } else {
             sonic.getComponent(SonicPhysics.class).takeDamage();
         }
+    }
+
+    public int getLimit(direction d){
+        return directionalLimit.get(d);
     }
 }

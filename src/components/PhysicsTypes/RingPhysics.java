@@ -3,6 +3,7 @@ public class RingPhysics extends Physics {
     private RingCollider collider;
     public RingPhysics(MovableBody b) {
         super(0, 0, b);
+        /*collider = new RingCollider(TODO deve passare la lista di tiles, this, this.getBody().getOwner().getManager().getEnList().get(0);*/
     }
 
     public void bounce(){
@@ -11,9 +12,8 @@ public class RingPhysics extends Physics {
     }
 
     public void spredOut(){
-        /*Quando sonic viene colpito, creiamo tanti anelli quanti quelli nel campo Sonic.rings, e ciascun anello lancia questo metodo così inizia a muoversi. 
-        Eventualmente ci vorrebbe una distanza massima di movimento*/
-        //Imposta velocità randomica (separatemente per x e y, così che l'anello possa muoversi anche diagonalmente)
+        xSpeed = (float) (Math.random() * 4 - 0);
+        ySpeed = (float) (Math.random() * 4 - 0);
     }
 
     public void update(){

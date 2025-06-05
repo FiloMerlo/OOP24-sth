@@ -3,10 +3,10 @@ import entities.Ring;
 import entities.Sonic;
 
 public class RingCollider extends Collider{
-    private Entity sonic;
-    public RingCollider(ArrayList<Tile> list, RingPhysics rP, Entity s) {
+    private PlayerPhysics sonicPh;
+    public RingCollider(ArrayList<Tile> list, RingPhysics rP, PlayerPhysics s) {
         super(list, rP);
-        sonic = s;
+        sonicPh = s;
         sensor = physic.getHitbox();
     }
 
