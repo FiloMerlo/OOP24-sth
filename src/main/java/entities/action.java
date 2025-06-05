@@ -1,7 +1,4 @@
-/**
- * rappresenta le varie azioni che sonic può eseguire
- * e che determinano l'animazione corrente.
- */
+ package entities;
 public enum action {
     idle,
     walking,

@@ -1,7 +1,9 @@
-package entities;
+package graphics;
 
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
+
+import entities.ChasingEnemyState;
 import util.SpriteLoader;
 
 public class ChasingEnemyAnimator {
@@ -11,11 +13,11 @@ public class ChasingEnemyAnimator {
     private int tick = 0;
     private ChasingEnemyState currentState = ChasingEnemyState.IDLE;
 
-    public ChasingEnemyAnimator() {
+    public ChasingEnemyAnimator() throws Exception {
         SpriteLoader loader = new SpriteLoader("Custom Edited - Sonic the Hedgehog Customs - Black Arms.png");
 
-        animations.put(ChasingEnemyState.IDLE, loader.getFramesByPixels(0, 0, 4, 32, 32)); // 4 idle frames
-        animations.put(ChasingEnemyState.WALK, loader.getFramesByPixels(0, 32, 6, 32, 32)); // 6 walk frames
+        animations.put(ChasingEnemyState.IDLE, loader.getFramesByPixels(0, 0, 4, 32, 32));  
+        animations.put(ChasingEnemyState.WALK, loader.getFramesByPixels(0, 32, 6, 32, 32)); 
     }
 
     public void setState(ChasingEnemyState newState) {

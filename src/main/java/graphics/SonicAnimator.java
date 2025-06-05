@@ -1,7 +1,9 @@
-package entities;
+package graphics;
 
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
+
+import entities.action;
 import util.SpriteLoader;
 
 public class SonicAnimator {

@@ -1,4 +1,4 @@
-package entities;
+package graphics;
 
 import util.SpriteLoader;
 import java.awt.image.BufferedImage;
@@ -9,7 +9,7 @@ public class RingAnimator {
     public RingAnimator() {
         try {
             SpriteLoader loader = new SpriteLoader("PC Computer - Sonic Mania - General Objects.png");
-            ringFrames = loader.getFramesByPixels(0, 0, 6, 16, 16);  // Adjust if your ring frames differ
+            ringFrames = loader.getFramesByPixels(0, 0, 16, 16, 16);  
         } catch (Exception e) {
             e.printStackTrace();
         }
