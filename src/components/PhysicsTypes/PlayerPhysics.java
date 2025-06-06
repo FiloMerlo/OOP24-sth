@@ -2,7 +2,6 @@ package components.PhysicsTypes;
 import colliders.*;
 import game_parts.direction;
 import game_parts.action;
-import game_parts.TileType;
 
 import java.awt.Rectangle;
 import java.util.ArrayList;
@@ -18,11 +17,11 @@ public class PlayerPhysics extends Physics{
     private int rings = 0, jumping = 0;
     private HashMap<direction, PlayerCollider> colliders = new HashMap<>();
     private HashMap<direction, Boolean> canMove = new HashMap<>();
-    private ArrayList<Tile> tiles = new ArrayList<>();
+    private ArrayList<Rectangle> tiles = new ArrayList<>();
     private boolean hurt = false;
     private action playerAction = idle;
 
-    public PlayerPhysics(MovableBody b, ArrayList<Tile> t){
+    public PlayerPhysics(MovableBody b, ArrayList<Rectangle> t){
         super(1, 5, b);
         tiles = t;
         canMove.put(left, true);
@@ -36,30 +35,27 @@ public class PlayerPhysics extends Physics{
         //Dò ad ogni Collider solo le Tile con cui può interagire
         ArrayList<Tile> ceilings = new ArrayList<>();
         ArrayList<Tile> floors = new ArrayList<>();    
-        ArrayList<Tile> leftWalls = new ArrayList<>();   
-        ArrayList<Tile> rightWalls = new ArrayList<>(); 
+        ArrayList<Tile> walls = new ArrayList<>(); 
         for (Tile t : tiles){
             if (t.getType() == ceiling){
                 ceilings.add(t);
             } else if (t.getType() == floor){
                 floors.add(t);
-            } else if (t.getType() == leftWall){
-                leftWalls.add(t);
-            } else if (t.getType() == rightWall){
-                rightWalls.add(t);
+            } else if (t.getType() == wall){
+                walls.add(t);
             }
         }
         float width = body.getWidth(), height = body.getHeight();
         colliders.put(up, new PlayerCollider(width/2, 0, 1, 1, ceilings, this));
         colliders.put(down, new PlayerCollider(width/2, height, 1, 1, floors, this));
-        colliders.put(left, new PlayerCollider(0, height/2, 1, 1, leftWalls, this));
-        colliders.put(right, new PlayerCollider(width, height/2, 1, 1, rightWalls, this));
+        colliders.put(left, new PlayerCollider(0, height/2, 1, 1, walls, this));
+        colliders.put(right, new PlayerCollider(width, height/2, 1, 1, walls, this));
         hitbox = new Rectangle(0, 0, width, height);
     }
     @Override
     public void update() {
-        for (PlayerCollider pc : colliders) {
-            pc.checkCollisions();
+        for (int pc = 0; pc < 4; pc ++) {
+            colliders.get(pc).checkCollisions();
         }
         determineAction();
         moveY();
