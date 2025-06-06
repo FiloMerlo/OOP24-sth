@@ -1,10 +1,12 @@
 package colliders;
+import java.awt.Rectangle;
+
 import entities.Ring;
 import entities.Sonic;
 
 public class RingCollider extends Collider{
     private PlayerPhysics sonicPh;
-    public RingCollider(ArrayList<Tile> list, RingPhysics rP, PlayerPhysics s) {
+    public RingCollider(ArrayList<Rectangle> list, RingPhysics rP, PlayerPhysics s) {
         super(list, rP);
         sonicPh = s;
         sensor = physic.getHitbox();
@@ -29,7 +31,7 @@ public class RingCollider extends Collider{
         if (sonic.getComponent(Physics.class).getHitbox().intersects(sensor)) {
             pickUp();
         } else {
-            for (Tile t : tiles) {
+            for (Rectangle t : tiles) {
                 if (sensor.intersects(t.getSpace())) {
                     physic.bounce();//bounce
                 }
@@ -38,6 +40,6 @@ public class RingCollider extends Collider{
     }
     public void pickUp(){
         sonic.getComponent(Physics.class).gotRing();
-        physic.kill();
+        physic.die();
     }
 }

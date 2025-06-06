@@ -3,9 +3,9 @@ package components;
 import java.awt.Rectangle;
 
 public abstract class Physics implements Component{
-    private float xSpeed, ySpeed;
-    private MovableBody body;
-    private Rectangle hitbox;
+    protected float xSpeed, ySpeed;
+    protected MovableBody body;
+    protected Rectangle hitbox;
     public Physics(float xS, float yS, MovableBody b){
         xSpeed = xS;
         ySpeed = yS;
@@ -20,8 +20,8 @@ public abstract class Physics implements Component{
     }
     public void moveX(){}
     public void moveY(){}
-    public void kill(){
-        body.getOwner().delete();
+    public void die(){ 
+        body.getOwner().delete(); 
     }
     public void update(){
 

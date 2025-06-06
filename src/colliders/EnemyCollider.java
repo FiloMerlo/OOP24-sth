@@ -5,15 +5,16 @@ import javax.naming.TimeLimitExceededException;
 import javax.swing.text.html.parser.Entity;
 
 import game_parts.action;
+import game_parts.direction;
 import entities.Enemy;
 import entities.Sonic;
 import org.dyn4j.geometry.Rectangle;
 
 public class EnemyCollider extends Collider{
     private Entity sonic;
-    public EnemyCollider(ArrayList<Tile> list, EnemyPhysics phy, Entity s){
+    public EnemyCollider(ArrayList<Rectangle> list, EnemyPhysics phy, Entity s){
         super(list, phy);
-        Entity = s;
+        sonic = s;
         sensor = physic.getHitbox();
     }
 
@@ -33,13 +34,9 @@ public class EnemyCollider extends Collider{
             collision();
         }
         else {
-            for (Tile tile : tiles) {
-                if (sensor.intersects(tile.getSpace())){
-                    if (tile.getType() == leftWall){
-                        physic.setLimit(left, tile.getX());
-                    } else if (tile.getType() == rightWall){
-                        physic.setLimit(right, tile.getX());
-                    }
+            for (Rectangle tile : tiles) {
+                if (sensor.intersects(tile)){
+                    physic.setMovement(physic.getDirection(), false);
                 }
             }
         }

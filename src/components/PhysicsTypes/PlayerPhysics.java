@@ -1,5 +1,6 @@
 package components.PhysicsTypes;
 import colliders.*;
+import components.Physics;
 import game_parts.direction;
 import game_parts.action;
 
@@ -7,7 +8,6 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
 
 import org.checkerframework.checker.units.qual.s;
 
@@ -31,12 +31,12 @@ public class PlayerPhysics extends Physics{
         initializeColliders(tiles);
         animator = body.getOwner().getComponent(SonicAnimator.class);
     }
-    public void initializeColliders(ArrayList<Tile> tiles){ 
+    public void initializeColliders(ArrayList<Rectangle> tiles){ 
         //Dò ad ogni Collider solo le Tile con cui può interagire
-        ArrayList<Tile> ceilings = new ArrayList<>();
-        ArrayList<Tile> floors = new ArrayList<>();    
-        ArrayList<Tile> walls = new ArrayList<>(); 
-        for (Tile t : tiles){
+        ArrayList<Rectangle> ceilings = new ArrayList<>();
+        ArrayList<Rectangle> floors = new ArrayList<>();    
+        ArrayList<Rectangle> walls = new ArrayList<>(); 
+        for (Rectangle t : tiles){
             if (t.getType() == ceiling){
                 ceilings.add(t);
             } else if (t.getType() == floor){
@@ -46,10 +46,10 @@ public class PlayerPhysics extends Physics{
             }
         }
         float width = body.getWidth(), height = body.getHeight();
-        colliders.put(up, new PlayerCollider(width/2, 0, 1, 1, ceilings, this));
-        colliders.put(down, new PlayerCollider(width/2, height, 1, 1, floors, this));
-        colliders.put(left, new PlayerCollider(0, height/2, 1, 1, walls, this));
-        colliders.put(right, new PlayerCollider(width, height/2, 1, 1, walls, this));
+        colliders.put(up, new PlayerCollider(tiles, this, up, width/2, 0));
+        colliders.put(down, new PlayerCollider(tiles, this, down, width/2, height));
+        colliders.put(left, new PlayerCollider(tiles, this, left, 0, height/2));
+        colliders.put(right, new PlayerCollider(tiles, this, right, width, height/2));
         hitbox = new Rectangle(0, 0, width, height);
     }
     @Override
