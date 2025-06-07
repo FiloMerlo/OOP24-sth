@@ -7,34 +7,37 @@
 
 plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
-    application
+    id("application")
 }
+
 
 repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
 }
 
+// Define the dependencies for the project.
 dependencies {
     // Use JUnit Jupiter for testing.
-    testImplementation(libs.junit.jupiter)
+    testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
 
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.10.0")
 
     // This dependency is used by the application.
-    implementation(libs.guava)
+    implementation("com.google.guava:guava:32.1.2-jre")
+ 
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion.set(JavaLanguageVersion.of(21))
     }
 }
 
 application {
     // Define the main class for the application.
-    mainClass = "org.example.App"
+    mainClass.set("sth.core.Game")
 }
 
 tasks.named<Test>("test") {
