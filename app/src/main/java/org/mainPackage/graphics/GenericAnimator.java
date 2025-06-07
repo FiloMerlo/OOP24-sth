@@ -1,8 +1,8 @@
-package graphics;
-
-import entities.Component;
+package org.mainPackage.graphics;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
+
+import org.mainPackage.components.Component;
 
 public abstract class GenericAnimator<T> implements Component {
     protected HashMap<T, BufferedImage[]> animations = new HashMap<>();

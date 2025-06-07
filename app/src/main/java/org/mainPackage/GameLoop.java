@@ -1,3 +1,4 @@
+
 public class GameLoop implements Runnable {
 
     private final int FPS_SET = 60;
