@@ -32,9 +32,6 @@ public abstract class Collider{
 
     public abstract void checkCollisions();
 
-    public void updatePos(){
-        sensor.setLocation(physic.getX(), physic.getY());
-    }
     public Object getphysic(){
         return physic;
     }

@@ -18,12 +18,8 @@ public abstract class Physics implements Component{
     public Body getBody(){
         return body;
     }
-    public void moveX(){}
-    public void moveY(){}
     public void die(){ 
         body.getOwner().delete(); 
     }
-    public void update(){
-
-    }
+    abstract public void update();
 }

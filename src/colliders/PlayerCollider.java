@@ -37,9 +37,4 @@ public class PlayerCollider extends Collider {
         colliding = false;
         physic.setMovement(direction, true);
     }
-
-    @Override
-    public void update(){
-        sensor.setLocation(owner.getX() + offsetX, owner.getY() + offsetY);
-    }
 }

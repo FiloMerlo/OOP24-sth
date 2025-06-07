@@ -21,15 +21,9 @@ public class EnemyCollider extends Collider{
     @Override
     public void checkCollisions(){
         Rectangle sonicHitbox = sonic.getComponent(SonicPhysics.class).getHitbox();
-        /*SE I COLLISORI NON FUNZIONANO COME DOVREBBERO, PROVATE PRIMA DI TUTTO A DECOMMENTARE QUESTA PARTE DI CODICE E COMMENTARE L'IF ATTUALMENTE IN USO 
-            Point sensorGlobal = SwingUtilities.convertPoint(body, sensor.getLocation(), physic.getBody().getOwner().getFrame());
-            Point sonicHitboxGlobal = SwingUtilities.convertPoint(sonic, sonicHitbox.getLocation(), physic.getBody().getOwner().getFrame());
-            Rectangle globalSensor = new Rectangle(sensorGlobal.x, sensorGlobal.y, sensorGlobal.width, sensorGlobal.height);
-            Rectangle globalSonic = new Rectangle(sonicHitboxGlobal.x, sonicHitboxGlobal.y, sonicHitboxGlobal.width, sonicHitboxGlobal.height);
-            if (globalSensor.intersects(globalSonic)){
-                collision();
-            }
-        */
+
+        /*First, i convert the local coordinates in global coordinates*/
+        Rectangle globalHitbox = SwingUtilities.convertRectangle(sonic.getComponent(Body.class), sonicHitbox, sonic.getPanel());
         if (sensor.intersects(sonicHitbox)){
             collision();
         }
@@ -48,9 +42,5 @@ public class EnemyCollider extends Collider{
         } else {
             sonic.getComponent(SonicPhysics.class).takeDamage();
         }
-    }
-
-    public int getLimit(direction d){
-        return directionalLimit.get(d);
     }
 }

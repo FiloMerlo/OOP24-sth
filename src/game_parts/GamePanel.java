@@ -12,12 +12,21 @@ public class GamePanel extends JPanel{
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 1, 0, 0, 0, 0, 0},
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
-    }
+    };
     private BufferedImage tileImage;
 
     public GamePanel() {
         setPreferredSize(new Dimension(nColumns * tileWidth, nRows * tileHeight));
         setFocusable(true);
+
+        for (int r = 0; r < nRows; r++) {
+            for (int c = 0; c < nColumns; c++) {
+              if (grid[r][c] == 1) {
+                space = new Rectangle(c * tileWidth, r * tileHeight, tileWidth, tileHeight);
+                tiles.add(space);
+              }
+            }
+        }   
     }
     
     @Override
@@ -28,23 +37,16 @@ public class GamePanel extends JPanel{
         g2.setColor(Color.CYAN);
         g2.fillRect(0, 0, getWidth(), getHeight());
         /*Draw tiles*/
-        for (int r = 0; r < nRows; r++) {
-            for (int c = 0; c < nColumns; c++) {
-              if (grid[r][c] == 1) {
-                int tileX = c * tileWidth;
-                int tileY = r * tileHeight;
-                space = new Rectangle(tileX, tileY, tileWidth, tileHeight);
-                tiles.add(space);
-
-                g2.setColor(Color.LIGHT_GRAY);
-                g2.fill(space);
-                if (tileImage != null) {
-                    g2.drawImage(tileImage, tileX, tileY, tileWidth, tileHeight, null);
-                }
-              }
+        for (java.awt.Rectangle tile : tiles) {
+            g2.setColor(Color.LIGHT_GRAY);
+            g2.fill(tile);
+            if (tileImage != null) {
+                g2.drawImage(tileImage, tile.getX(), tile.getY(), tileWidth, tileHeight, null);
             }
-        }   
+        }
+        /*Draw player*/
+        
     }
 
-    public ArrayList<Rectangle> getTileList(){ return tiles }
+    public ArrayList<Rectangle> getTileList(){ return tiles; }
 }
