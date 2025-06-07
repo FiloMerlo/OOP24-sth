@@ -5,7 +5,7 @@ package org.mainPackage;
 
 public class App {
     public String getGreeting() {
-        return "fffffuck it!";
+        return "Hello World!";
     }
 
     public static void main(String[] args) {
