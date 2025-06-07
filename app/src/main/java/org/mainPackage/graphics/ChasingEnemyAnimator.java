@@ -1,4 +1,4 @@
-package graphics;
+package org.mainPackage.graphics;
 
 import entities.ChasingEnemyState;
 import util.SpriteLoader;
