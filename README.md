@@ -67,8 +67,6 @@ Francesco Giancaterino: Rendering dell'ambiente e gameloop. Schermata home (di a
 Nicolas Mancini: Nemici e ostacoli fissi, aspetto del personaggio.
 
 COSA CI MANCA:
-> Un JFrame appropriato con un GridLayout, dove distribuire i JPanel con le Tiles.
-> Capire come mettere anche i Movable body nello stesso JFrame
 > Avere un GameLoop che funziona
 > Rifare tutta la branch Main caricando dalle nostre singole branch solo le singole cartelle/files strettamente necessari.
 > Scrivere il report.

@@ -14,11 +14,12 @@ public class GamePanel extends JPanel{
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
     };
     private BufferedImage tileImage;
+    private EntityManager entityManager;
 
-    public GamePanel() {
+    public GamePanel(EntityManager em) {
         setPreferredSize(new Dimension(nColumns * tileWidth, nRows * tileHeight));
         setFocusable(true);
-
+        
         for (int r = 0; r < nRows; r++) {
             for (int c = 0; c < nColumns; c++) {
               if (grid[r][c] == 1) {

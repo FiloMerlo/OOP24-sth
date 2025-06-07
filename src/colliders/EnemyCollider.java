@@ -10,9 +10,11 @@ import entities.Enemy;
 import entities.Sonic;
 import org.dyn4j.geometry.Rectangle;
 
+import components.PhysicsTypes.PlayerPhysics;
+
 public class EnemyCollider extends Collider{
-    private Entity sonic;
-    public EnemyCollider(ArrayList<Rectangle> list, EnemyPhysics phy, Entity s){
+    private PlayerPhysics sonicPh;
+    public EnemyCollider(ArrayList<Rectangle> list, EnemyPhysics phy, PlayerPhysics s){
         super(list, phy);
         sonic = s;
         sensor = physic.getHitbox();
@@ -20,14 +22,12 @@ public class EnemyCollider extends Collider{
 
     @Override
     public void checkCollisions(){
-        Rectangle sonicHitbox = sonic.getComponent(SonicPhysics.class).getHitbox();
-
-        /*First, i convert the local coordinates in global coordinates*/
-        Rectangle globalHitbox = SwingUtilities.convertRectangle(sonic.getComponent(Body.class), sonicHitbox, sonic.getPanel());
-        if (sensor.intersects(sonicHitbox)){
-            collision();
+        /*check collisions with the player*/
+        if (sensor.intersects(sonic.getHitbox())){
+            playerCollision();
         }
         else {
+            /*check collisions with the surroundings*/
             for (Rectangle tile : tiles) {
                 if (sensor.intersects(tile)){
                     physic.setMovement(physic.getDirection(), false);
@@ -36,11 +36,11 @@ public class EnemyCollider extends Collider{
         }
     }
     @Override
-    public void collision(){
+    public void playerCollision(){
         if(s.getPlayerAction() == jumping){
             physic.die();
         } else {
-            sonic.getComponent(SonicPhysics.class).takeDamage();
+            sonic.takeDamage();
         }
     }
 }

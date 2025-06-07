@@ -13,7 +13,7 @@ import org.checkerframework.checker.units.qual.s;
 
 public class PlayerPhysics extends Physics{
     private direction direction = right;
-    private float speedMod = 1, maxSpeed = 15, jSpeed = -5;
+    private int speedMod = 1, maxSpeed = 15, jSpeed = -5;
     private int rings = 0, jumping = 0;
     private HashMap<direction, PlayerCollider> colliders = new HashMap<>();
     private HashMap<direction, Boolean> canMove = new HashMap<>();
@@ -21,31 +21,16 @@ public class PlayerPhysics extends Physics{
     private boolean hurt = false;
     private action playerAction = idle;
 
-    public PlayerPhysics(MovableBody b, ArrayList<Rectangle> t){
-        super(1, 5, b);
-        tiles = t;
+    public PlayerPhysics(Entity o, ArrayList<Rectangle> tList){
+        super(1, 5, o, tList);
         canMove.put(left, true);
         canMove.put(up, true);
         canMove.put(right, true);
         canMove.put(down, true);
         initializeColliders(tiles);
-        animator = body.getOwner().getComponent(SonicAnimator.class);
     }
     public void initializeColliders(ArrayList<Rectangle> tiles){ 
-        //Dò ad ogni Collider solo le Tile con cui può interagire
-        ArrayList<Rectangle> ceilings = new ArrayList<>();
-        ArrayList<Rectangle> floors = new ArrayList<>();    
-        ArrayList<Rectangle> walls = new ArrayList<>(); 
-        for (Rectangle t : tiles){
-            if (t.getType() == ceiling){
-                ceilings.add(t);
-            } else if (t.getType() == floor){
-                floors.add(t);
-            } else if (t.getType() == wall){
-                walls.add(t);
-            }
-        }
-        float width = body.getWidth(), height = body.getHeight();
+        int width = owner.getWidth(), height = owner.getHeight();
         colliders.put(up, new PlayerCollider(tiles, this, up, width/2, 0));
         colliders.put(down, new PlayerCollider(tiles, this, down, width/2, height));
         colliders.put(left, new PlayerCollider(tiles, this, left, 0, height/2));
@@ -93,7 +78,7 @@ public class PlayerPhysics extends Physics{
             brake();
         }
         if(canMove.get(dir) == true){
-            body.moveX(xSpeed);
+            owner.moveX(xSpeed);
             //se sonic si muove a terra, guadagna velocità orizzontale
             if (xSpeed < maxSpeed && canMove.get(down) == false){
                 xSpeed += speedMod;
@@ -107,7 +92,7 @@ public class PlayerPhysics extends Physics{
     public void moveY(){  //questo metodo dev'essere richiamato nel gameloop, per simulare la gravità
     if(jumping > 0){
         if(canMove.get(up)){
-            body.moveY(ySpeed);
+            owner.moveY(ySpeed);
             jumping--;
         } else { //cade immediatamente quando colpisce il soffitto
             jumping = 0;
@@ -117,7 +102,7 @@ public class PlayerPhysics extends Physics{
         ySpeed = 5;
     } 
     if (canMove.get(down)){ //se non ha l'impeto del salto né terreno sotto i piedi, cade
-        body.moveY(ySpeed);
+        owner.moveY(ySpeed);
     }
 }
     public void jump(){
@@ -141,7 +126,7 @@ public class PlayerPhysics extends Physics{
                 rings = 0;
                 setAction(hurt);
             } else {
-                body.getOwner().delete();
+                owner.delete();
             }
             
         }

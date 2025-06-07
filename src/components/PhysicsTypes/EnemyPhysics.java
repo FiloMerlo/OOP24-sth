@@ -1,22 +1,23 @@
 package components.PhysicsTypes;
+import java.awt.Component;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import colliders.EnemyCollider;
-import game_parts.action;
-import game_parts.direction;
+import components.Physics;
+import game_parts.*;
 
 public class EnemyPhysics extends Physics{
-        private HashMap<direction, Float> directionalLimit = new HashMap<>();
         private EnemyCollider collider;
-        private MovableBody sonic;
+        private Entity sonic;
         private int maxChaseDistance = 40, speed, spawnX;
         private action enemyAction = idle;
         private direction enemyDirection = left;
         private HashMap<direction, Boolean> canMove = new HashMap<>();
 
-        public EnemyPhysics(MovableBody b, MovableBody s, int speed){
-        super(0, 0, b);
-        /*collider = new RingCollider(TODO deve passare la lista di tiles, this, this.getBody().getOwner().getManager().getEnList().get(0);*/
+        public EnemyPhysics(int xS, Entity o, ArrayList<Rectangle>tList, Entity s){
+        super(xS, 0, o, tlist);
+        collider = new EnemyCollider(tiles, this, s.getComponent(PHYSICS));
         sonic = s;
         this.speed = speed;
         canMove.put(left, true);
@@ -32,22 +33,22 @@ public class EnemyPhysics extends Physics{
     }
 
     public void chase(){
-        if (sonic.getX() - body.getX() <= maxChaseDistance) {
+        if (sonic.getX() - owner.getX() <= maxChaseDistance) {
             move(sonic.getX());
         } else {
-            if (body.getX() != spawnX){
+            if (owner.getX() != spawnX){
                 move(spawnX);
             }
         }
     }
     public void move(int goTo){
-        if (goTo > body.getX() && canMove.get(left)){
-            body.moveX(speed);
+        if (goTo > owner.getX() && canMove.get(left)){
+            owner.moveX(speed);
             enemyAction = walking;
             enemyDirection = right;
         }
-        else if (goTo < body.getX() && canMove.get(right)){
-            body.moveX(-speed);
+        else if (goTo < owner.getX() && canMove.get(right)){
+            owner.moveX(-speed);
             enemyAction = walking;
             enemyDirection = left;
         }

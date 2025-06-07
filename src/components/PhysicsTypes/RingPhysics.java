@@ -12,8 +12,8 @@ public class RingPhysics extends Physics {
     }
 
     public void spredOut(){
-        xSpeed = (float) (Math.random() * 4 - 0);
-        ySpeed = (float) (Math.random() * 4 - 0);
+        xSpeed = (Math.random() * 4 - 0);
+        ySpeed = (Math.random() * 4 - 0);
     }
 
     public void update(){

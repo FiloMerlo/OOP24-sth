@@ -4,7 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class PlayerInputs implements KeyListener{
-    private Sonic character;
+    private Entity character;
     public PlayerInputs(Character character){
         this.character = character;  
     }

@@ -20,16 +20,6 @@ public abstract class Collider{
         physic = p;
     }
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        if (sensor != null) {
-            Graphics2D g2d = (Graphics2D) g;
-            g2d.setColor(Color.ORANGE);
-            g2d.fill(sensor);
-        }
-    }   
-
     public abstract void checkCollisions();
 
     public Object getphysic(){

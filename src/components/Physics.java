@@ -1,25 +1,28 @@
 package components;
 
 import java.awt.Rectangle;
+import java.util.ArrayList;
 
 public abstract class Physics implements Component{
-    protected float xSpeed, ySpeed;
-    protected MovableBody body;
+    protected int xSpeed, ySpeed;
     protected Rectangle hitbox;
-    public Physics(float xS, float yS, MovableBody b){
+    protected Entity owner;
+    protected ArrayList<Rectangle> tiles;
+    public Physics(int xS, int yS, Entity o, ArrayList<Rectangle>tList){
         xSpeed = xS;
         ySpeed = yS;
-        body = b;
-        hitbox = new Rectangle(body.getX(), body.getY(), body.getWidth(), body.getHeight());
+        owner = o;
+        hitbox = new Rectangle(owner.getX(), owner.getY(), owner.getWidth(), owner.getHeight());
+        tiles = tList;
     }
     public Rectangle getHitbox(){
         return hitbox;
     }
-    public Body getBody(){
-        return body;
-    }
+
     public void die(){ 
-        body.getOwner().delete(); 
+        owner.delete(); 
     }
-    abstract public void update();
+    public void update(){
+        hitbox.setLocation(owner.getX(), owner.getY());
+    }
 }
