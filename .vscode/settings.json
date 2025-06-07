@@ -1,5 +1,3 @@
 {
-    "java.configuration.updateBuildConfiguration": "automatic",
-    "files.autoSave": "onFocusChange",
-    "editor.fontSize": 10
+    "java.configuration.updateBuildConfiguration": "interactive"
 }
