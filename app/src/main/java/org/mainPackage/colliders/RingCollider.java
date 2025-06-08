@@ -19,7 +19,7 @@ public class RingCollider extends Collider{
         } else {
             for (Rectangle tile : tiles) {
                 if (sensor.intersects(tile)) {
-                    ((RingPhysics)physic).bounce();//bounce
+                    ((RingPhysics)physic).bounce(tile);//bounce
                 }
             }
         }
