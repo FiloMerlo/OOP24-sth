@@ -1,4 +1,5 @@
-package renderer;
+package org.mainPackage.renderer;
+
 
 import java.awt.Graphics2D; 
 

@@ -1,3 +1,5 @@
+package org.mainPackage.core;
+
 
 public class GameLoop implements Runnable {
 
