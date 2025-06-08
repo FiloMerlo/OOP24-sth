@@ -1,5 +1,6 @@
 package org.mainPackage.components.PhysicsTypes;
 
+import org.mainPackage.colliders.Collider;
 import org.mainPackage.colliders.PlayerCollider;
 import org.mainPackage.components.Physics;
 import org.mainPackage.game_parts.direction;
@@ -79,9 +80,7 @@ public class PlayerPhysics extends Physics{
         }
         if(canMove.get(dir) == true){
             owner.moveX(xSpeed);
-            for (PlayerCollider c : colliders.values()) {
-                c.getSensor().translate(xSpeed, 0);
-            }
+            moveColliders(xSpeed, 0);
             //se sonic si muove a terra, guadagna velocità orizzontale
             if (xSpeed < maxSpeed && canMove.get(direction.down) == false){
                 xSpeed += speedMod;
@@ -91,20 +90,21 @@ public class PlayerPhysics extends Physics{
         }
         
     }
-    public void moveY(){  //questo metodo dev'essere richiamato nel gameloop, per simulare la gravità
+    public void moveY(){  /*This method won't be requested by PlayerInputs. It simulates gravity*/
     if(jumping > 0){
         if(canMove.get(direction.up)){
-            owner.moveY(ySpeed);
+            owner.moveY(-ySpeed);
+            moveColliders(0, -ySpeed);
             jumping--;
-        } else { //cade immediatamente quando colpisce il soffitto
+        } else { /*hitting the ceiling causes him to start falling */
             jumping = 0;
         }
-    } 
-    else {
+    } else {
         ySpeed = 5;
     } 
-    if (canMove.get(direction.down)){ //se non ha l'impeto del salto né terreno sotto i piedi, cade
+    if (canMove.get(direction.down)){ /*If sonic doesn't have nor the push of the jump, nor a solid ground under his feets, he will fall */
         owner.moveY(ySpeed);
+        moveColliders(0, ySpeed);
     }
 }
     public void jump(){
@@ -112,6 +112,12 @@ public class PlayerPhysics extends Physics{
             jumping = 5;
             ySpeed = jSpeed;
             playerAction = action.jumping;
+        }
+    }
+
+    public void moveColliders(int x, int y){
+        for (PlayerCollider c : colliders.values()) {
+            c.getSensor().translate(x, y);
         }
     }
 

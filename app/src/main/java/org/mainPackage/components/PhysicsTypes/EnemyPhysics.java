@@ -44,11 +44,13 @@ public class EnemyPhysics extends Physics{
     public void move(int goTo){
         if (goTo > owner.getX() && canMove.get(direction.left)){
             owner.moveX(speed);
+            collider.getSensor().translate(speed, 0);
             enemyAction = action.walking;
             enemyDirection = direction.right;
         }
         else if (goTo < owner.getX() && canMove.get(direction.right)){
             owner.moveX(-speed);
+            collider.getSensor().translate(-speed, 0);
             enemyAction = action.walking;
             enemyDirection = direction.left;
         }
