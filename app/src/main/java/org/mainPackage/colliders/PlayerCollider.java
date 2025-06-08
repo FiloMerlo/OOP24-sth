@@ -32,3 +32,4 @@ public class PlayerCollider extends Collider {
         physic.setMovement(direction, true);
     }
 }
+
