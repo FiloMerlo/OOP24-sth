@@ -1,5 +1,6 @@
 package org.mainPackage.core;
 
+import org.mainPackage.state_management.GameStateManager;
 
 public class GameLoop implements Runnable {
 

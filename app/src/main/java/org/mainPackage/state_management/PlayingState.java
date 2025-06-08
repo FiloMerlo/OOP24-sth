@@ -3,7 +3,9 @@ package org.mainPackage.state_management;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
-/* Character classe locale per debug */
+/* Character classe locale per debug
+ * il render dello stato è delegato al PlayingRenderer
+ */
 
 public class PlayingState extends GameState {
 

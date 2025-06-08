@@ -2,6 +2,8 @@ package org.mainPackage.core;
 
 import javax.swing.*;
 
+import org.mainPackage.state_management.GameStateManager;
+
 import java.awt.event.KeyAdapter;    
 import java.awt.event.KeyEvent;      
 import java.awt.event.MouseAdapter;  
