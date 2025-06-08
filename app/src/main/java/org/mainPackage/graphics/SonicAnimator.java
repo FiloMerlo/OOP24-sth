@@ -1,7 +1,7 @@
-package graphics;
+package org.mainPackage.graphics;
 
-import entities.action;
-import util.SpriteLoader;
+import org.mainPackage.game_parts.action;
+import org.mainPackage.util.SpriteLoader;
 
 public class SonicAnimator extends GenericAnimator<action> {
 

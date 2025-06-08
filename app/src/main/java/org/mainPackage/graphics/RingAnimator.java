@@ -1,6 +1,6 @@
-package graphics;
- 
-import util.SpriteLoader;
+package org.mainPackage.graphics;
+
+import org.mainPackage.util.SpriteLoader;
 
 public class RingAnimator extends GenericAnimator<RingAnimator.State> {
 

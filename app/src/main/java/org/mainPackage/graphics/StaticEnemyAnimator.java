@@ -1,7 +1,7 @@
-package graphics;
+package org.mainPackage.graphics;
 
-import entities.StaticEnemyState;
-import util.SpriteLoader;
+import org.mainPackage.game_parts.StaticEnemyState;
+import org.mainPackage.util.SpriteLoader;
 
 public class StaticEnemyAnimator extends GenericAnimator<StaticEnemyState> {
 
