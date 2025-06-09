@@ -1,4 +1,4 @@
-package org.mainPackage.game_parts;
+package org.mainPackage.engine.game_parts;
 
 public enum ChasingEnemyState {
     IDLE,

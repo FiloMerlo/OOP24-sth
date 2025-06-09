@@ -1,4 +1,4 @@
-package sth.engine.systems;
+package org.mainPackage.engine.systems;
 
 public class InputManager {
     

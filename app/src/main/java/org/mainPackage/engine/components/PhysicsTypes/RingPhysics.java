@@ -1,15 +1,16 @@
-package org.mainPackage.components.PhysicsTypes;
+package org.mainPackage.engine.components.PhysicsTypes;
 
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
 import org.mainPackage.colliders.RingCollider;
-import org.mainPackage.components.Physics;
-import org.mainPackage.game_parts.Entity;
+import org.mainPackage.engine.components.PhysicsComponent;
+import org.mainPackage.engine.components.TransformComponent;
+import org.mainPackage.engine.entities.api.Entity;
 import org.mainPackage.game_parts.action;
 import org.mainPackage.game_parts.direction;
 
-public class RingPhysics extends Physics {
+public class RingPhysics extends PhysicsComponent {
     private RingCollider collider;
     public RingPhysics(Entity o, ArrayList<Rectangle> tList, PlayerPhysics pp){ 
         super(0, 0, o, tList);
@@ -18,8 +19,8 @@ public class RingPhysics extends Physics {
 
     public void update(){
         collider.checkCollisions();
-        owner.moveX(xSpeed);
-        owner.moveY(ySpeed);
+        owner.getComponent(TransformComponent.class).moveX(xSpeed);
+        owner.getComponent(TransformComponent.class).moveY(ySpeed);
         collider.getSensor().translate(xSpeed, ySpeed);
     }
 

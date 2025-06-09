@@ -1,15 +1,18 @@
-package org.mainPackage.components.PhysicsTypes;
+package org.mainPackage.engine.components.PhysicsTypes;
 
 import org.mainPackage.colliders.PlayerCollider;
-import org.mainPackage.components.Physics;
+import org.mainPackage.engine.components.PhysicsComponent;
+import org.mainPackage.engine.components.TransformComponent;
 import org.mainPackage.game_parts.direction;
 import org.mainPackage.game_parts.action;
-import org.mainPackage.game_parts.Entity;
+import org.mainPackage.engine.entities.api.*;
+import org.mainPackage.engine.events.impl.GameEvent;
+import org.mainPackage.engine.events.api.EventType;
 
 import java.awt.Rectangle;
 import java.util.*;
 
-public class PlayerPhysics extends Physics{
+public class PlayerPhysics extends PhysicsComponent{
     private direction playerDir = direction.right;
     private int speedMod = 1, maxSpeed = 15, jSpeed = -5;
     private int rings = 0, jumping = 0;
@@ -28,15 +31,17 @@ public class PlayerPhysics extends Physics{
         initializeColliders(tiles);
     }
     public void initializeColliders(ArrayList<Rectangle> tiles){ 
-        int width = owner.getWidth(), height = owner.getHeight();
+        int width = owner.getComponent(TransformComponent.class).getWidth(), 
+        height = owner.getComponent(TransformComponent.class).getHeight();
         colliders.put(direction.up, new PlayerCollider(tiles, this, direction.up, width/2, 0));
         colliders.put(direction.down, new PlayerCollider(tiles, this, direction.down, width/2, height));
         colliders.put(direction.left, new PlayerCollider(tiles, this, direction.left, 0, height/2));
         colliders.put(direction.right, new PlayerCollider(tiles, this, direction.right, width, height/2));
-        hitbox = new Rectangle(owner.getX(), owner.getY(), width, height);
+        hitbox = new Rectangle(owner.getComponent(TransformComponent.class).getX(), 
+        owner.getComponent(TransformComponent.class).getY(), width, height);
     }
     @Override
-    public void update() {
+    public void update(float deltaTime) {
         if (hurt){
             takeDamage();
         }
@@ -78,7 +83,7 @@ public class PlayerPhysics extends Physics{
             brake();
         }
         if(canMove.get(dir) == true){
-            owner.moveX(xSpeed);
+            owner.getComponent(TransformComponent.class).moveX(xSpeed);
             for (PlayerCollider c : colliders.values()) {
                 c.getSensor().translate(xSpeed, 0);
             }
@@ -94,7 +99,7 @@ public class PlayerPhysics extends Physics{
     public void moveY(){  //questo metodo dev'essere richiamato nel gameloop, per simulare la gravità
     if(jumping > 0){
         if(canMove.get(direction.up)){
-            owner.moveY(ySpeed);
+            owner.getComponent(TransformComponent.class).moveY(ySpeed);
             jumping--;
         } else { //cade immediatamente quando colpisce il soffitto
             jumping = 0;
@@ -104,7 +109,7 @@ public class PlayerPhysics extends Physics{
         ySpeed = 5;
     } 
     if (canMove.get(direction.down)){ //se non ha l'impeto del salto né terreno sotto i piedi, cade
-        owner.moveY(ySpeed);
+        owner.getComponent(TransformComponent.class).moveY(ySpeed);
     }
 }
     public void jump(){
@@ -117,11 +122,14 @@ public class PlayerPhysics extends Physics{
 
     public void takeDamage(){
         playerAction = action.hurt;
+        GameEvent e;
         if (rings > 0){
             rings = 0;
+            e = new GameEvent(EventType.PLAYER_HIT, owner);
         } else {
-            owner.delete();
+            e = new GameEvent(EventType.GAME_OVER , owner);
         }
+        e.notify();
     }
     public void gotRing(){
         rings++;

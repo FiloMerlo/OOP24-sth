@@ -1,6 +1,7 @@
 package org.mainPackage.colliders;
 
-import org.mainPackage.components.PhysicsTypes.PlayerPhysics;
+import org.mainPackage.engine.components.TransformComponent;
+import org.mainPackage.engine.components.PhysicsTypes.PlayerPhysics;
 import org.mainPackage.game_parts.direction;
 import java.util.ArrayList;
 import java.awt.Rectangle;
@@ -11,7 +12,8 @@ public class PlayerCollider extends Collider {
     public PlayerCollider(ArrayList<Rectangle> list, PlayerPhysics s, direction d, int offX, int offY) {
         super(list, s);
         direction = d;
-        sensor = new Rectangle(physic.getOwner().getX() + offX, physic.getOwner().getY() + offY);
+        sensor = new Rectangle(physic.getOwner().getComponent(TransformComponent.class).getX() + offX, 
+        physic.getOwner().getComponent(TransformComponent.class).getY() + offY);
     }
 
     public void checkCollisions() {

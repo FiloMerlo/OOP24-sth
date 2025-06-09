@@ -1,4 +1,4 @@
-package sth.engine.events.api;
+package org.mainPackage.engine.events.api;
 
 public enum EventType {
     ENTITY_FALLING,

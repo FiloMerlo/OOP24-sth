@@ -1,13 +1,16 @@
-package org.mainPackage.components.PhysicsTypes;
+package org.mainPackage.engine.components.PhysicsTypes;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.awt.Rectangle;
 
+import org.mainPackage.engine.entities.api.*;
 import org.mainPackage.colliders.EnemyCollider;
-import org.mainPackage.components.Physics;
-import org.mainPackage.game_parts.*;
+import org.mainPackage.engine.components.PhysicsComponent;
+import org.mainPackage.engine.components.TransformComponent;
+import org.mainPackage.game_parts.action;
+import org.mainPackage.game_parts.direction;
 
-public class EnemyPhysics extends Physics{
+public class EnemyPhysics extends PhysicsComponent{
         private EnemyCollider collider;
         private Entity sonic;
         private int maxChaseDistance = 40, speed, spawnX;
@@ -17,7 +20,7 @@ public class EnemyPhysics extends Physics{
 
         public EnemyPhysics(int xS, Entity o, ArrayList<Rectangle>tList, Entity s, int sp){
         super(xS, 0, o, tList);
-        collider = new EnemyCollider(tiles, this, (PlayerPhysics)s.getComponent(ComponentType.PHYSICS));
+        collider = new EnemyCollider(tiles, this, (PlayerPhysics)s.getComponent(PhysicsComponent.class));
         sonic = s;
         this.speed = sp;
         canMove.put(direction.left, true);
@@ -25,7 +28,7 @@ public class EnemyPhysics extends Physics{
     }
 
     @Override
-    public void update(){
+    public void update(float deltaTime){
         collider.checkCollisions();
         if (speed > 0){
             chase();
@@ -33,22 +36,22 @@ public class EnemyPhysics extends Physics{
     }
 
     public void chase(){
-        if (sonic.getX() - owner.getX() <= maxChaseDistance) {
-            move(sonic.getX());
+        if (sonic.getComponent(TransformComponent.class).getX() - owner.getComponent(TransformComponent.class).getX() <= maxChaseDistance) {
+            move(sonic.getComponent(TransformComponent.class).getX());
         } else {
-            if (owner.getX() != spawnX){
+            if (owner.getComponent(TransformComponent.class).getX() != spawnX){
                 move(spawnX);
             }
         }
     }
     public void move(int goTo){
-        if (goTo > owner.getX() && canMove.get(direction.left)){
-            owner.moveX(speed);
+        if (goTo > owner.getComponent(TransformComponent.class).getX() && canMove.get(direction.left)){
+            owner.getComponent(TransformComponent.class).moveX(speed);
             enemyAction = action.walking;
             enemyDirection = direction.right;
         }
-        else if (goTo < owner.getX() && canMove.get(direction.right)){
-            owner.moveX(-speed);
+        else if (goTo < owner.getComponent(TransformComponent.class).getX() && canMove.get(direction.right)){
+            owner.getComponent(TransformComponent.class).moveX(-speed);
             enemyAction = action.walking;
             enemyDirection = direction.left;
         }

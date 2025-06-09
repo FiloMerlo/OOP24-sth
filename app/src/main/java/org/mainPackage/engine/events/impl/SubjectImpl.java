@@ -1,9 +1,9 @@
-package sth.engine.events.impl;
+package org.mainPackage.engine.events.impl;
 
 import java.util.List;
 
-import sth.engine.events.api.Observer;
-import sth.engine.events.api.Subject;
+import org.mainPackage.engine.events.api.Observer;
+import org.mainPackage.engine.events.api.Subject;
 
 import java.util.ArrayList;
 

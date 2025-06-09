@@ -8,6 +8,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import org.mainPackage.engine.entities.impl.EntityManagerImpl;
 public class GamePanel extends JPanel{
     private static final int tileWidth = 5;
     private static final int tileHeight = 5;
@@ -22,9 +23,9 @@ public class GamePanel extends JPanel{
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
     };
     private BufferedImage tileImage;
-    private EntityManager entityManager;
+    private EntityManagerImpl entityManager;
 
-    public GamePanel(EntityManager em) {
+    public GamePanel(EntityManagerImpl em) {
         setPreferredSize(new Dimension(nColumns * tileWidth, nRows * tileHeight));
         setFocusable(true);
         

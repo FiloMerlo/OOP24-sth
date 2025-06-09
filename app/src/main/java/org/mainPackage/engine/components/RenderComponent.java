@@ -1,4 +1,4 @@
-package sth.engine.components;
+package org.mainPackage.engine.components;
 
 import java.awt.Graphics;
 

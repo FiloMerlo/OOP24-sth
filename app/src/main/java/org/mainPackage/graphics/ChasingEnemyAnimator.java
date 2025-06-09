@@ -1,7 +1,7 @@
-package graphics;
+package org.mainPackage.graphics;
 
-import entities.ChasingEnemyState;
-import util.SpriteLoader;
+import org.mainPackage.game_parts.ChasingEnemyState;
+import org.mainPackage.util.SpriteLoader;
 
 public class ChasingEnemyAnimator extends GenericAnimator<ChasingEnemyState> {
 

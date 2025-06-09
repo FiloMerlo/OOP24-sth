@@ -34,7 +34,7 @@ java {
 
 application {
     // Define the main class for the application.
-    mainClass = "org.mainPackage.App"
+    mainClass = "org.mainPackage.engine.App"
 }
 
 tasks.named<Test>("test") {
