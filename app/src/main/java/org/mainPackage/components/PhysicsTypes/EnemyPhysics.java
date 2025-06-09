@@ -33,7 +33,7 @@ public class EnemyPhysics extends Physics{
     }
 
     public void chase(){
-        if (sonic.getX() - owner.getX() <= maxChaseDistance) {
+        if (Math.abs(sonic.getX() - owner.getX()) <= maxChaseDistance) {
             move(sonic.getX());
         } else {
             if (owner.getX() != spawnX){

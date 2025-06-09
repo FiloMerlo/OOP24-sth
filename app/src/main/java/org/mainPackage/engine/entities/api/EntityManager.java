@@ -1,4 +1,4 @@
-package sth.engine.entities.api;
+package org.mainPackage.engine.entities.api;
 
 import java.util.List;
 import java.awt.Graphics;

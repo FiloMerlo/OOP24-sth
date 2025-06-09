@@ -1,15 +1,15 @@
-package sth.engine.entities.impl;
+package org.mainPackage.engine.entities.impl;
 
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 
-import sth.engine.entities.api.Entity;
-import sth.engine.entities.api.EntityManager;
-import sth.engine.events.impl.GameEvent;
-import sth.engine.events.api.EventType;
-import sth.engine.events.impl.SubjectImpl;
-import sth.engine.components.*;
+import org.mainPackage.engine.entities.api.Entity;
+import org.mainPackage.engine.entities.api.EntityManager;
+import org.mainPackage.engine.events.impl.GameEvent;
+import org.mainPackage.engine.events.api.EventType;
+import org.mainPackage.engine.events.impl.SubjectImpl;
+import org.mainPackage.engine.components.*;
 
 public class EntityManagerImpl extends SubjectImpl implements EntityManager{
     private List<Entity> entities = new ArrayList<>();

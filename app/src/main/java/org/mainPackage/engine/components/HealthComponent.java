@@ -1,6 +1,6 @@
-package sth.engine.components;
+package  org.mainPackage.engine.components;
 
-import sth.engine.events.impl.SubjectImpl;
+import  org.mainPackage.engine.events.impl.SubjectImpl;
 
 public class HealthComponent extends SubjectImpl implements Component{
     private int health;

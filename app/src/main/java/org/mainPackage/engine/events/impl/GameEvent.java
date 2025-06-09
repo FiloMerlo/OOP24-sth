@@ -1,7 +1,7 @@
-package sth.engine.events.impl;
+package  org.mainPackage.engine.events.impl;
 
-import sth.engine.entities.api.Entity;
-import sth.engine.events.api.EventType;
+import  org.mainPackage.engine.entities.api.Entity;
+import  org.mainPackage.engine.events.api.EventType;
 
 public class GameEvent extends SubjectImpl {
     

@@ -1,6 +1,6 @@
-package sth.engine.events.api;
+package  org.mainPackage.engine.events.api;
 
-import sth.engine.events.impl.GameEvent;
+import  org.mainPackage.engine.events.impl.GameEvent;
 
 /*
  * 

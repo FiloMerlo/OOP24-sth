@@ -1,4 +1,4 @@
-package sth.engine.components;
+package  org.mainPackage.engine.components;
 
 
 public interface Component {

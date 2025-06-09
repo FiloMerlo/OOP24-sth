@@ -1,11 +1,11 @@
-package sth.engine.systems;
+package  org.mainPackage.engine.systems;
 
 
-import sth.engine.entities.impl.EntityImpl;
+import  org.mainPackage.engine.entities.impl.EntityImpl;
 
 import java.awt.geom.Point2D;
 
-import sth.engine.components.TransformComponent;
+import  org.mainPackage.engine.components.TransformComponent;
 
 public class CameraSystem {
 

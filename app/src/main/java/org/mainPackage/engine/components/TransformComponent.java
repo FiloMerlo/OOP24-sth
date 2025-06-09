@@ -1,4 +1,4 @@
-package sth.engine.components;
+package  org.mainPackage.engine.components;
 
 public class TransformComponent implements Component{
     private float x, y;

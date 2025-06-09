@@ -1,6 +1,6 @@
-package sth.engine.entities.api;
+package org.mainPackage.engine.entities.api;
 
-import sth.engine.components.Component;
+import org.mainPackage.engine.components.Component;
 
 public interface Entity {
     

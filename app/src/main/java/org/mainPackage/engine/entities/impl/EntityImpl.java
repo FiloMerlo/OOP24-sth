@@ -1,9 +1,9 @@
-package sth.engine.entities.impl;
+package org.mainPackage.engine.entities.impl;
 
 import java.util.HashMap;
 
-import sth.engine.components.Component;
-import sth.engine.entities.api.Entity;
+import org.mainPackage.engine.components.Component;
+import org.mainPackage.engine.entities.api.Entity;
 
 public class EntityImpl implements Entity {
     private int ID;

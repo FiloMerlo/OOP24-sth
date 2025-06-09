@@ -1,8 +1,8 @@
-package sth.engine.events.api;
+package org.mainPackage.engine.events.api;
 
 import java.util.List;
 
-import sth.engine.events.impl.GameEvent;
+import  org.mainPackage.engine.events.impl.GameEvent;
 
 public interface EventQueue {
 
