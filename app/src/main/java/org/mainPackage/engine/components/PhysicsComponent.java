@@ -31,6 +31,7 @@ public abstract class PhysicsComponent implements Component{
         GameEvent e = new GameEvent(EventType.ENEMY_DIED, owner);
         e.notify();
     }
+    
     public void update(float deltaTime){
         hitbox.setLocation(owner.getComponent(TransformComponent.class).getX(), owner.getComponent(TransformComponent.class).getY());
     }

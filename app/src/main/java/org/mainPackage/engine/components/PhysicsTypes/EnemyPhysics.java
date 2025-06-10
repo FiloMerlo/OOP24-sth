@@ -18,33 +18,35 @@ public class EnemyPhysics extends PhysicsComponent{
         private direction enemyDirection = direction.left;
         private HashMap<direction, Boolean> canMove = new HashMap<>();
 
-        public EnemyPhysics(int xS, Entity o, ArrayList<Rectangle>tList, Entity s, int sp){
-        super(xS, 0, o, tList);
+        public EnemyPhysics(int xS, Entity o, ArrayList<Rectangle>tList, Entity s){
+        super(xS, 3, o, tList);
         collider = new EnemyCollider(tiles, this, (PlayerPhysics)s.getComponent(PhysicsComponent.class));
         sonic = s;
-        this.speed = sp;
         canMove.put(direction.left, true);
         canMove.put(direction.right, true);
     }
 
     @Override
     public void update(float deltaTime){
+        super.update(deltaTime);
         collider.checkCollisions();
-        if (speed > 0){
+        if (xSpeed > 0){
             chase();
         }
     }
 
     public void chase(){
         if (Math.abs(sonic.getComponent(TransformComponent.class).getX() - owner.getComponent(TransformComponent.class).getX()) <= maxChaseDistance) {
-            move(sonic.getComponent(TransformComponent.class).getX());
+            moveX(sonic.getComponent(TransformComponent.class).getX());
         } else {
             if (owner.getComponent(TransformComponent.class).getX() != spawnX){
-                move(spawnX);
+                moveX(spawnX);
             }
         }
+        moveY();
     }
-    public void move(int goTo){
+
+    public void moveX(int goTo){
         if (goTo > owner.getComponent(TransformComponent.class).getX() && canMove.get(direction.left)){
             owner.getComponent(TransformComponent.class).moveX(speed);
             enemyAction = action.walking;
@@ -56,6 +58,12 @@ public class EnemyPhysics extends PhysicsComponent{
             enemyDirection = direction.left;
         }
     }
+    private void moveY() {
+        if (canMove.get(direction.down)){
+            owner.getComponent(TransformComponent.class).moveY(ySpeed);
+        }
+    }
+    
     public action getAction(){ return enemyAction; }
     public direction getDirection(){ return enemyDirection; }
     public void setMovement(direction dir, boolean bool){ canMove.replace(dir, bool); }

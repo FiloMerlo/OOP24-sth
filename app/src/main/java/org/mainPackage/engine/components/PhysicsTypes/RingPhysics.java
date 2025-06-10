@@ -22,7 +22,8 @@ public class RingPhysics extends PhysicsComponent {
         spawn = new Point(xS, yS);
     }
 
-    public void update(){
+    public void update(float deltaTime){
+        super.update(deltaTime);
         collider.checkCollisions();
         if (xSpeed > 0){
             if (owner.getComponent(TransformComponent.class).getX() - spawn.getX() < maxDistance && owner.getComponent(TransformComponent.class).getX() - spawn.getX() > -maxDistance){

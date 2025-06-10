@@ -33,8 +33,8 @@ public class EnemyCollider extends Collider{
     public void playerCollision(){
         if(sonicPh.getAction() == action.jumping){
             physic.die();
-        } else if (sonicPh.isHurt() == false){
-            sonicPh.takeDamage();
+        } else {
+            sonicPh.getHurt();
         }
     }
 }

@@ -21,7 +21,7 @@ public class PlayerPhysics extends PhysicsComponent{
     private HashMap<direction, Boolean> canMove = new HashMap<>();
     private ArrayList<Rectangle> tiles = new ArrayList<>();
     private action playerAction = action.idle;
-    private boolean hurt = false;
+    private int iFrames = 0;
 
     public PlayerPhysics(Entity o, ArrayList<Rectangle> tList){
         super(1, 5, o, tList);
@@ -43,9 +43,14 @@ public class PlayerPhysics extends PhysicsComponent{
     }
     @Override
     public void update(float deltaTime) {
-        if (hurt){
+        super.update(deltaTime);
+        if (playerAction == action.hurt){
             takeDamage();
         }
+        if (iFrames > 0) {
+            iFrames--;
+        }
+
         for (PlayerCollider c : colliders.values()) {
             c.checkCollisions();
         }
@@ -79,16 +84,14 @@ public class PlayerPhysics extends PhysicsComponent{
     }
     public void moveX(direction dir){
         if (dir != playerDir){
-            //Sonic fa inversione, questo gli comporta di perdere la velocità accomulata
+            /*Sonic reverse his direction, losing the speed accumulated*/
             playerDir = dir;
             brake();
         }
         if(canMove.get(dir) == true){
             owner.getComponent(TransformComponent.class).moveX(xSpeed);
-            for (PlayerCollider c : colliders.values()) {
-                c.getSensor().translate(xSpeed, 0);
-            }
-            //se sonic si muove a terra, guadagna velocità orizzontale
+            moveColliders(xSpeed, 0);
+            /*If sonic moves on the ground, he gains speed*/
             if (xSpeed < maxSpeed && canMove.get(direction.down) == false){
                 xSpeed += speedMod;
             }
@@ -100,17 +103,16 @@ public class PlayerPhysics extends PhysicsComponent{
     public void moveY(){  /*This method won't be requested by PlayerInputs. It simulates gravity*/
     if(jumping > 0){
         if(canMove.get(direction.up)){
-            owner.getComponent(TransformComponent.class).moveY(ySpeed);
             jumping--;
         } else { /*hitting the ceiling causes him to start falling */
             jumping = 0;
         }
-    } else {
+    } else if (canMove.get(direction.down)){ 
         ySpeed = 5;
-    } 
-    if (canMove.get(direction.down)){ //se non ha l'impeto del salto né terreno sotto i piedi, cade
-        owner.getComponent(TransformComponent.class).moveY(ySpeed);
     }
+    else { ySpeed = 0; }
+    owner.getComponent(TransformComponent.class).moveY(ySpeed);
+    moveColliders(0, ySpeed);
 }
     public void jump(){
         if (canMove.get(direction.down) == false){
@@ -127,8 +129,9 @@ public class PlayerPhysics extends PhysicsComponent{
     }
 
     public void takeDamage(){
-        playerAction = action.hurt;
+        iFrames = 100;
         GameEvent e;
+        brake();
         if (rings > 0){
             rings = 0;
             e = new GameEvent(EventType.PLAYER_HIT, owner);
@@ -145,7 +148,11 @@ public class PlayerPhysics extends PhysicsComponent{
         xSpeed = 1 * playerDir.getValue();
     }
 
-    public boolean isHurt() { return hurt; }
+    public void getHurt() {  
+        if (iFrame = 0) {
+            playerAction = action.hurt;
+        }
+    }
     public Rectangle getHitbox(){ return hitbox; }
     public action getAction() { return playerAction; }
     public direction getDirection() { return playerDir; }
