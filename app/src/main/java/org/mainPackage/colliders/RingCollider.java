@@ -2,8 +2,8 @@ package org.mainPackage.colliders;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
-import org.mainPackage.engine.components.PhysicsTypes.PlayerPhysics;
 import org.mainPackage.engine.components.PhysicsTypes.RingPhysics;
+import org.mainPackage.engine.components.PhysicsTypes.PlayerPhysics;
 
 public class RingCollider extends Collider{
     private PlayerPhysics sonicPh;
@@ -19,7 +19,7 @@ public class RingCollider extends Collider{
         } else {
             for (Rectangle tile : tiles) {
                 if (sensor.intersects(tile)) {
-                    ((RingPhysics)physic).bounce();//bounce
+                    ((RingPhysics)physic).bounce(tile);//bounce
                 }
             }
         }

@@ -1,4 +1,5 @@
 package org.mainPackage.engine.components.PhysicsTypes;
+import java.awt.Point;
 
 import java.awt.Rectangle;
 import java.util.ArrayList;
@@ -12,21 +13,39 @@ import org.mainPackage.game_parts.direction;
 
 public class RingPhysics extends PhysicsComponent {
     private RingCollider collider;
-    public RingPhysics(Entity o, ArrayList<Rectangle> tList, PlayerPhysics pp){ 
+    private int maxDistance = 10;
+    private Point spawn;
+
+    public RingPhysics(Entity o, ArrayList<Rectangle> tList, PlayerPhysics pp, int xS, int yS){
         super(0, 0, o, tList);
         collider = new RingCollider(tList, this, pp);
+        spawn = new Point(xS, yS);
     }
 
     public void update(){
         collider.checkCollisions();
+        if (xSpeed > 0){
+            if (owner.getComponent(TransformComponent.class).getX() - spawn.getX() < maxDistance && owner.getComponent(TransformComponent.class).getX() - spawn.getX() > -maxDistance){
+                owner.getComponent(TransformComponent.class).moveX(xSpeed);
+            }
+            if (owner.getComponent(TransformComponent.class).getY() - spawn.getY() < maxDistance && owner.getComponent(TransformComponent.class).getY() - spawn.getY() > -maxDistance){
+                owner.getComponent(TransformComponent.class).moveY(xSpeed);
+            }        
+            collider.getSensor().translate(xSpeed, ySpeed);
+        }
         owner.getComponent(TransformComponent.class).moveX(xSpeed);
         owner.getComponent(TransformComponent.class).moveY(ySpeed);
         collider.getSensor().translate(xSpeed, ySpeed);
     }
 
-    public void bounce(){
-        xSpeed = xSpeed * (-1);
-        ySpeed = ySpeed * (-1);
+    public void bounce(Rectangle tileMet){
+        if (tileMet.getY() >= owner.getComponent(TransformComponent.class).getY() + owner.getComponent(TransformComponent.class).getHeight() ||
+            tileMet.getY() <= owner.getComponent(TransformComponent.class).getY()){
+            ySpeed = -ySpeed;
+        }
+        else {
+            xSpeed = -xSpeed;
+        }
     }
 
     public void spredOut(){

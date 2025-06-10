@@ -7,18 +7,21 @@ public class SonicAnimator extends GenericAnimator<action> {
 
     public SonicAnimator() {
         try {
-            SpriteLoader loader = new SpriteLoader("/PC Computer - Sonic Mania - Sonic the Hedgehog copy.png");
+            SpriteLoader loader = new SpriteLoader("/1sonic.png");
 
-            addAnimation(action.idle, loader.getFramesByPixels(0, 0, 4, 48, 48), 15);
-            addAnimation(action.walking, loader.getFramesByPixels(0, 48, 6, 48, 48), 8);
-            addAnimation(action.running, loader.getFramesByPixels(0, 96, 8, 48, 48), 6);
-            addAnimation(action.jumping, loader.getFramesByPixels(0, 144, 4, 48, 48), 4);
-            addAnimation(action.falling, loader.getFramesByPixels(192, 144, 2, 48, 48), 10);
-            addAnimation(action.skidding, loader.getFramesByPixels(0, 192, 2, 48, 48), 12);
-            addAnimation(action.dashing, loader.getFramesByPixels(288, 96, 3, 48, 48), 3);
-            addAnimation(action.hurt, loader.getFramesByPixels(0, 336, 4, 48, 48), 20);
+            addAnimation(action.idle, loader.getFramesByPixels(0, 0, 9, 54, 54), 2);
+            addAnimation(action.walking, loader.getFramesByPixels(0, 54, 9, 54, 54), 2);
+            addAnimation(action.running, loader.getFramesByPixels(0, 54*2, 8, 54, 54), 6);
+            addAnimation(action.dashing, loader.getFramesByPixels(0, 54*3, 9, 54, 54), 4);
+            addAnimation(action.jumping, loader.getFramesByPixels(7*54, 54*4, 2, 54, 54), 3);
+            addAnimation(action.hurt, loader.getFramesByPixels(0, 54*5, 5, 54, 54), 2);
+            addAnimation(action.skidding, loader.getFramesByPixels(54*8, 54*2, 1, 54, 54), 12);
+            
+            addAnimation(action.falling, loader.getFramesByPixels(0, 54*6, 4, 54, 54), 20);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+     
 }

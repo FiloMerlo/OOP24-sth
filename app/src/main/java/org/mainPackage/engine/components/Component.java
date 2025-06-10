@@ -1,6 +1,5 @@
 package org.mainPackage.engine.components;
 
-
 public interface Component {
-    void update(float deltaTime);
+    public void update(float deltaTime); /*Method launched at each iteration of the gameLoop*/
 }

@@ -5,13 +5,16 @@ import org.mainPackage.util.SpriteLoader;
 
 public class StaticEnemyAnimator extends GenericAnimator<StaticEnemyState> {
 
+   
     public StaticEnemyAnimator() {
         try {
-            SpriteLoader loader = new SpriteLoader("Custom Edited - Sonic the Hedgehog Customs - Objects.png");
+            SpriteLoader loader = new SpriteLoader("/obstacle.png");
 
-            addAnimation(StaticEnemyState.IDLE, loader.getFramesByPixels(0, 0, 6, 32, 32), 12);
+            addAnimation(StaticEnemyState.IDLE, loader.getFramesByPixels(0, 0, 1, 32, 32), 12);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+  
 }

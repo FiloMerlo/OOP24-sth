@@ -1,4 +1,4 @@
-package org.mainPackage.engine.game_parts;
+package org.mainPackage.game_parts;
 public enum direction{
     left(-1), 
     up(1), 

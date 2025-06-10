@@ -5,7 +5,7 @@ import org.mainPackage.util.SpriteLoader;
 
 public class ChasingEnemyAnimator extends GenericAnimator<ChasingEnemyState> {
 
-    public ChasingEnemyAnimator() {
+   public ChasingEnemyAnimator() {
         try {
             SpriteLoader loader = new SpriteLoader("goblin.png");
 
@@ -15,4 +15,5 @@ public class ChasingEnemyAnimator extends GenericAnimator<ChasingEnemyState> {
             e.printStackTrace();
         }
     }
+   
 }

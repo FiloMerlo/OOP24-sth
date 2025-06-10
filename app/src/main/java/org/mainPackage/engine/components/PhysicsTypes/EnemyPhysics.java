@@ -36,7 +36,7 @@ public class EnemyPhysics extends PhysicsComponent{
     }
 
     public void chase(){
-        if (sonic.getComponent(TransformComponent.class).getX() - owner.getComponent(TransformComponent.class).getX() <= maxChaseDistance) {
+        if (Math.abs(sonic.getComponent(TransformComponent.class).getX() - owner.getComponent(TransformComponent.class).getX()) <= maxChaseDistance) {
             move(sonic.getComponent(TransformComponent.class).getX());
         } else {
             if (owner.getComponent(TransformComponent.class).getX() != spawnX){

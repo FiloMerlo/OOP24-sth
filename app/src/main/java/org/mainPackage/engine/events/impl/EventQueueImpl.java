@@ -1,4 +1,4 @@
-package org.mainPackage.engine.events.impl;
+package  org.mainPackage.engine.events.impl;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -23,8 +23,7 @@ public class EventQueueImpl implements EventQueue {
 
     @Override
     public void PoolProcess() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'PoolProcess'");
+        
     }
 
 }
