@@ -2,8 +2,8 @@ package org.mainPackage.colliders;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
-import org.mainPackage.components.PhysicsTypes.RingPhysics;
-import org.mainPackage.components.PhysicsTypes.PlayerPhysics;
+import org.mainPackage.engine.components.PhysicsTypes.RingPhysics;
+import org.mainPackage.engine.components.PhysicsTypes.PlayerPhysics;
 
 public class RingCollider extends Collider{
     private PlayerPhysics sonicPh;
