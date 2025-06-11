@@ -3,6 +3,8 @@ package org.mainPackage.core;
 
 import org.mainPackage.state_management.GameStateManager;
 
+import org.mainPackage.util.SizeView;
+
 public class Game {
 
     private GameWindow gameWindow;
@@ -10,11 +12,17 @@ public class Game {
     private GameLoop gameLoop;
     
     private GameStateManager gameStateManager;
+    private SizeView sizeView;
 
     public Game() {
-        gameStateManager = new GameStateManager();
-        gamePanel = new GamePanel(gameStateManager);
+        
+        gamePanel = new GamePanel();
+        this.sizeView = gamePanel;
+        gameStateManager = new GameStateManager(sizeView, this ::stop); /* game panel vuole state manager */
+
+        gamePanel.setGameStateManager(gameStateManager);
         gameWindow = new GameWindow("Sonic Game", gamePanel, this);
+        
         gameLoop = new GameLoop(gameStateManager,gamePanel);
         //gameStateManager.setGameLoop(gameLoop); /* funzionalità inule */
     }

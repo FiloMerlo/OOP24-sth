@@ -4,15 +4,18 @@ import java.awt.*;
 
 import java.awt.event.KeyEvent;
 
+import org.mainPackage.util.SizeView;
 import org.mainPackage.renderer.MenuRenderer;
+
 
 
 
 public class MenuState extends GameState {
     private MenuRenderer menuRenderer;
    
-    public MenuState(GameStateManager gameStateManager) {
-        super(gameStateManager);
+   
+    public MenuState(GameStateManager gameStateManager, SizeView sizeView) {
+        super(gameStateManager,sizeView);
         System.out.println("MenuState inizializzato.");
         menuRenderer = new MenuRenderer();
 
@@ -20,19 +23,18 @@ public class MenuState extends GameState {
 
     @Override
     public void update() {
-        menuRenderer.updateAnimation(System.currentTimeMillis(), System.nanoTime());
-
-        // Logica di aggiornamento per il menu
+       menuRenderer.updateAnimation();
     }
 
     @Override
     public void draw(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-        int panelWidth = g.getClipBounds().width;  
-        int panelHeight = g.getClipBounds().height;
+        int panelWidth = sizeView.getSizeWidth(); 
+        int panelHeight = sizeView.getSizeHeight();
         menuRenderer.render(g2d, panelWidth, panelHeight); 
     }
 
+    
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ENTER) 

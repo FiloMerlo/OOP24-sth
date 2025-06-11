@@ -74,13 +74,13 @@ public class GameLoop implements Runnable {
             deltaFPS += (currentTime - previousTime) / timeForFrame;
             previousTime = currentTime;
 
-            //if (!paused){
-                while (deltaUPS >= 1) {
-                    update(); /* questo */
+            
+            while (deltaUPS >= 1) {
+                    update(); 
                     updates++;
                     deltaUPS--;
-                }
-            //}
+            }
+            
 
             if (deltaFPS >= 1) {
                 gamePanel.repaint(); //triggera il paint Component 
