@@ -11,7 +11,6 @@ import org.mainPackage.game_parts.action;
 import org.mainPackage.game_parts.direction;
 
 public class EnemyPhysics extends PhysicsComponent{
-        private EnemyCollider collider;
         private Entity sonic;
         private int maxChaseDistance = 40, speed, spawnX;
         private action enemyAction = action.idle;
@@ -24,6 +23,8 @@ public class EnemyPhysics extends PhysicsComponent{
         sonic = s;
         canMove.put(direction.left, true);
         canMove.put(direction.right, true);
+        canMove.put(direction.down, true);
+        canMove.put(direction.up, true);
     }
 
     @Override

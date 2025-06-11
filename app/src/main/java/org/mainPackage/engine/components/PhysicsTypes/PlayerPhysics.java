@@ -17,7 +17,6 @@ public class PlayerPhysics extends PhysicsComponent{
     private direction playerDir = direction.right;
     private int speedMod = 1, maxSpeed = 15, jSpeed = -5;
     private int rings = 0, jumping = 0;
-    private HashMap<direction, PlayerCollider> colliders = new HashMap<>();
     private HashMap<direction, Boolean> canMove = new HashMap<>();
     private ArrayList<Rectangle> tiles = new ArrayList<>();
     private action playerAction = action.idle;
@@ -29,18 +28,9 @@ public class PlayerPhysics extends PhysicsComponent{
         canMove.put(direction.up, true);
         canMove.put(direction.right, true);
         canMove.put(direction.down, true);
-        initializeColliders(tiles);
+        collider = new PlayerCollider(tList, this);
     }
-    public void initializeColliders(ArrayList<Rectangle> tiles){ 
-        int width = owner.getComponent(TransformComponent.class).getWidth(), 
-        height = owner.getComponent(TransformComponent.class).getHeight();
-        colliders.put(direction.up, new PlayerCollider(tiles, this, direction.up, width/2, 0));
-        colliders.put(direction.down, new PlayerCollider(tiles, this, direction.down, width/2, height));
-        colliders.put(direction.left, new PlayerCollider(tiles, this, direction.left, 0, height/2));
-        colliders.put(direction.right, new PlayerCollider(tiles, this, direction.right, width, height/2));
-        hitbox = new Rectangle(owner.getComponent(TransformComponent.class).getX(), 
-        owner.getComponent(TransformComponent.class).getY(), width, height);
-    }
+
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
@@ -51,9 +41,7 @@ public class PlayerPhysics extends PhysicsComponent{
             iFrames--;
         }
 
-        for (PlayerCollider c : colliders.values()) {
-            c.checkCollisions();
-        }
+        collider.checkCollisions();
         determineAction();
         moveY();
     }

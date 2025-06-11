@@ -4,6 +4,8 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 import org.mainPackage.game_parts.action;
 import org.mainPackage.game_parts.direction;
+import org.mainPackage.colliders.Collider;
+import org.mainPackage.colliders.EnemyCollider;
 import org.mainPackage.engine.entities.api.Entity;
 import org.mainPackage.engine.events.api.EventType;
 import org.mainPackage.engine.events.impl.GameEvent;
@@ -14,6 +16,7 @@ public abstract class PhysicsComponent implements Component{
     protected Rectangle hitbox;
     protected Entity owner;
     protected ArrayList<Rectangle> tiles;
+    protected Collider collider;
     public PhysicsComponent(int xS, int yS, Entity o, ArrayList<Rectangle>tList){
         xSpeed = xS;
         ySpeed = yS;

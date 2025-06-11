@@ -6,8 +6,9 @@ import java.util.ArrayList;
 import org.mainPackage.engine.components.PhysicsTypes.EnemyPhysics;
 import org.mainPackage.engine.components.PhysicsTypes.PlayerPhysics;
 import org.mainPackage.game_parts.action;
+import org.mainPackage.game_parts.direction;
 
-public class EnemyCollider extends Collider{
+public class EnemyCollider extends PlayerCollider{
     private PlayerPhysics sonicPh;
     public EnemyCollider(ArrayList<Rectangle> list, EnemyPhysics phy, PlayerPhysics s){
         super(list, phy);
@@ -17,19 +18,14 @@ public class EnemyCollider extends Collider{
 
     @Override
     public void checkCollisions(){
+        /*check collisions with surroundings*/
+        super.checkCollisions();
         /*check collisions with the player*/
         if (sensor.intersects(sonicPh.getHitbox())){
             playerCollision();
         }
-        else {
-            /*check collisions with the surroundings*/
-            for (Rectangle tile : tiles) {
-                if (sensor.intersects(tile)){
-                    physic.setMovement(physic.getDirection(), false);
-                }
-            }
-        }
     }
+    
     public void playerCollision(){
         if(sonicPh.getAction() == action.jumping){
             physic.die();
