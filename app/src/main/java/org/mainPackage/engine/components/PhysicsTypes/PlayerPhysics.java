@@ -1,6 +1,5 @@
 package org.mainPackage.engine.components.PhysicsTypes;
 
-import org.mainPackage.colliders.Collider;
 import org.mainPackage.colliders.PlayerCollider;
 import org.mainPackage.engine.components.PhysicsComponent;
 import org.mainPackage.engine.components.TransformComponent;
@@ -18,7 +17,6 @@ public class PlayerPhysics extends PhysicsComponent{
     private int speedMod = 1, maxSpeed = 15, jSpeed = -5;
     private int rings = 0, jumping = 0;
     private HashMap<direction, Boolean> canMove = new HashMap<>();
-    private ArrayList<Rectangle> tiles = new ArrayList<>();
     private action playerAction = action.idle;
     private int iFrames = 0;
 
@@ -49,9 +47,7 @@ public class PlayerPhysics extends PhysicsComponent{
     public void setDirection(direction d){
         playerDir = d;
     }
-    public void setMovement(direction dir, boolean bool){
-        canMove.replace(dir, bool);
-    }
+
     public void determineAction(){
         if (playerAction != action.jumping){
             if (canMove.get(direction.down)){
@@ -78,7 +74,7 @@ public class PlayerPhysics extends PhysicsComponent{
         }
         if(canMove.get(dir) == true){
             owner.getComponent(TransformComponent.class).moveX(xSpeed);
-            moveColliders(xSpeed, 0);
+            collider.getSensor().translate(xSpeed, 0);
             /*If sonic moves on the ground, he gains speed*/
             if (xSpeed < maxSpeed && canMove.get(direction.down) == false){
                 xSpeed += speedMod;
@@ -100,19 +96,13 @@ public class PlayerPhysics extends PhysicsComponent{
     }
     else { ySpeed = 0; }
     owner.getComponent(TransformComponent.class).moveY(ySpeed);
-    moveColliders(0, ySpeed);
+    collider.getSensor().translate(0, ySpeed);
 }
     public void jump(){
         if (canMove.get(direction.down) == false){
             jumping = 5;
             ySpeed = jSpeed;
             playerAction = action.jumping;
-        }
-    }
-
-    public void moveColliders(int x, int y){
-        for (PlayerCollider c : colliders.values()) {
-            c.getSensor().translate(x, y);
         }
     }
 
@@ -137,11 +127,15 @@ public class PlayerPhysics extends PhysicsComponent{
     }
 
     public void getHurt() {  
-        if (iFrame = 0) {
+        if (iFrames == 0) {
             playerAction = action.hurt;
         }
     }
     public Rectangle getHitbox(){ return hitbox; }
     public action getAction() { return playerAction; }
     public direction getDirection() { return playerDir; }
+    public void setMovement(direction dir, boolean bool){ 
+        canMove.replace(dir, bool); 
+    }
+
 }

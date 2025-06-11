@@ -8,7 +8,6 @@ import org.mainPackage.colliders.RingCollider;
 import org.mainPackage.engine.components.PhysicsComponent;
 import org.mainPackage.engine.components.TransformComponent;
 import org.mainPackage.engine.entities.api.Entity;
-import org.mainPackage.game_parts.action;
 import org.mainPackage.game_parts.direction;
 
 public class RingPhysics extends PhysicsComponent {
@@ -53,6 +52,6 @@ public class RingPhysics extends PhysicsComponent {
         ySpeed = (int)(Math.random() * 4 - 0);
     }
 
-    public action getAction(){ return null; }
-    public direction getDirection(){ return null; }
+    @Override
+    public void setMovement(direction dir, boolean b) {}
 }

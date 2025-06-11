@@ -2,13 +2,11 @@ package org.mainPackage.engine.components;
 
 import java.awt.Rectangle;
 import java.util.ArrayList;
-import org.mainPackage.game_parts.action;
-import org.mainPackage.game_parts.direction;
 import org.mainPackage.colliders.Collider;
-import org.mainPackage.colliders.EnemyCollider;
 import org.mainPackage.engine.entities.api.Entity;
 import org.mainPackage.engine.events.api.EventType;
 import org.mainPackage.engine.events.impl.GameEvent;
+import org.mainPackage.game_parts.direction;
 
 
 public abstract class PhysicsComponent implements Component{
@@ -38,8 +36,5 @@ public abstract class PhysicsComponent implements Component{
     public void update(float deltaTime){
         hitbox.setLocation(owner.getComponent(TransformComponent.class).getX(), owner.getComponent(TransformComponent.class).getY());
     }
-
-    public abstract direction getDirection();
-    public abstract action getAction();
-    public void setMovement(direction dir, boolean bool){}
+    public abstract void setMovement(direction dir, boolean b);
 }

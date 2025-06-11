@@ -1,6 +1,5 @@
 package org.mainPackage.colliders;
 
-import org.mainPackage.engine.components.TransformComponent;
 import org.mainPackage.engine.components.PhysicsTypes.EnemyPhysics;
 import org.mainPackage.engine.components.PhysicsTypes.PlayerPhysics;
 import org.mainPackage.game_parts.direction;
@@ -8,7 +7,6 @@ import java.util.ArrayList;
 import java.awt.Rectangle;
 
 public class PlayerCollider extends Collider {
-    private boolean colliding = false;
     public PlayerCollider(ArrayList<Rectangle> list, PlayerPhysics s) {
         super(list, s);
     }
