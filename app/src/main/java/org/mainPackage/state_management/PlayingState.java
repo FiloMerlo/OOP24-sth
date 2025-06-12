@@ -3,6 +3,8 @@ package org.mainPackage.state_management;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
+import org.mainPackage.util.SizeView;
+
 /* Character classe locale per debug
  * il render dello stato è delegato al PlayingRenderer
  */
@@ -15,8 +17,8 @@ public class PlayingState extends GameState {
     
     
     
-    public PlayingState(GameStateManager gameStateManager) {
-        super(gameStateManager);
+    public PlayingState(GameStateManager gameStateManager, SizeView sizeView) {
+        super(gameStateManager, sizeView);
         System.out.println("PlayingState inizializzato.");
         character = new Character('a');
     }
