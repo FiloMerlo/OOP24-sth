@@ -3,12 +3,16 @@
  */
 package org.mainPackage;
 
+import org.mainPackage.core.Game;
+
 public class App {
     public String getGreeting() {
         return "fffffuck it!";
     }
 
     public static void main(String[] args) {
+        Game game = new Game();
+        game.start();
         System.out.println(new App().getGreeting());
     }
 }
