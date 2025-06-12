@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="org.mainPackage.AppTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-06-12T13:52:07.565Z" hostname="MacBook-Pro-di-Francesco.local" time="0.0">
+<testsuite name="org.mainPackage.AppTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-06-12T14:32:01.582Z" hostname="MacBook-Pro-di-Francesco.local" time="0.001">
   <properties/>
-  <testcase name="appHasAGreeting()" classname="org.mainPackage.AppTest" time="0.0"/>
+  <testcase name="appHasAGreeting()" classname="org.mainPackage.AppTest" time="0.001"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
