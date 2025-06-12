@@ -4,8 +4,6 @@ import org.mainPackage.engine.components.Component;
 
 public interface Entity {
     
-    int getID();
-
     void update(float deltaTime);
 
     Boolean hasComponent(Class<? extends Component> componentClass);

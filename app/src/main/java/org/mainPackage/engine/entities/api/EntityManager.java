@@ -16,9 +16,7 @@ public interface EntityManager {
     public void updateEntities(float deltaTime);
     public void renderEntities(Graphics g);
     public List<Entity> getEntities();
-    public Entity getEntityByID(int ID);
     
-    public void removeEntityByID(int ID);
     public void removeEntity(Entity entity);
 
     // Method to kill all entities

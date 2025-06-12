@@ -11,13 +11,13 @@ import org.mainPackage.engine.events.impl.*;
 
 public class EntityManagerImpl extends SubjectImpl implements EntityManager{
     private List<Entity> entities = new ArrayList<>();
-    private final static EntityManager instance = new EntityManagerImpl();
+    private final static EntityManagerImpl instance = new EntityManagerImpl();
 
     private EntityManagerImpl(){
 
     }
 
-    public static EntityManager getInstance(){
+    public static EntityManagerImpl getInstance(){
         return instance;
     }
 
@@ -56,17 +56,6 @@ public class EntityManagerImpl extends SubjectImpl implements EntityManager{
     @Override
     public List<Entity> getEntities() {
         return entities;
-    }
-
-    @Override
-    public Entity getEntityByID(int ID) {
-        return (Entity)entities.stream().filter(e -> e.getID() == ID);
-    }
-    
-    @Override
-    public void removeEntityByID(int ID) {
-
-        entities.remove((Entity)entities.stream().filter(e -> e.getID() == ID));
     }
 
     @Override
