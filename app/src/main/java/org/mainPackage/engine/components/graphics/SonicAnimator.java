@@ -1,4 +1,4 @@
-package org.mainPackage.graphics;
+package org.mainPackage.engine.components.graphics;
 
 import org.mainPackage.game_parts.action;
 import org.mainPackage.util.SpriteLoader;

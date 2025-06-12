@@ -2,9 +2,9 @@ package org.mainPackage.game_parts;
 
 import javax.swing.JPanel;
 import org.mainPackage.engine.components.TransformComponent;
+import org.mainPackage.engine.components.graphics.GenericAnimator;
 import org.mainPackage.engine.entities.api.Entity;
 import org.mainPackage.engine.entities.api.EntityManager;
-import org.mainPackage.graphics.GenericAnimator;
 
 import java.util.ArrayList;
 import java.awt.Color;

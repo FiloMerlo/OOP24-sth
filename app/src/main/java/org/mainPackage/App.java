@@ -6,8 +6,8 @@ package org.mainPackage;
 import org.mainPackage.core.Game;
 import org.mainPackage.engine.components.*;
 import org.mainPackage.engine.components.PhysicsTypes.*;
+import org.mainPackage.engine.components.graphics.*;
 import org.mainPackage.engine.entities.impl.*;
-import org.mainPackage.graphics.*;
 
 import java.awt.Rectangle;
 import java.util.ArrayList;
@@ -40,8 +40,6 @@ public class App {
             for (int c = 0; c < 10; c++) {
                 int xPos = c * tileSize, yPos = r * tileSize;
                 switch (levelGrid[r][c]){
-                    case 0:
-                        break;
                     case 1:
                         Rectangle tile = new Rectangle(xPos, yPos, tileSize, tileSize);
                         tileList.add(tile);
@@ -58,9 +56,11 @@ public class App {
                         chasingEnemy.addComponent(new EnemyPhysics(5, chasingEnemy, tileList, sonic));
                         chasingEnemy.addComponent(new TransformComponent(xPos, yPos + tileSize - enemySize, enemySize, enemySize));
                         chasingEnemy.addComponent(new ChasingEnemyAnimator());
-                        entityManager.addEntity(chasingEnemy);                        break;
+                        entityManager.addEntity(chasingEnemy);                        
+                        break;
                     case 4:
                         sonic.addComponent(new TransformComponent(xPos, yPos + tileSize - sonicSize, sonicSize, sonicSize));
+                        break;
                     case 5:
                         EntityImpl ring = new EntityImpl();
                         ring.addComponent(new RingPhysics(ring, tileList, (PlayerPhysics)sonic.getComponent(PhysicsComponent.class)));
@@ -69,7 +69,9 @@ public class App {
                         entityManager.addEntity(ring); 
                         break;
                     case 6:
-                        /*TODO add the goal */
+                        EntityImpl goal = new EntityImpl();
+                        goal.addComponent(new TransformComponent(xPos, yPos, 1, 3200));
+                        goal.addComponent(new GoalComponent(goal));
                         break;
                 }
             }

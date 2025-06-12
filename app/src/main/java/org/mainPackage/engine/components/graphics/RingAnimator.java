@@ -1,4 +1,4 @@
-package org.mainPackage.graphics;
+package org.mainPackage.engine.components.graphics;
 
 import org.mainPackage.util.SpriteLoader; 
  
