@@ -18,7 +18,7 @@ public class EnemyPhysics extends PhysicsComponent{
         private HashMap<direction, Boolean> canMove = new HashMap<>();
 
         public EnemyPhysics(int xS, Entity o, ArrayList<Rectangle>tList, Entity s){
-        super(xS, 3, o, tList);
+        super(xS, 3, o, tList); /*the falling speed is always 3 by default, the horizontal speed determines if its a chasingEnemy or staticEnemy*/
         collider = new EnemyCollider(tiles, this, (PlayerPhysics)s.getComponent(PhysicsComponent.class));
         sonic = s;
         canMove.put(direction.left, true);
@@ -37,6 +37,7 @@ public class EnemyPhysics extends PhysicsComponent{
     }
 
     public void chase(){
+        /*If sonic is in range, the enemy chases him with all his speed. If not, it tries to return to his spawn point*/
         if (Math.abs(sonic.getComponent(TransformComponent.class).getX() - owner.getComponent(TransformComponent.class).getX()) <= maxChaseDistance) {
             moveX(sonic.getComponent(TransformComponent.class).getX());
         } else {

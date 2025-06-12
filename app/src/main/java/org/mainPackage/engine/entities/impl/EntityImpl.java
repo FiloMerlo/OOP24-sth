@@ -6,17 +6,9 @@ import org.mainPackage.engine.components.Component;
 import org.mainPackage.engine.entities.api.Entity;
 
 public class EntityImpl implements Entity {
-    private int ID;
     private HashMap<Class<? extends Component>, Component> components = new HashMap<>();
-    public EntityImpl(int ID) {
-        this.ID = ID;
-    }
-
-    @Override
-    public int getID() {
-        return ID;
-    }
-
+    public EntityImpl() {}
+    
     @Override
     public void update(float deltaTime){
         for (Component c : components.values()){
