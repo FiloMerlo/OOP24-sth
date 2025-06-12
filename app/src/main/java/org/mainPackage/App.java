@@ -3,12 +3,29 @@
  */
 package org.mainPackage;
 
+import org.mainPackage.core.Game;
+
 public class App {
-    public String getGreeting() {
-        return "fffffuck it!";
-    }
+
 
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+        int tileWidth = 5;
+        int tileHeight = 5;
+        Game game = new Game();
+        game.start();
+        /*0 = empty, 1 = Tile, 2 = Static Enemies, 3 = Dynamic Enemies, 4 = player, 5 = ring, 6 = goal*/
+        int[][] tilesGrid = {
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        {1, 5, 5, 5, 2, 0, 5, 0, 0, 1},
+        {1, 4, 0, 0, 1, 0, 0, 3, 6, 1},
+        {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
+        };
+        for (int r = 0; r < 5; r++) {
+            for (int c = 0; c < 10; c++) {
+                int xPos = c * tileWidth, yPos = r * tileHeight;
+                
+            }
+        }
     }
 }
