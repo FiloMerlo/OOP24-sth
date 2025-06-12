@@ -45,8 +45,8 @@ public class MenuRenderer implements Renderer {
     private static final float LOGO_DEFAULT_SCALA = 1.0f;
     
     /* Path dei file */
-    private static final String FONT_PATH = "/font/NiseSegaSonic.TTF";
-    private static final String BACKGROUND_PATH = "/backgrounds/menu_background.jpg";
+    private static final String FONT_PATH = "resources/font/NiseSegaSonic.TTF";
+    private static final String BACKGROUND_PATH = "resources/backgrounds/menu_background.jpg";
 
     /* Costanti */
     private static final int CENTER_DEFAULT = 2;
