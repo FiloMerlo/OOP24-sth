@@ -39,7 +39,7 @@ public class App {
         };
         for (int r = 0; r < 5; r++) {
             for (int c = 0; c < 10; c++) {
-                int xPos = c * tileSize, 
+                int xPos = c * tileSize;
                 int yPos = r * tileSize;
                 
                 switch (levelGrid[r][c]){
