@@ -6,7 +6,7 @@ import org.mainPackage.colliders.Collider;
 import org.mainPackage.engine.entities.api.Entity;
 import org.mainPackage.engine.events.api.EventType;
 import org.mainPackage.engine.events.impl.GameEvent;
-import org.mainPackage.game_parts.direction;
+import org.mainPackage.enums.direction;
 
 
 public abstract class PhysicsComponent implements Component{

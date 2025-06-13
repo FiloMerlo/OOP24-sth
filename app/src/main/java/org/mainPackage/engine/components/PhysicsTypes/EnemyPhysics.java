@@ -4,11 +4,11 @@ import java.util.HashMap;
 import java.awt.Rectangle;
 
 import org.mainPackage.engine.entities.api.*;
+import org.mainPackage.enums.action;
+import org.mainPackage.enums.direction;
 import org.mainPackage.colliders.EnemyCollider;
 import org.mainPackage.engine.components.PhysicsComponent;
 import org.mainPackage.engine.components.TransformComponent;
-import org.mainPackage.game_parts.action;
-import org.mainPackage.game_parts.direction;
 
 public class EnemyPhysics extends PhysicsComponent{
         private Entity sonic;

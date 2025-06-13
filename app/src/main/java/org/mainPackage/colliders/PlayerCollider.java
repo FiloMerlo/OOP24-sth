@@ -2,7 +2,8 @@ package org.mainPackage.colliders;
 
 import org.mainPackage.engine.components.PhysicsTypes.EnemyPhysics;
 import org.mainPackage.engine.components.PhysicsTypes.PlayerPhysics;
-import org.mainPackage.game_parts.direction;
+import org.mainPackage.enums.direction;
+
 import java.util.ArrayList;
 import java.awt.Rectangle;
 

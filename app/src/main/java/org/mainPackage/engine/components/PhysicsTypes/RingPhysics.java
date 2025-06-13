@@ -8,7 +8,7 @@ import org.mainPackage.colliders.RingCollider;
 import org.mainPackage.engine.components.PhysicsComponent;
 import org.mainPackage.engine.components.TransformComponent;
 import org.mainPackage.engine.entities.api.Entity;
-import org.mainPackage.game_parts.direction;
+import org.mainPackage.enums.direction;
 
 public class RingPhysics extends PhysicsComponent {
     private RingCollider collider;

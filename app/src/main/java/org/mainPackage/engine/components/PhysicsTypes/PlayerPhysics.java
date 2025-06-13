@@ -3,10 +3,10 @@ package org.mainPackage.engine.components.PhysicsTypes;
 import org.mainPackage.colliders.PlayerCollider;
 import org.mainPackage.engine.components.PhysicsComponent;
 import org.mainPackage.engine.components.TransformComponent;
-import org.mainPackage.game_parts.direction;
-import org.mainPackage.game_parts.action;
 import org.mainPackage.engine.entities.api.*;
 import org.mainPackage.engine.events.impl.GameEvent;
+import org.mainPackage.enums.action;
+import org.mainPackage.enums.direction;
 import org.mainPackage.engine.events.api.EventType;
 
 import java.awt.Rectangle;
