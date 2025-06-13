@@ -14,8 +14,8 @@ import java.util.*;
 
 public class PlayerPhysics extends PhysicsComponent{
     private direction playerDir = direction.right;
-    private int speedMod = 1, maxSpeed = 15, jSpeed = -5;
-    private int rings = 0, jumping = 0;
+    private int speedMod = 1, maxSpeed = 15, jSpeed = -40;
+    private int rings = 0, jumping = 0, maxJumping = 5;
     private HashMap<direction, Boolean> canMove = new HashMap<>();
     private action playerAction = action.idle;
     private int iFrames = 0;
@@ -99,11 +99,17 @@ public class PlayerPhysics extends PhysicsComponent{
     collider.getSensor().translate(0, ySpeed);
 }
     public void jump(){
-        if (canMove.get(direction.down) == false){
-            jumping = 5;
+        if (canMove.get(direction.down) == false && playerAction != action.jumping){
+            jumping = 3; /*number of jump frames*/
             ySpeed = jSpeed;
             playerAction = action.jumping;
         }
+        else if(jumping < maxJumping && playerAction == action.jumping){
+            jumping++;
+        }
+    }
+    public void smallJump(){
+        jumping++;
     }
 
     public void takeDamage(){
