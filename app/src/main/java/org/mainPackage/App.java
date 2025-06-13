@@ -13,8 +13,6 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 
 public class App {
-
-
     public static void main(String[] args) {
         int tileSize = 64, enemySize = 64, ringSize = 64, sonicSize = 54;
         Game game = new Game();

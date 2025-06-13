@@ -2,26 +2,34 @@ package org.mainPackage.core;
 
 import javax.swing.*;
 
-import org.mainPackage.state_management.GameStateManager;
+import org.mainPackage.util.SizeView;
+import org.mainPackage.engine.components.TransformComponent;
+import org.mainPackage.engine.components.graphics.GenericAnimator;
+import org.mainPackage.engine.entities.api.Entity;
+import org.mainPackage.state_management.*;
 
 import java.awt.event.KeyAdapter;    
 import java.awt.event.KeyEvent;      
 import java.awt.event.MouseAdapter;  
-import java.awt.event.MouseEvent;    
+import java.awt.event.MouseEvent;
 
-
+import java.awt.event.MouseMotionAdapter;
+import java.util.ArrayList;
 import java.awt.*;
 
-public class GamePanel extends JPanel {
+public class GamePanel extends JPanel implements SizeView {
 
     public static final int DEFAULT_WIDTH = 800;
     public static final int DEFAULT_HEIGHT = 600;
 
     private GameStateManager gameStateManager;
+    private ArrayList<Entity> entities;
+    private ArrayList<Rectangle> tiles;
 
-    public GamePanel(GameStateManager gameStateManager) {
-        this.gameStateManager = gameStateManager;
-        
+    public GamePanel(ArrayList<Entity> eList, ArrayList<Rectangle> tList) {
+        entities = eList;
+        tiles = tList;
+
         this.setPreferredSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT)); 
         this.setFocusable(true);
         //this.requestFocusInWindow();
@@ -42,17 +50,41 @@ public class GamePanel extends JPanel {
 
         addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                gameStateManager.mouseClicked(e);
+            public void mousePressed(MouseEvent e) {
+                gameStateManager.mousePressed(e);
             }
         });
+
+        addMouseMotionListener(new MouseMotionAdapter() {
+        @Override
+        public void mouseMoved(MouseEvent e) {
+        gameStateManager.mouseMoved(e);
+    }
+});
     }
 
+    /* Setting del GameStateMangaer dopo aver inizializzato il gamePanel */
+    public void setGameStateManager(GameStateManager gameStateManager){
+        this.gameStateManager = gameStateManager;
+    }
+
+    /* metodi per ottenere le dimensioni del panello di gioco */
+
+    @Override
+    public int getSizeWidth() {
+        return getSize().width;
+    }
+
+    @Override
+    public int getSizeHeight() {
+        return getSize().height;
+    }
    
 
     // rendering grafico
     @Override
     protected void paintComponent(Graphics g) {
+        
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g.create();
         
@@ -62,10 +94,37 @@ public class GamePanel extends JPanel {
         
         // Render dello stato corrente
         gameStateManager.draw(g2d);
-        if (g2d != null) {
-            g2d.dispose();
-        }
        
+        g2d.dispose();
+
+        Graphics2D g2 = (Graphics2D) g;
+
+        g2.setColor(Color.CYAN);
+        g2.fillRect(0, 0, getWidth(), getHeight());
+
+        for (Rectangle tile : tiles) {
+            g2.setColor(Color.LIGHT_GRAY);
+            g2.fill(tile);
+            if (tileImage != null) {
+                g2.drawImage(tileImage, tile.x, tile.y, this);
+            }
+        }
+
+        for (Entity e : entities) {
+            if (e.hasComponent(GenericAnimator.class)) {
+                GenericAnimator<?> animator = e.getComponent(GenericAnimator.class);
+
+                animator.getCurrentFrame().ifPresent(frame -> {
+                    if (e.hasComponent(TransformComponent.class)) {
+                        TransformComponent transform = e.getComponent(TransformComponent.class);
+                        int x = (int) transform.getX();
+                        int y = (int) transform.getY();
+                        g2.drawImage(frame, x, y, frame.getWidth(), frame.getHeight(), null);
+                    }
+                });
+            }
+        }
+    
     }
         
 }

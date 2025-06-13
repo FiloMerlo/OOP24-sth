@@ -3,8 +3,7 @@ package org.mainPackage.state_management;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-
-
+import org.mainPackage.util.SizeView;
 
 /**
  * Gestisce i diversi stati del gioco (es. menu, gioco, pausa).
@@ -17,6 +16,8 @@ public class GameStateManager {
     //private GameLoop gameLoop /* funzione di pausa gameLoop inutile */
     private PlayingState playingState;
     private PausedState pausedState;
+    private SizeView sizeView;
+    private Runnable shutdownGame;
 
   
     public enum State {
@@ -27,10 +28,12 @@ public class GameStateManager {
     }
 
 
-    public GameStateManager() {
+    public GameStateManager(SizeView sizeView, Runnable shutdowGame) {
+        this.sizeView = sizeView;
+        this.shutdownGame = shutdowGame;
 
-        playingState = new PlayingState(this);
-        pausedState = new PausedState(this);
+        playingState = new PlayingState(this, sizeView);
+        pausedState = new PausedState(this, sizeView); // da passare il sizeview
         setState(State.MENU);
 
     }
@@ -40,8 +43,7 @@ public class GameStateManager {
         
         switch (state) {
             case MENU:
-                
-                currentState = new MenuState(this); 
+                currentState = new MenuState(this,sizeView); 
                 break;
             case PLAYING:
                 currentState = playingState; 
@@ -73,17 +75,14 @@ public class GameStateManager {
         }
     }
 
-    /*public void setGameLoop(GameLoop gameLoop) {
-        this.gameLoop = gameLoop;
+
+    public void gameShutdown() {
+        if (shutdownGame != null) {
+            shutdownGame.run(); 
+        }
     }
 
-    
-    public GameLoop getGameLoop() {
-        return gameLoop;
-    }
-        metodi inutili al momento */
 
-    
     public void keyPressed(KeyEvent e) {
         if (currentState != null) {
             currentState.keyPressed(e);
@@ -98,11 +97,16 @@ public class GameStateManager {
     }
 
     
-    public void mouseClicked(MouseEvent e) {
+    public void mousePressed(MouseEvent e) {
         if (currentState != null) {
-            currentState.mouseClicked(e);
+            currentState.mousePressed(e);
         }
     }
-
+    
+    public void mouseMoved (MouseEvent e) {
+        if (currentState != null) {
+            currentState.mouseMoved(e);
+        }
+    }
 
 }
