@@ -1,5 +1,6 @@
 package org.mainPackage.game_parts;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import org.mainPackage.engine.components.TransformComponent;
 import org.mainPackage.engine.entities.api.Entity;
@@ -13,6 +14,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * GamePanel gestisce il rendering della mappa e delle entità.
@@ -22,7 +25,7 @@ public class GamePanel extends JPanel {
     private static final int tileHeight = 5;
     private static final int nColumns = 10;
     private static final int nRows = 5;
-
+    private static final String tilePath= "/tile.jpg";
     private final ArrayList<Rectangle> tiles;
     private final int[][] grid = {
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -37,12 +40,14 @@ public class GamePanel extends JPanel {
 
     /**
      * @param em il gestore delle entità da disegnare
+     * @throws IOException 
      */
-    public GamePanel(EntityManager em) {
+    public GamePanel(EntityManager em) throws IOException {
         setPreferredSize(new Dimension(nColumns * tileWidth, nRows * tileHeight));
         setFocusable(true);
         this.em = em;
         this.tiles = new ArrayList<>();
+        this.tileImage=ImageIO.read(new File(tilePath));
 
         for (int r = 0; r < nRows; r++) {
             for (int c = 0; c < nColumns; c++) {
@@ -86,7 +91,7 @@ public class GamePanel extends JPanel {
     }
 
     /**
-     * @return lista dei tile solidi
+     * @return lista dei tile 
      */
     public ArrayList<Rectangle> getTileList() {
         return tiles;
