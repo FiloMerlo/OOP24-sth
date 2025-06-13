@@ -1,6 +1,6 @@
 package org.mainPackage.engine.components.graphics;
 
-import org.mainPackage.game_parts.ChasingEnemyState;
+import org.mainPackage.enums.ChasingEnemyState;
 import org.mainPackage.util.SpriteLoader;
 
 public class ChasingEnemyAnimator extends GenericAnimator<ChasingEnemyState> {

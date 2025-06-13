@@ -1,10 +1,8 @@
 package org.mainPackage.engine.entities.impl;
 
-import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.mainPackage.engine.components.*;
 import org.mainPackage.engine.entities.api.*;
 import org.mainPackage.engine.events.api.*;
 import org.mainPackage.engine.events.impl.*;
@@ -32,24 +30,13 @@ public class EntityManagerImpl extends SubjectImpl implements EntityManager{
 
     @Override
     public void killEntity(Entity entity) {
-        if (entity.hasComponent(HealthComponent.class) && entity.getComponent(HealthComponent.class).getHealth() <= 0) {
-            entities.remove(entity);
-        } 
+        entities.remove(entity);
     }
 
     @Override
     public void updateEntities(float deltaTime) {
         for (Entity entity : entities) {
             entity.update(deltaTime);
-        }
-    }
-
-    @Override
-    public void renderEntities(Graphics g) {
-        for (Entity entity : entities) {
-            if(entity.hasComponent(RenderComponent.class)){
-                entity.getComponent(RenderComponent.class).Render(g);
-            }
         }
     }
 

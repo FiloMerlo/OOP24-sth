@@ -1,15 +1,15 @@
 package org.mainPackage.colliders;
 
-import java.awt.Rectangle;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import org.mainPackage.engine.components.PhysicsTypes.EnemyPhysics;
 import org.mainPackage.engine.components.PhysicsTypes.PlayerPhysics;
-import org.mainPackage.game_parts.action;
+import org.mainPackage.enums.action;
 
 public class EnemyCollider extends PlayerCollider{
     private PlayerPhysics sonicPh;
-    public EnemyCollider(ArrayList<Rectangle> list, EnemyPhysics phy, PlayerPhysics s){
+    public EnemyCollider(ArrayList<Rectangle2D.Float> list, EnemyPhysics phy, PlayerPhysics s){
         super(list, phy);
         sonicPh = s;
         sensor = physic.getHitbox();

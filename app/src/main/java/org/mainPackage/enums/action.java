@@ -1,4 +1,4 @@
-package org.mainPackage.game_parts;
+package org.mainPackage.enums;
 /**
  * rappresenta le varie azioni che sonic può eseguire
  * e che determinano l'animazione corrente.

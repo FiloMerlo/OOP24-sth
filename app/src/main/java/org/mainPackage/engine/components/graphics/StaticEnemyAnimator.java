@@ -1,6 +1,6 @@
 package org.mainPackage.engine.components.graphics;
 
-import org.mainPackage.game_parts.StaticEnemyState;
+import org.mainPackage.enums.StaticEnemyState;
 import org.mainPackage.util.SpriteLoader;
 
 public class StaticEnemyAnimator extends GenericAnimator<StaticEnemyState> {
