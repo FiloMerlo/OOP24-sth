@@ -15,10 +15,13 @@ import java.util.ArrayList;
 public class App {
     public static void main(String[] args) {
         int tileSize = 64, enemySize = 64, ringSize = 64, sonicSize = 54;
+        
         Game game = new Game();
+        
         ArrayList<Rectangle> tileList = new ArrayList<>();
         EntityManagerImpl entityManager = EntityManagerImpl.getInstance();
-    /*Creo e aggiungo sonic al entity manager*/
+        
+        
         EntityImpl sonic = new EntityImpl();
         sonic.addComponent(new PlayerPhysics(sonic, tileList));
         sonic.addComponent(new SonicAnimator());
@@ -36,7 +39,9 @@ public class App {
         };
         for (int r = 0; r < 5; r++) {
             for (int c = 0; c < 10; c++) {
-                int xPos = c * tileSize, yPos = r * tileSize;
+                int xPos = c * tileSize;
+                int yPos = r * tileSize;
+                
                 switch (levelGrid[r][c]){
                     case 1:
                         Rectangle tile = new Rectangle(xPos, yPos, tileSize, tileSize);
