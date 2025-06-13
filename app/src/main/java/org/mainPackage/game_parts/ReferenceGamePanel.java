@@ -17,7 +17,7 @@ import java.awt.image.BufferedImage;
 /**
  * GamePanel gestisce il rendering della mappa e delle entità.
  */
-public class GamePanel extends JPanel {
+public class ReferenceGamePanel extends JPanel {
     private static final int tileWidth = 5;
     private static final int tileHeight = 5;
     private static final int nColumns = 10;
@@ -38,7 +38,7 @@ public class GamePanel extends JPanel {
     /**
      * @param em il gestore delle entità da disegnare
      */
-    public GamePanel(EntityManager em) {
+    public ReferenceGamePanel(EntityManager em) {
         setPreferredSize(new Dimension(nColumns * tileWidth, nRows * tileHeight));
         setFocusable(true);
         this.em = em;
