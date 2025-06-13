@@ -14,7 +14,7 @@ import java.util.*;
 
 public class PlayerPhysics extends PhysicsComponent{
     private direction playerDir = direction.right;
-    private int speedMod = 1, maxSpeed = 15, jSpeed = -40;
+    private int speedMod = 3, maxSpeed = 32, jSpeed = -40, fallingSpeed = 40;
     private int rings = 0, jumping = 0, maxJumping = 5;
     private HashMap<direction, Boolean> canMove = new HashMap<>();
     private action playerAction = action.idle;
@@ -53,9 +53,9 @@ public class PlayerPhysics extends PhysicsComponent{
             if (canMove.get(direction.down)){
                 playerAction = action.falling;
             } else{
-                if (xSpeed > 15){
+                if (xSpeed == maxSpeed){
                     playerAction = action.dashing;
-                } else if (xSpeed > 10){
+                } else if (xSpeed > 15){
                     playerAction = action.running;
                 } else if(xSpeed > 0){
                     playerAction = action.walking;
@@ -84,7 +84,7 @@ public class PlayerPhysics extends PhysicsComponent{
         }
         
     }
-    public void moveY(){  /*This method won't be requested by PlayerInputs. It simulates gravity*/
+    public void moveY(){  /*This method simulates gravity*/
     if(jumping > 0){
         if(canMove.get(direction.up)){
             jumping--;
@@ -92,7 +92,7 @@ public class PlayerPhysics extends PhysicsComponent{
             jumping = 0;
         }
     } else if (canMove.get(direction.down)){ 
-        ySpeed = 5;
+        ySpeed = fallingSpeed;
     }
     else { ySpeed = 0; }
     owner.getComponent(TransformComponent.class).moveY(ySpeed);
