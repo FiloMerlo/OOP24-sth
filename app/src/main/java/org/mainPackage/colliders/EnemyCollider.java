@@ -1,6 +1,6 @@
 package org.mainPackage.colliders;
 
-import java.awt.Rectangle;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import org.mainPackage.engine.components.PhysicsTypes.EnemyPhysics;
@@ -9,8 +9,8 @@ import org.mainPackage.enums.action;
 
 public class EnemyCollider extends PlayerCollider{
     private PlayerPhysics sonicPh;
-    public EnemyCollider(ArrayList<Rectangle> list, EnemyPhysics phy, PlayerPhysics s){
-        super(list, phy);
+    public EnemyCollider(ArrayList<Rectangle2D.Float> list, EnemyPhysics phy, Rectangle2D.Float rect, PlayerPhysics s){
+        super(list, phy, rect);
         sonicPh = s;
         sensor = physic.getHitbox();
     }
@@ -28,6 +28,7 @@ public class EnemyCollider extends PlayerCollider{
     public void playerCollision(){
         if(sonicPh.getAction() == action.jumping){
             physic.die();
+            sonicPh.smallJump();
         } else {
             sonicPh.getHurt();
         }

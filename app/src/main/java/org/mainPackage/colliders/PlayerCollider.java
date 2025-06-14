@@ -5,14 +5,14 @@ import org.mainPackage.engine.components.PhysicsTypes.PlayerPhysics;
 import org.mainPackage.enums.direction;
 
 import java.util.ArrayList;
-import java.awt.Rectangle;
+import java.awt.geom.Rectangle2D;
 
 public class PlayerCollider extends Collider {
-    public PlayerCollider(ArrayList<Rectangle> list, PlayerPhysics s) {
-        super(list, s);
+    public PlayerCollider(ArrayList<Rectangle2D.Float> list, PlayerPhysics s, Rectangle2D.Float rect) {
+        super(list, s, rect);
     }
-    public PlayerCollider(ArrayList<Rectangle> list, EnemyPhysics phy) {
-        super(list, phy);
+    public PlayerCollider(ArrayList<Rectangle2D.Float> list, EnemyPhysics phy, Rectangle2D.Float rect) {
+        super(list, phy, rect);
     }
 
     public void checkCollisions() {
@@ -20,7 +20,7 @@ public class PlayerCollider extends Collider {
             physic.setMovement(dir, true);
         }
 
-        for (Rectangle tile : tiles) {
+        for (Rectangle2D.Float tile : tiles) {
             if (sensor.intersects(tile)){
                 if (sensor.getX() >= tile.getX() + tile.getWidth()){
                     physic.setMovement(direction.left, false);

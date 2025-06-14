@@ -1,9 +1,9 @@
 package org.mainPackage.engine.components;
 
-import java.awt.Rectangle;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import org.mainPackage.colliders.Collider;
-import org.mainPackage.engine.entities.api.Entity;
+import org.mainPackage.engine.entities.impl.EntityImpl;
 import org.mainPackage.engine.events.api.EventType;
 import org.mainPackage.engine.events.impl.GameEvent;
 import org.mainPackage.engine.events.impl.SubjectImpl;
@@ -11,23 +11,21 @@ import org.mainPackage.enums.direction;
 
 
 public abstract class PhysicsComponent extends SubjectImpl implements Component{
-    protected int xSpeed, ySpeed;
-    protected Rectangle hitbox;
-    protected Entity owner;
-    protected ArrayList<Rectangle> tiles;
-    protected Collider collider;
-    public PhysicsComponent(int xS, int yS, Entity o, ArrayList<Rectangle>tList){
+    protected float xSpeed, ySpeed;
+    protected Rectangle2D.Float hitbox;
+    protected EntityImpl owner;
+    protected ArrayList<Rectangle2D.Float> tiles;
+    protected ArrayList<Collider> colliders = new ArrayList<>();
+    public PhysicsComponent(float xS, float yS, EntityImpl o, ArrayList<Rectangle2D.Float>tList){
         xSpeed = xS;
         ySpeed = yS;
         owner = o;
-        hitbox = new Rectangle(owner.getComponent(TransformComponent.class).getX(), owner.getComponent(TransformComponent.class).getY(), 
-        owner.getComponent(TransformComponent.class).getWidth(), owner.getComponent(TransformComponent.class).getHeight());
+        hitbox = new Rectangle2D.Float();
         tiles = tList;
     }
-    public Rectangle getHitbox(){
+    public Rectangle2D.Float getHitbox(){
         return hitbox;
     }
-    public Entity getOwner(){ return owner; }
 
     public void die(){ 
         GameEvent e = new GameEvent(EventType.ENEMY_DIED, owner);
@@ -35,7 +33,9 @@ public abstract class PhysicsComponent extends SubjectImpl implements Component{
     }
     
     public void update(float deltaTime){
-        hitbox.setLocation(owner.getComponent(TransformComponent.class).getX(), owner.getComponent(TransformComponent.class).getY());
+        for (Collider coll : colliders) {
+            coll.checkCollisions();
+        }
     }
     public abstract void setMovement(direction dir, boolean b);
 }
