@@ -14,7 +14,7 @@ public interface EntityManager {
     void killEntity(Entity entity);
 
     public void updateEntities(float deltaTime);
-    public void renderEntities(Graphics g);
+    //public void renderEntities(Graphics g);
     public List<Entity> getEntities();
     
     public void removeEntity(Entity entity);

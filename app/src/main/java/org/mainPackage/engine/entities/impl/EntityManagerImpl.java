@@ -9,6 +9,7 @@ import org.mainPackage.engine.entities.api.*;
 import org.mainPackage.engine.events.api.*;
 import org.mainPackage.engine.events.impl.*;
 
+
 public class EntityManagerImpl extends SubjectImpl implements EntityManager{
     private List<Entity> entities = new ArrayList<>();
     private final static EntityManagerImpl instance = new EntityManagerImpl();
@@ -43,7 +44,8 @@ public class EntityManagerImpl extends SubjectImpl implements EntityManager{
             entity.update(deltaTime);
         }
     }
-
+    /* Se ne occupa direttamente il PlayingRenderer */
+    /* 
     @Override
     public void renderEntities(Graphics g) {
         for (Entity entity : entities) {
@@ -51,7 +53,7 @@ public class EntityManagerImpl extends SubjectImpl implements EntityManager{
                 entity.getComponent(RenderComponent.class).Render(g);
             }
         }
-    }
+    } */
 
     @Override
     public List<Entity> getEntities() {

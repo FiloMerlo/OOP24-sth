@@ -2,7 +2,6 @@ package org.mainPackage.core;
 
 
 import org.mainPackage.state_management.GameStateManager;
-
 import org.mainPackage.util.SizeView;
 
 public class Game {
@@ -36,5 +35,8 @@ public class Game {
         gameWindow.dispose();
     }
     
+    public GameStateManager getGameStateManager(){
+        return gameStateManager;
+    }
     
 }
