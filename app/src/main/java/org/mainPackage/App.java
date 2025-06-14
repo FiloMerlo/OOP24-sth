@@ -10,16 +10,13 @@ import org.mainPackage.engine.components.graphics.*;
 import org.mainPackage.engine.entities.impl.*;
 import org.mainPackage.state_management.GameStateManager;
 
-import java.awt.Rectangle;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 public class App {
     public static void main(String[] args) {
         int tileSize = 64, enemySize = 64, ringSize = 64, sonicSize = 54;
-        
-        
-        
-        ArrayList<Rectangle> tileList = new ArrayList<>();
+        ArrayList<Rectangle2D.Float> tileList = new ArrayList<>();
         EntityManagerImpl entityManager = EntityManagerImpl.getInstance();
         
         
@@ -51,7 +48,7 @@ public class App {
                 
                 switch (levelGrid[r][c]){
                     case 1:
-                        Rectangle tile = new Rectangle(xPos, yPos, tileSize, tileSize);
+                        Rectangle2D.Float tile = new Rectangle2D.Float(xPos, yPos, tileSize, tileSize);
                         tileList.add(tile);
                         System.out.println("tile ok");
                         break;

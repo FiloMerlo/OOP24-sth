@@ -42,17 +42,6 @@ public class EntityManagerImpl extends SubjectImpl implements EntityManager{
         }
     }
     /* Se ne occupa direttamente il PlayingRenderer */
-    /* 
-    @Override
-    public void renderEntities(Graphics g) {
-        for (Entity entity : entities) {
-            if(entity.hasComponent(RenderComponent.class)){
-                entity.getComponent(RenderComponent.class).Render(g);
-            }
-        }
-    } */
-
-    @Override
     public List<Entity> getEntities() {
         return entities;
     }
@@ -63,7 +52,7 @@ public class EntityManagerImpl extends SubjectImpl implements EntityManager{
     }
 
     @Override
-    public void kiLLAllEntities() {
+    public void killAllEntities() {
         entities.clear();
     }
 }
