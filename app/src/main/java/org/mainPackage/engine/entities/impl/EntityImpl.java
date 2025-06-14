@@ -41,6 +41,6 @@ public class EntityImpl extends SubjectImpl implements Entity {
             components.put((Class<? extends Component>) interfaceClass, c);
         }
     }
-    }
 }
+
     
