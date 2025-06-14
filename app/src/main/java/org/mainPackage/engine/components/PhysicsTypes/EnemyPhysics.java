@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.awt.geom.Rectangle2D;
 
-import org.mainPackage.engine.entities.api.*;
+import org.mainPackage.engine.entities.impl.EntityImpl;
 import org.mainPackage.enums.action;
 import org.mainPackage.enums.direction;
 import org.mainPackage.colliders.EnemyCollider;
@@ -12,13 +12,13 @@ import org.mainPackage.engine.components.PhysicsComponent;
 import org.mainPackage.engine.components.TransformComponent;
 
 public class EnemyPhysics extends PhysicsComponent{
-        private Entity sonic;
+        private EntityImpl sonic;
         private double maxChaseDistance = 320, spawnX;
         private action enemyAction = action.idle;
         private direction enemyDirection = direction.left;
         private HashMap<direction, Boolean> canMove = new HashMap<>();
 
-        public EnemyPhysics(int xS, Entity o, ArrayList<Rectangle2D.Float>tList, Entity s){
+        public EnemyPhysics(int xS, EntityImpl o, ArrayList<Rectangle2D.Float>tList, EntityImpl s){
         super(xS, 3, o, tList); /*the falling speed is always 3 by default, the horizontal speed determines if its a chasingEnemy or staticEnemy*/
         colliders.add(new EnemyCollider(tiles, this, hitbox, (PlayerPhysics)s.getComponent(PhysicsComponent.class)));
         sonic = s;

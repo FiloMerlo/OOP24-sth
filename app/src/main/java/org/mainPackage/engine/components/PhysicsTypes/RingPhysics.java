@@ -7,13 +7,13 @@ import org.mainPackage.colliders.Collider;
 import org.mainPackage.colliders.RingCollider;
 import org.mainPackage.engine.components.PhysicsComponent;
 import org.mainPackage.engine.components.TransformComponent;
-import org.mainPackage.engine.entities.api.Entity;
+import org.mainPackage.engine.entities.impl.EntityImpl;
 import org.mainPackage.enums.direction;
 
 public class RingPhysics extends PhysicsComponent {
     private double maxDistance = 10, spawnX, spawnY;
 
-    public RingPhysics(Entity o, ArrayList<Rectangle2D.Float> tList, PlayerPhysics pp){
+    public RingPhysics(EntityImpl o, ArrayList<Rectangle2D.Float> tList, PlayerPhysics pp){
         super(0, 0, o, tList);
         colliders.add(new RingCollider(tList, this, hitbox, pp));
         spawnX = owner.getComponent(TransformComponent.class).getX();
