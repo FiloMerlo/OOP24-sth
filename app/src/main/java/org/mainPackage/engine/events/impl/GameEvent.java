@@ -5,7 +5,7 @@ import org.mainPackage.engine.events.api.Event;
 import org.mainPackage.engine.events.api.EventType;
 
 
-public class GameEvent extends SubjectImpl implements Event {
+public class GameEvent implements Event {
     
     private EventType type;
     private Entity source;
