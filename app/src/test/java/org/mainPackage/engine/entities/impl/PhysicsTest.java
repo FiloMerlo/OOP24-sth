@@ -64,8 +64,18 @@ public class PhysicsTest {
         testEnemy.addComponent(new TransformComponent(10, 10, 3, 3));
         testEnemy.addComponent(new EnemyPhysics(0, testEnemy, new ArrayList<>(), testSonic));
         
-        testEnemy.update(0.1f);
-        testSonic.update(0.1f);
-        /*TODO check if sonic dies*/
+         final boolean[] gameOverTriggered = {false};
+
+    /*anomnymous observer to chach the GAME_OVER event*/
+        testSonic.getComponent(PhysicsComponent.class).addObserver(event -> {
+        if (event.getType() == EventType.GAME_OVER) {
+            gameOverTriggered[0] = true;
+        }
+    });
+
+    testEnemy.update(0.1f);
+    testSonic.update(0.1f);
+
+    assertTrue(gameOverTriggered[0], "Sonic should die and trigger GAME_OVER event");
     }
 }
