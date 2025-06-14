@@ -3,6 +3,7 @@ package org.mainPackage.engine.components.PhysicsTypes;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
+import org.mainPackage.colliders.Collider;
 import org.mainPackage.colliders.RingCollider;
 import org.mainPackage.engine.components.PhysicsComponent;
 import org.mainPackage.engine.components.TransformComponent;
@@ -10,19 +11,17 @@ import org.mainPackage.engine.entities.api.Entity;
 import org.mainPackage.enums.direction;
 
 public class RingPhysics extends PhysicsComponent {
-    private RingCollider collider;
     private double maxDistance = 10, spawnX, spawnY;
 
     public RingPhysics(Entity o, ArrayList<Rectangle2D.Float> tList, PlayerPhysics pp){
         super(0, 0, o, tList);
-        collider = new RingCollider(tList, this, pp);
+        colliders.add(new RingCollider(tList, this, hitbox, pp));
         spawnX = owner.getComponent(TransformComponent.class).getX();
         spawnY = owner.getComponent(TransformComponent.class).getY();
     }
 
     public void update(float deltaTime){
         super.update(deltaTime);
-        collider.checkCollisions();
         if (xSpeed > 0){
             if (owner.getComponent(TransformComponent.class).getX() - spawnX >= maxDistance || owner.getComponent(TransformComponent.class).getX() - spawnX <= -maxDistance){
                 xSpeed = 0;
@@ -31,8 +30,10 @@ public class RingPhysics extends PhysicsComponent {
                 xSpeed = 0;
                 ySpeed = 0;
             }
-            collider.getSensor().x += xSpeed;
-            collider.getSensor().y += ySpeed;
+            for (Collider coll : colliders) {
+                coll.getSensor().x += xSpeed;
+                coll.getSensor().y += ySpeed;
+            }
             owner.getComponent(TransformComponent.class).moveX(xSpeed);
             owner.getComponent(TransformComponent.class).moveY(ySpeed);
         }

@@ -7,6 +7,7 @@ import java.awt.geom.Rectangle2D;
 import org.mainPackage.engine.entities.api.*;
 import org.mainPackage.enums.action;
 import org.mainPackage.enums.direction;
+import org.mainPackage.colliders.Collider;
 import org.mainPackage.colliders.EnemyCollider;
 import org.mainPackage.engine.components.PhysicsComponent;
 import org.mainPackage.engine.components.TransformComponent;
@@ -20,7 +21,7 @@ public class EnemyPhysics extends PhysicsComponent{
 
         public EnemyPhysics(int xS, Entity o, ArrayList<Rectangle2D.Float>tList, Entity s){
         super(xS, 3, o, tList); /*the falling speed is always 3 by default, the horizontal speed determines if its a chasingEnemy or staticEnemy*/
-        collider = new EnemyCollider(tiles, this, (PlayerPhysics)s.getComponent(PhysicsComponent.class));
+        colliders.add(new EnemyCollider(tiles, this, hitbox, (PlayerPhysics)s.getComponent(PhysicsComponent.class)));
         sonic = s;
         spawnX = owner.getComponent(TransformComponent.class).getX();
         canMove.put(direction.left, true);
@@ -32,7 +33,6 @@ public class EnemyPhysics extends PhysicsComponent{
     @Override
     public void update(float deltaTime){
         super.update(deltaTime);
-        collider.checkCollisions();
         if (xSpeed > 0){
             chase();
         }

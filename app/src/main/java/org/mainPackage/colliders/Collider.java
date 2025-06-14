@@ -9,12 +9,11 @@ public abstract class Collider{
     protected Rectangle2D.Float sensor;
     protected ArrayList<Rectangle2D.Float> tiles;
     protected PhysicsComponent physic;
-    public Collider(ArrayList<Rectangle2D.Float> list, PhysicsComponent phy){
+    public Collider(ArrayList<Rectangle2D.Float> list, PhysicsComponent phy, Rectangle2D.Float rect){
         tiles = list;
         physic = phy;
-        sensor = physic.getHitbox();
+        sensor = rect;
     }
-
     public abstract void checkCollisions();
 
     public PhysicsComponent getPhysic(){

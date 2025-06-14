@@ -1,5 +1,6 @@
 package org.mainPackage.engine.components.PhysicsTypes;
 
+import org.mainPackage.colliders.Collider;
 import org.mainPackage.colliders.PlayerCollider;
 import org.mainPackage.engine.components.PhysicsComponent;
 import org.mainPackage.engine.components.TransformComponent;
@@ -26,7 +27,7 @@ public class PlayerPhysics extends PhysicsComponent{
         canMove.put(direction.up, true);
         canMove.put(direction.right, true);
         canMove.put(direction.down, true);
-        collider = new PlayerCollider(tList, this);
+        colliders.add(new PlayerCollider(tList, this, hitbox));
     }
 
     @Override
@@ -38,8 +39,6 @@ public class PlayerPhysics extends PhysicsComponent{
         if (iFrames > 0) {
             iFrames--;
         }
-
-        collider.checkCollisions();
         determineAction();
         moveY();
     }
@@ -74,7 +73,9 @@ public class PlayerPhysics extends PhysicsComponent{
         }
         if(canMove.get(dir) == true){
             owner.getComponent(TransformComponent.class).moveX(xSpeed);
-            collider.getSensor().x += xSpeed;
+            for (Collider coll : colliders) {
+                coll.getSensor().x += xSpeed;
+            }
             /*If sonic moves on the ground, he gains speed*/
             if (xSpeed < maxSpeed && canMove.get(direction.down) == false){
                 xSpeed += speedMod;
@@ -96,7 +97,9 @@ public class PlayerPhysics extends PhysicsComponent{
     }
     else { ySpeed = 0; }
     owner.getComponent(TransformComponent.class).moveY(ySpeed);
-    collider.getSensor().y += ySpeed;
+    for (Collider coll : colliders) {
+        coll.getSensor().y += ySpeed;
+    }
 }
     public void jump(){
         if (canMove.get(direction.down) == false && playerAction != action.jumping){

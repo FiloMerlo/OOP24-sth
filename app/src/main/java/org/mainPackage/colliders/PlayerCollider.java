@@ -8,11 +8,11 @@ import java.util.ArrayList;
 import java.awt.geom.Rectangle2D;
 
 public class PlayerCollider extends Collider {
-    public PlayerCollider(ArrayList<Rectangle2D.Float> list, PlayerPhysics s) {
-        super(list, s);
+    public PlayerCollider(ArrayList<Rectangle2D.Float> list, PlayerPhysics s, Rectangle2D.Float rect) {
+        super(list, s, rect);
     }
-    public PlayerCollider(ArrayList<Rectangle2D.Float> list, EnemyPhysics phy) {
-        super(list, phy);
+    public PlayerCollider(ArrayList<Rectangle2D.Float> list, EnemyPhysics phy, Rectangle2D.Float rect) {
+        super(list, phy, rect);
     }
 
     public void checkCollisions() {

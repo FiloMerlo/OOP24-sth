@@ -9,8 +9,8 @@ import org.mainPackage.enums.action;
 
 public class EnemyCollider extends PlayerCollider{
     private PlayerPhysics sonicPh;
-    public EnemyCollider(ArrayList<Rectangle2D.Float> list, EnemyPhysics phy, PlayerPhysics s){
-        super(list, phy);
+    public EnemyCollider(ArrayList<Rectangle2D.Float> list, EnemyPhysics phy, Rectangle2D.Float rect, PlayerPhysics s){
+        super(list, phy, rect);
         sonicPh = s;
         sensor = physic.getHitbox();
     }

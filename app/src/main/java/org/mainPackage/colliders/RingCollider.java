@@ -7,8 +7,8 @@ import org.mainPackage.engine.components.PhysicsTypes.PlayerPhysics;
 
 public class RingCollider extends Collider{
     private PlayerPhysics sonicPh;
-    public RingCollider(ArrayList<Rectangle2D.Float> list, RingPhysics rP, PlayerPhysics s) {
-        super(list, rP);
+    public RingCollider(ArrayList<Rectangle2D.Float> list, RingPhysics rP, Rectangle2D.Float rect, PlayerPhysics s) {
+        super(list, rP, rect);
         sonicPh = s;
         sensor = physic.getHitbox();
     }

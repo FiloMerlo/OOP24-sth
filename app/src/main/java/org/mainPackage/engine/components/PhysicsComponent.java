@@ -14,7 +14,7 @@ public abstract class PhysicsComponent implements Component{
     protected Rectangle2D.Float hitbox;
     protected Entity owner;
     protected ArrayList<Rectangle2D.Float> tiles;
-    protected Collider collider;
+    protected ArrayList<Collider> colliders = new ArrayList<>();
     public PhysicsComponent(float xS, float yS, Entity o, ArrayList<Rectangle2D.Float>tList){
         xSpeed = xS;
         ySpeed = yS;
@@ -32,8 +32,9 @@ public abstract class PhysicsComponent implements Component{
     }
     
     public void update(float deltaTime){
-        hitbox.setRect(owner.getComponent(TransformComponent.class).getX(), owner.getComponent(TransformComponent.class).getY(), 
-        owner.getComponent(TransformComponent.class).getWidth(), owner.getComponent(TransformComponent.class).getHeight());
+        for (Collider coll : colliders) {
+            coll.checkCollisions();
+        }
     }
     public abstract void setMovement(direction dir, boolean b);
 }
