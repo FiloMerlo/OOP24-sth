@@ -8,6 +8,7 @@ import org.mainPackage.engine.components.*;
 import org.mainPackage.engine.components.PhysicsTypes.*;
 import org.mainPackage.engine.components.graphics.*;
 import org.mainPackage.engine.entities.impl.*;
+import org.mainPackage.state_management.GameStateManager;
 
 import java.awt.Rectangle;
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public class App {
         sonic.addComponent(new SonicAnimator());
         entityManager.addEntity(sonic);
 
-        game.start();
+        
         /* levelGrid è la matrice che indica cosa c'è in ogni porzione del livello
         0 = empty, 1 = Tile, 2 = Static Enemies, 3 = Dynamic Enemies, 4 = player, 5 = ring, 6 = goal*/
         int[][] levelGrid = {
@@ -38,7 +39,7 @@ public class App {
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
         };
         for (int r = 0; r < 5; r++) {
-            for (int c = 0; c < 10; c++) {
+            for (int c = 0; c < 10; c++) {  /* sostituire i numeri */
                 int xPos = c * tileSize;
                 int yPos = r * tileSize;
                 
@@ -77,7 +78,21 @@ public class App {
                         goal.addComponent(new GoalComponent(goal));
                         break;
                 }
+
             }
         }
+
+         GameStateManager gameStateManager = game.getGameStateManager();
+                
+                if (gameStateManager != null){
+                    gameStateManager.setSonicEntity(sonic); 
+                    gameStateManager.setLevelGrid(levelGrid); 
+                    gameStateManager.setTileWorldSize(tileSize); 
+                } else {
+                    System.err.println("GameStateMangaer non gestito correttamente");
+                }
+
+
+                game.start();
     }
 }
