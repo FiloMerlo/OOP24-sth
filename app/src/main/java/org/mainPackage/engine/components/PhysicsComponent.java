@@ -6,10 +6,11 @@ import org.mainPackage.colliders.Collider;
 import org.mainPackage.engine.entities.impl.EntityImpl;
 import org.mainPackage.engine.events.api.EventType;
 import org.mainPackage.engine.events.impl.GameEvent;
+import org.mainPackage.engine.events.impl.SubjectImpl;
 import org.mainPackage.enums.direction;
 
 
-public abstract class PhysicsComponent implements Component{
+public abstract class PhysicsComponent extends SubjectImpl implements Component{
     protected float xSpeed, ySpeed;
     protected Rectangle2D.Float hitbox;
     protected EntityImpl owner;
@@ -28,7 +29,7 @@ public abstract class PhysicsComponent implements Component{
 
     public void die(){ 
         GameEvent e = new GameEvent(EventType.ENEMY_DIED, owner);
-        e.notify();
+        notifyObservers(e);
     }
     
     public void update(float deltaTime){

@@ -4,6 +4,7 @@ import org.mainPackage.colliders.Collider;
 import org.mainPackage.colliders.PlayerCollider;
 import org.mainPackage.engine.components.PhysicsComponent;
 import org.mainPackage.engine.components.TransformComponent;
+
 import org.mainPackage.engine.entities.impl.EntityImpl;
 import org.mainPackage.engine.events.impl.GameEvent;
 import org.mainPackage.enums.action;
@@ -13,7 +14,7 @@ import org.mainPackage.engine.events.api.EventType;
 import java.awt.geom.Rectangle2D;
 import java.util.*;
 
-public class PlayerPhysics extends PhysicsComponent{
+public class PlayerPhysics extends PhysicsComponent {
     private direction playerDir = direction.right;
     private float speedMod = 0.1f, maxSpeed = 1.2f, fallingSpeed = 0.2f, fallMod = 0.1f, maxFallSpeed = 2;
     private int rings = 0, jumping = 0, maxJumping = 100, jSpeed = -2;
@@ -131,7 +132,7 @@ public class PlayerPhysics extends PhysicsComponent{
         } else {
             e = new GameEvent(EventType.GAME_OVER , owner);
         }
-        e.notify();
+        notifyObservers(e);
     }
     public void gotRing(){
         rings++;

@@ -13,11 +13,12 @@ public interface EntityManager {
     void killEntity(Entity entity);
 
     public void updateEntities(float deltaTime);
+
     public List<Entity> getEntities();
     
     public void removeEntity(Entity entity);
 
     // Method to kill all entities
-    public void kiLLAllEntities();
+    public void killAllEntities();
 
 }

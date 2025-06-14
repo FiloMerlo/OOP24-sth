@@ -7,6 +7,7 @@ import org.mainPackage.engine.entities.api.*;
 import org.mainPackage.engine.events.api.*;
 import org.mainPackage.engine.events.impl.*;
 
+
 public class EntityManagerImpl extends SubjectImpl implements EntityManager{
     private List<Entity> entities = new ArrayList<>();
     private final static EntityManagerImpl instance = new EntityManagerImpl();
@@ -33,14 +34,14 @@ public class EntityManagerImpl extends SubjectImpl implements EntityManager{
         entities.remove(entity);
     }
 
+
     @Override
     public void updateEntities(float deltaTime) {
         for (Entity entity : entities) {
             entity.update(deltaTime);
         }
     }
-
-    @Override
+    /* Se ne occupa direttamente il PlayingRenderer */
     public List<Entity> getEntities() {
         return entities;
     }
@@ -51,7 +52,7 @@ public class EntityManagerImpl extends SubjectImpl implements EntityManager{
     }
 
     @Override
-    public void kiLLAllEntities() {
+    public void killAllEntities() {
         entities.clear();
     }
 }

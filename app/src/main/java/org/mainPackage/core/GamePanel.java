@@ -3,9 +3,6 @@ package org.mainPackage.core;
 import javax.swing.*;
 
 import org.mainPackage.util.SizeView;
-import org.mainPackage.engine.components.TransformComponent;
-import org.mainPackage.engine.components.graphics.GenericAnimator;
-import org.mainPackage.engine.entities.api.Entity;
 import org.mainPackage.state_management.*;
 
 import java.awt.event.KeyAdapter;    
@@ -14,7 +11,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import java.awt.event.MouseMotionAdapter;
-import java.util.ArrayList;
 import java.awt.*;
 
 public class GamePanel extends JPanel implements SizeView {
@@ -23,13 +19,9 @@ public class GamePanel extends JPanel implements SizeView {
     public static final int DEFAULT_HEIGHT = 600;
 
     private GameStateManager gameStateManager;
-    private ArrayList<Entity> entities;
-    private ArrayList<Rectangle> tiles;
+    
 
-    public GamePanel(ArrayList<Entity> eList, ArrayList<Rectangle> tList) {
-        entities = eList;
-        tiles = tList;
-
+    public GamePanel() {
         this.setPreferredSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT)); 
         this.setFocusable(true);
         //this.requestFocusInWindow();
@@ -96,35 +88,8 @@ public class GamePanel extends JPanel implements SizeView {
         gameStateManager.draw(g2d);
        
         g2d.dispose();
+        /* Spostata la logica del renderer delle tites e delle entità nel PlayingRenderer */
 
-        Graphics2D g2 = (Graphics2D) g;
-
-        g2.setColor(Color.CYAN);
-        g2.fillRect(0, 0, getWidth(), getHeight());
-
-        for (Rectangle tile : tiles) {
-            g2.setColor(Color.LIGHT_GRAY);
-            g2.fill(tile);
-            if (tileImage != null) {
-                g2.drawImage(tileImage, tile.x, tile.y, this);
-            }
-        }
-
-        for (Entity e : entities) {
-            if (e.hasComponent(GenericAnimator.class)) {
-                GenericAnimator<?> animator = e.getComponent(GenericAnimator.class);
-
-                animator.getCurrentFrame().ifPresent(frame -> {
-                    if (e.hasComponent(TransformComponent.class)) {
-                        TransformComponent transform = e.getComponent(TransformComponent.class);
-                        int x = (int) transform.getX();
-                        int y = (int) transform.getY();
-                        g2.drawImage(frame, x, y, frame.getWidth(), frame.getHeight(), null);
-                    }
-                });
-            }
-        }
-    
     }
         
 }

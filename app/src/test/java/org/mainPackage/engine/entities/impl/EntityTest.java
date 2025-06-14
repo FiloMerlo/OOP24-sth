@@ -22,7 +22,7 @@ public class EntityTest {
         testEntity.addComponent(new PlayerPhysics(testEntity, new ArrayList<Rectangle2D.Float>()));
         testEntity.addComponent(new SonicAnimator());
         assertInstanceOf(TransformComponent.class, testEntity.getComponent(TransformComponent.class));
-        assertInstanceOf(PlayerPhysics.class, testEntity.getComponent(PhysicsComponent.class));
+        assertInstanceOf(PlayerPhysics.class, testEntity.getComponent(PlayerPhysics.class));
         assertInstanceOf(SonicAnimator.class, testEntity.getComponent(GenericAnimator.class));
         assertNotNull(testEntity.getComponent(PhysicsComponent.class).getHitbox());
     }
