@@ -13,6 +13,7 @@ import org.mainPackage.engine.components.PhysicsComponent;
 import org.mainPackage.engine.components.TransformComponent;
 import org.mainPackage.engine.components.PhysicsTypes.EnemyPhysics;
 import org.mainPackage.engine.components.PhysicsTypes.PlayerPhysics;
+import org.mainPackage.engine.events.api.EventType;
 import org.mainPackage.enums.action;
 import org.mainPackage.enums.direction;
 
@@ -63,9 +64,16 @@ public class PhysicsTest {
         testSonic.addComponent(new PlayerPhysics(testSonic, new ArrayList<>()));
         testEnemy.addComponent(new TransformComponent(10, 10, 3, 3));
         testEnemy.addComponent(new EnemyPhysics(0, testEnemy, new ArrayList<>(), testSonic));
+        final boolean[] gameOverTriggered = {false};
         
         testEnemy.update(0.1f);
         testSonic.update(0.1f);
+
+        testSonic.getComponent(PlayerPhysics.class).addObserver(event -> {
+        if (event.getType() == EventType.GAME_OVER) {
+            gameOverTriggered[0] = true;
+        }
+         });
         /*TODO check if sonic dies*/
     }
 }
