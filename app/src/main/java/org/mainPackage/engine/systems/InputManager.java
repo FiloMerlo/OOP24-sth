@@ -1,10 +1,11 @@
 package org.mainPackage.engine.systems;
 
+import org.mainPackage.engine.components.InputComponent;
 import org.mainPackage.engine.events.api.EventType;
+import org.mainPackage.engine.events.api.Observer;
 import org.mainPackage.engine.events.impl.InputEvent;
 import org.mainPackage.engine.events.impl.SubjectImpl;
-import org.mainPackage.game_parts.input;
-
+import org.mainPackage.enums.input;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
@@ -20,18 +21,21 @@ public class InputManager extends SubjectImpl implements KeyListener{
     private InputManager(){
         setActionKeys();
     }
+
     public static InputManager getInstance(){
         if (instance == null){
             instance = new InputManager();
         }
         return instance;
     }
+
     private void setActionKeys() {
         mapActionKeys.put(KeyEvent.VK_LEFT, input.LEFT);   
         mapActionKeys.put(KeyEvent.VK_RIGHT, input.RIGHT);
         mapActionKeys.put(KeyEvent.VK_SPACE, input.JUMP);
         mapActionKeys.put(KeyEvent.VK_DOWN, input.DOWN);
     }
+    
     @Override
     public void keyPressed(KeyEvent e) {
         InputEvent i = new InputEvent(EventType.KEY_DOWN, e);
@@ -46,7 +50,7 @@ public class InputManager extends SubjectImpl implements KeyListener{
         keysDown.remove(e.getKeyCode());
         i.notify();
     }
-    // keyTyped(KeyEvent e) regards about higher-events, then must be left empty
+    // keyTyped(KeyEvent e) regards about higher-level machine language, must be left empty
     @Override
     public void keyTyped(KeyEvent e) {
     }

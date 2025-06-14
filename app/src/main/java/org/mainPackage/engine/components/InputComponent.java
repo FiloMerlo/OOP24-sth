@@ -6,17 +6,20 @@ import org.mainPackage.engine.events.api.Event;
 import org.mainPackage.engine.events.api.Observer;
 import org.mainPackage.engine.events.impl.InputEvent;
 import org.mainPackage.engine.systems.InputManager;
-import org.mainPackage.game_parts.direction;
+import org.mainPackage.enums.direction;
 
 import java.awt.event.KeyEvent;
 
 public class InputComponent implements Component, Observer{
 
-    Entity owner;
-    PlayerPhysics playerPhysics = owner.getComponent(PlayerPhysics.class);
+    private Entity owner;
+    private PlayerPhysics playerPhysics = owner.getComponent(PlayerPhysics.class);
+    public InputComponent(){
+        InputManager.getInstance().addObserver(this);
+    }
     // Polling through input manager when a key is down (Character running to right or left)
     @Override
-    public void update() {
+    public void update(float deltaTime) {
         if(InputManager.getInstance().isKeyDown(KeyEvent.VK_RIGHT)){
             playerPhysics.moveX(direction.right);
         }
