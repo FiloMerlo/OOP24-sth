@@ -17,7 +17,7 @@ public class App {
     public static void main(String[] args) {
         int tileSize = 64, enemySize = 64, ringSize = 64, sonicSize = 54;
         
-        Game game = new Game();
+        
         
         ArrayList<Rectangle> tileList = new ArrayList<>();
         EntityManagerImpl entityManager = EntityManagerImpl.getInstance();
@@ -27,6 +27,8 @@ public class App {
         sonic.addComponent(new PlayerPhysics(sonic, tileList));
         sonic.addComponent(new SonicAnimator());
         entityManager.addEntity(sonic);
+
+        
 
         
         /* levelGrid è la matrice che indica cosa c'è in ogni porzione del livello
@@ -81,8 +83,8 @@ public class App {
 
             }
         }
-
-         GameStateManager gameStateManager = game.getGameStateManager();
+        Game game = new Game();
+        GameStateManager gameStateManager = game.getGameStateManager();
                 
                 if (gameStateManager != null){
                     gameStateManager.setSonicEntity(sonic); 
@@ -92,7 +94,7 @@ public class App {
                     System.err.println("GameStateMangaer non gestito correttamente");
                 }
 
-
+                
                 game.start();
     }
 }

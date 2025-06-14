@@ -33,10 +33,9 @@ public class EntityManagerImpl extends SubjectImpl implements EntityManager{
 
     @Override
     public void killEntity(Entity entity) {
-        if (entity.hasComponent(HealthComponent.class) && entity.getComponent(HealthComponent.class).getHealth() <= 0) {
-            entities.remove(entity);
-        } 
-    }
+        entities.remove(entity);
+    } 
+    
 
     @Override
     public void updateEntities(float deltaTime) {
