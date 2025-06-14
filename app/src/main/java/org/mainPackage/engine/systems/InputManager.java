@@ -1,8 +1,6 @@
 package org.mainPackage.engine.systems;
 
-import org.mainPackage.engine.components.InputComponent;
 import org.mainPackage.engine.events.api.EventType;
-import org.mainPackage.engine.events.api.Observer;
 import org.mainPackage.engine.events.impl.InputEvent;
 import org.mainPackage.engine.events.impl.SubjectImpl;
 import org.mainPackage.enums.input;
@@ -35,7 +33,7 @@ public class InputManager extends SubjectImpl implements KeyListener{
         mapActionKeys.put(KeyEvent.VK_SPACE, input.JUMP);
         mapActionKeys.put(KeyEvent.VK_DOWN, input.DOWN);
     }
-    
+
     @Override
     public void keyPressed(KeyEvent e) {
         InputEvent i = new InputEvent(EventType.KEY_DOWN, e);

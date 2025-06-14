@@ -1,10 +1,8 @@
 package org.mainPackage.engine.entities.impl;
 
-import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.mainPackage.engine.components.*;
 import org.mainPackage.engine.entities.api.*;
 import org.mainPackage.engine.events.api.*;
 import org.mainPackage.engine.events.impl.*;
@@ -34,8 +32,8 @@ public class EntityManagerImpl extends SubjectImpl implements EntityManager{
     @Override
     public void killEntity(Entity entity) {
         entities.remove(entity);
-    } 
-    
+    }
+
 
     @Override
     public void updateEntities(float deltaTime) {
