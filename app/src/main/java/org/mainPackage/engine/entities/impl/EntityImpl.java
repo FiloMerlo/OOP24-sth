@@ -28,6 +28,12 @@ public class EntityImpl extends SubjectImpl implements Entity {
     @Override
     public void addComponent(Component c){
         components.put(c.getClass(), c);
+        /*
+         * I add the superclass with the same object name to allow better scalabity
+         */
+        Class<?> superClass = c.getClass().getSuperclass();
+        components.put((Class<? extends Component>) superClass, c);
+        superClass = superClass.getSuperclass();
     }
 }
     
