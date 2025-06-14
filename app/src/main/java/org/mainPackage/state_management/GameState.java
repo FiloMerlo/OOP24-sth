@@ -4,10 +4,10 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
-
+import org.mainPackage.engine.events.impl.SubjectImpl;
 import org.mainPackage.util.SizeView;
 
-public abstract class GameState {
+public abstract class GameState extends SubjectImpl {
     protected GameStateManager gameStateManager;// Già presente per la comunicazione tra stati
     protected SizeView sizeView;
     

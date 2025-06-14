@@ -1,7 +1,6 @@
 package org.mainPackage.engine.entities.api;
 
 import java.util.List;
-import java.awt.Graphics;
 
 
 /*  This interface could be seen as the 'world' of the game 
@@ -20,6 +19,6 @@ public interface EntityManager {
     public void removeEntity(Entity entity);
 
     // Method to kill all entities
-    public void kiLLAllEntities();
+    public void killAllEntities();
 
 }

@@ -63,7 +63,7 @@ public class EntityManagerImpl extends SubjectImpl implements EntityManager{
     }
 
     @Override
-    public void kiLLAllEntities() {
+    public void killAllEntities() {
         entities.clear();
     }
 }

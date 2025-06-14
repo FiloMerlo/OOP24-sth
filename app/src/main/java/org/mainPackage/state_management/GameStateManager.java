@@ -4,14 +4,18 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import org.mainPackage.util.SizeView;
-
+import org.mainPackage.engine.components.GoalComponent;
 import org.mainPackage.engine.entities.api.Entity;
+import org.mainPackage.engine.entities.impl.EntityImpl;
+import org.mainPackage.engine.events.api.Event;
+import org.mainPackage.engine.events.api.Observer;
+import org.mainPackage.engine.events.impl.SubjectImpl;
 
 /**
  * Gestisce i diversi stati del gioco (es. menu, gioco, pausa).
  * Si occupa di delegare l'aggiornamento e il disegno dello stato corrente. Delega anche gli input
  */
-public class GameStateManager {
+public class GameStateManager implements Observer {
 
     private GameState currentState; 
     
@@ -42,7 +46,6 @@ public class GameStateManager {
         playingState = new PlayingState(this, sizeView, sonicEntity, levelGrid, tileWorldSize);
         pausedState = new PausedState(this, sizeView); // da passare il sizeview
         setState(State.MENU);
-
     }
 
     
@@ -140,6 +143,27 @@ public class GameStateManager {
     public void mouseMoved (MouseEvent e) {
         if (currentState != null) {
             currentState.mouseMoved(e);
+        }
+    }
+
+
+    @Override
+    public void onNotify(Event e) {
+        // TODO Auto-generated method stub
+        switch(e.getType()){
+            case GAME_OVER:
+                break;
+            case LEVEL_COMPLETED:
+                break;
+            case LEVEL_STARTED:
+                break;
+            case PAUSE:
+                break;
+            case RESUME:
+                break;
+            default:
+                break;
+            
         }
     }
 

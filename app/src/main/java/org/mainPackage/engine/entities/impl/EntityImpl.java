@@ -4,8 +4,9 @@ import java.util.HashMap;
 
 import org.mainPackage.engine.components.Component;
 import org.mainPackage.engine.entities.api.Entity;
+import org.mainPackage.engine.events.impl.SubjectImpl;
 
-public class EntityImpl implements Entity {
+public class EntityImpl extends SubjectImpl implements Entity {
     private HashMap<Class<? extends Component>, Component> components = new HashMap<>();
     public EntityImpl() {}
     

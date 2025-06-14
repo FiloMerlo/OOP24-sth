@@ -3,9 +3,12 @@ package org.mainPackage.engine.components;
 import java.awt.Rectangle;
 
 import org.mainPackage.engine.entities.impl.EntityImpl;
+import org.mainPackage.engine.events.api.EventType;
+import org.mainPackage.engine.events.impl.GameEvent;
+import org.mainPackage.engine.events.impl.SubjectImpl;
 
 
-public class GoalComponent implements Component {
+public class GoalComponent extends SubjectImpl implements Component {
     /*This component represent the objective to finish the level. It can be anything, from an enemy to kill to simply a point the player has to get to*/
     private Rectangle finishLine;
     private EntityImpl player;
@@ -19,6 +22,8 @@ public class GoalComponent implements Component {
         if (finishLine.intersects(player.getComponent(PhysicsComponent.class).getHitbox())) {
             System.out.println("Goal reached!");
             /*TODO fermare la partita*/
+            GameEvent e = new GameEvent(EventType.LEVEL_COMPLETED, player);
+            notifyObservers(e);
         }
     }
 }

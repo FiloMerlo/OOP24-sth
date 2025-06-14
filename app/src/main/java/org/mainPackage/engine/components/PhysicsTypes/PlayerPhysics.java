@@ -12,7 +12,7 @@ import org.mainPackage.engine.events.api.EventType;
 import java.awt.Rectangle;
 import java.util.*;
 
-public class PlayerPhysics extends PhysicsComponent{
+public class PlayerPhysics extends PhysicsComponent {
     private direction playerDir = direction.right;
     private int speedMod = 1, maxSpeed = 15, jSpeed = -5;
     private int rings = 0, jumping = 0;
@@ -116,7 +116,7 @@ public class PlayerPhysics extends PhysicsComponent{
         } else {
             e = new GameEvent(EventType.GAME_OVER , owner);
         }
-        e.notify();
+        notifyObservers(e);
     }
     public void gotRing(){
         rings++;
