@@ -21,13 +21,17 @@ public class App {
         
         
         EntityImpl sonic = new EntityImpl();
+        sonic.addComponent(new TransformComponent(0, 0, sonicSize, sonicSize)); 
         sonic.addComponent(new PlayerPhysics(sonic, tileList));
         sonic.addComponent(new SonicAnimator());
         entityManager.addEntity(sonic);
+        System.out.println("Transform: " + sonic.getComponent(TransformComponent.class));
+        System.out.println("Physics: " + sonic.getComponent(PhysicsComponent.class));
+        System.out.println("Animator: " + sonic.getComponent(SonicAnimator.class));
 
-        
+        Game game = new Game();
 
-        
+       
         /* levelGrid è la matrice che indica cosa c'è in ogni porzione del livello
         0 = empty, 1 = Tile, 2 = Static Enemies, 3 = Dynamic Enemies, 4 = player, 5 = ring, 6 = goal*/
         int[][] levelGrid = {
@@ -46,6 +50,7 @@ public class App {
                     case 1:
                         Rectangle2D.Float tile = new Rectangle2D.Float(xPos, yPos, tileSize, tileSize);
                         tileList.add(tile);
+                        System.out.println("tile ok");
                         break;
                     case 2:
                         EntityImpl staticEnemy = new EntityImpl();
@@ -53,6 +58,7 @@ public class App {
                         staticEnemy.addComponent(new TransformComponent(xPos, yPos + tileSize - enemySize, enemySize, enemySize));
                         staticEnemy.addComponent(new StaticEnemyAnimator());
                         entityManager.addEntity(staticEnemy);
+                        System.out.println("nemici statici");
                         break;
                     case 3:
                         EntityImpl chasingEnemy = new EntityImpl();
@@ -62,7 +68,7 @@ public class App {
                         entityManager.addEntity(chasingEnemy);                        
                         break;
                     case 4:
-                        sonic.addComponent(new TransformComponent(xPos, yPos + tileSize - sonicSize, sonicSize, sonicSize));
+                        //
                         break;
                     case 5:
                         EntityImpl ring = new EntityImpl();
@@ -80,18 +86,20 @@ public class App {
 
             }
         }
-        Game game = new Game();
-        GameStateManager gameStateManager = game.getGameStateManager();
-                
-                if (gameStateManager != null){
-                    gameStateManager.setSonicEntity(sonic); 
-                    gameStateManager.setLevelGrid(levelGrid); 
-                    gameStateManager.setTileWorldSize(tileSize); 
-                } else {
-                    System.err.println("GameStateMangaer non gestito correttamente");
-                }
+         
 
-                
-                game.start();
+         GameStateManager gameStateManager = game.getGameStateManager();
+
+
+            if (gameStateManager != null) {
+                gameStateManager.initState(sonic, levelGrid, sonicSize);
+                System.out.println("GameStateManager inizializzato con successo");
+            } else {
+                System.err.println("GameStateManager non inizializzato correttamente");
+            }
+
+
+            game.start();
+            
     }
 }

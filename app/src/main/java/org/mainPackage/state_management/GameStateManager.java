@@ -43,9 +43,19 @@ public class GameStateManager implements Observer {
         this.sizeView = sizeView;
         this.shutdownGame = shutdowGame;
 
-        playingState = new PlayingState(this, sizeView, sonicEntity, levelGrid, tileWorldSize);
-        pausedState = new PausedState(this, sizeView); // da passare il sizeview
+        
         setState(State.MENU);
+
+    }
+
+    public void initState(Entity sonicEntity, int[][] levelGrid, int tileWorldSize) {
+        this.sonicEntity = sonicEntity;
+        this.levelGrid = levelGrid;
+        this.tileWorldSize = tileWorldSize;
+
+        this.playingState = new PlayingState(this, sizeView, sonicEntity, levelGrid, tileWorldSize);
+        this.pausedState = new PausedState(this, sizeView);
+
     }
 
     
