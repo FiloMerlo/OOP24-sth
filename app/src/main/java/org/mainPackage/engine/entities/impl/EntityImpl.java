@@ -22,8 +22,9 @@ public class EntityImpl extends SubjectImpl implements Entity {
     }
     @Override
     public <T extends Component> T getComponent(Class<T> componentClass){
-        return componentClass.cast(components.get(componentClass)); // apposto di Component.class
+        return componentClass.cast(components.get(Component.class));
     }
+
     @Override
     public void addComponent(Component c){
         components.put(c.getClass(), c);
