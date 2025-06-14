@@ -9,14 +9,14 @@ import org.mainPackage.engine.components.PhysicsTypes.*;
 import org.mainPackage.engine.components.graphics.*;
 import org.mainPackage.engine.entities.impl.*;
 
-import java.awt.Rectangle;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 public class App {
     public static void main(String[] args) {
         int tileSize = 64, enemySize = 64, ringSize = 64, sonicSize = 54;
         Game game = new Game();
-        ArrayList<Rectangle> tileList = new ArrayList<>();
+        ArrayList<Rectangle2D.Float> tileList = new ArrayList<>();
         EntityManagerImpl entityManager = EntityManagerImpl.getInstance();
     /*Creo e aggiungo sonic al entity manager*/
         EntityImpl sonic = new EntityImpl();
@@ -39,7 +39,7 @@ public class App {
                 int xPos = c * tileSize, yPos = r * tileSize;
                 switch (levelGrid[r][c]){
                     case 1:
-                        Rectangle tile = new Rectangle(xPos, yPos, tileSize, tileSize);
+                        Rectangle2D.Float tile = new Rectangle2D.Float(xPos, yPos, tileSize, tileSize);
                         tileList.add(tile);
                         break;
                     case 2:

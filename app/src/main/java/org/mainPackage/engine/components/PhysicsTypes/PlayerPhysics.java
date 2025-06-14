@@ -4,7 +4,7 @@ import org.mainPackage.colliders.Collider;
 import org.mainPackage.colliders.PlayerCollider;
 import org.mainPackage.engine.components.PhysicsComponent;
 import org.mainPackage.engine.components.TransformComponent;
-import org.mainPackage.engine.entities.api.*;
+import org.mainPackage.engine.entities.impl.EntityImpl;
 import org.mainPackage.engine.events.impl.GameEvent;
 import org.mainPackage.enums.action;
 import org.mainPackage.enums.direction;
@@ -15,14 +15,14 @@ import java.util.*;
 
 public class PlayerPhysics extends PhysicsComponent{
     private direction playerDir = direction.right;
-    private float speedMod = 0.1f, maxSpeed = 32, fallingSpeed = 0.2f, fallMod = 0.1f, maxFallSpeed = 2;
+    private float speedMod = 0.1f, maxSpeed = 1.2f, fallingSpeed = 0.2f, fallMod = 0.1f, maxFallSpeed = 2;
     private int rings = 0, jumping = 0, maxJumping = 100, jSpeed = -2;
     private HashMap<direction, Boolean> canMove = new HashMap<>();
     private action playerAction = action.idle;
     private int iFrames = 0;
 
-    public PlayerPhysics(Entity o, ArrayList<Rectangle2D.Float> tList){
-        super(1, 5, o, tList);
+    public PlayerPhysics(EntityImpl o, ArrayList<Rectangle2D.Float> tList){
+        super(0.1f, 0.2f, o, tList);
         canMove.put(direction.left, true);
         canMove.put(direction.up, true);
         canMove.put(direction.right, true);
@@ -93,7 +93,13 @@ public class PlayerPhysics extends PhysicsComponent{
             jumping = 0;
         }
     } else if (canMove.get(direction.down)){ 
-        ySpeed = fallingSpeed;
+        if (ySpeed < fallingSpeed){
+            ySpeed = fallingSpeed;
+        } else{
+            if (ySpeed < maxFallSpeed){
+                ySpeed += fallMod;
+            }
+        }
     }
     else { ySpeed = 0; }
     owner.getComponent(TransformComponent.class).moveY(ySpeed);

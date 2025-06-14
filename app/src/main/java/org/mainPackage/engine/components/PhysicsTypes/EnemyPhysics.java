@@ -7,7 +7,6 @@ import java.awt.geom.Rectangle2D;
 import org.mainPackage.engine.entities.api.*;
 import org.mainPackage.enums.action;
 import org.mainPackage.enums.direction;
-import org.mainPackage.colliders.Collider;
 import org.mainPackage.colliders.EnemyCollider;
 import org.mainPackage.engine.components.PhysicsComponent;
 import org.mainPackage.engine.components.TransformComponent;
