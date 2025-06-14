@@ -70,7 +70,7 @@ public class GameStateManager {
     
     /* Metodi per playing state */
     public void setSonicEntity(Entity Sonic) {
-        this.sonicEntity = sonic;
+        this.sonicEntity = Sonic;
     }
 
     public void setLevelGrid(int[][] grid) {
