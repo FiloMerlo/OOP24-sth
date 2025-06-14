@@ -11,7 +11,8 @@ import org.mainPackage.engine.entities.api.Entity;
  * Gestisce i diversi stati del gioco (es. menu, gioco, pausa).
  * Si occupa di delegare l'aggiornamento e il disegno dello stato corrente. Delega anche gli input
  */
-public class GameStateManager {
+
+ public class GameStateManager {
 
     private GameState currentState; 
     
@@ -39,9 +40,18 @@ public class GameStateManager {
         this.sizeView = sizeView;
         this.shutdownGame = shutdowGame;
 
-        playingState = new PlayingState(this, sizeView, sonicEntity, levelGrid, tileWorldSize);
-        pausedState = new PausedState(this, sizeView); // da passare il sizeview
+        
         setState(State.MENU);
+
+    }
+
+    public void initState(Entity sonicEntity, int[][] levelGrid, int tileWorldSize) {
+        this.sonicEntity = sonicEntity;
+        this.levelGrid = levelGrid;
+        this.tileWorldSize = tileWorldSize;
+
+        this.playingState = new PlayingState(this, sizeView, sonicEntity, levelGrid, tileWorldSize);
+        this.pausedState = new PausedState(this, sizeView);
 
     }
 

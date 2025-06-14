@@ -72,26 +72,10 @@ public class PlayingState extends GameState {
    @Override
     public void keyPressed(KeyEvent e) {
         
-        // switch (e.getKeyCode()) {
-        //     case KeyEvent.VK_A:
-        //         character.moveX(left); // Muovi a sinistra
-        //         break;
-        //     case KeyEvent.VK_D:
-        //         character.moveX(right); // Muovi a destra
-        //         break;
-        //     case KeyEvent.VK_SPACE:
-        //         character.jump(); // Fai saltare il personaggio
-        //         break;
-        //     case KeyEvent.VK_P: // Tasto Pausa
-        //         gameStateManager.setState(GameStateManager.State.PAUSED);
-        //         //gameStateManager.getGameLoop().pauseLoop();
-                
-        //     break;
-            
-        //     default:
-               
-        //     break;
-        // }
+           if (e.getKeyCode() == KeyEvent.VK_P) {
+            gameStateManager.setState(GameStateManager.State.PAUSED);
+        }
+
     }
 
     @Override
