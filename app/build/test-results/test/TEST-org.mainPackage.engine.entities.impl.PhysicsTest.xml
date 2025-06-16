@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="org.mainPackage.engine.entities.impl.PhysicsTest" tests="2" skipped="0" failures="2" errors="0" timestamp="2025-06-14T21:36:46.953Z" hostname="MacBook-Pro-di-Francesco.local" time="0.003">
+<testsuite name="org.mainPackage.engine.entities.impl.PhysicsTest" tests="2" skipped="0" failures="2" errors="0" timestamp="2025-06-16T17:47:08.452Z" hostname="Filo" time="0.007">
   <properties/>
-  <testcase name="checkIfSonicDies()" classname="org.mainPackage.engine.entities.impl.PhysicsTest" time="0.001">
+  <testcase name="checkIfSonicDies()" classname="org.mainPackage.engine.entities.impl.PhysicsTest" time="0.004">
     <failure message="java.lang.ClassCastException: Cannot cast org.mainPackage.engine.components.TransformComponent to org.mainPackage.engine.components.PhysicsComponent" type="java.lang.ClassCastException">java.lang.ClassCastException: Cannot cast org.mainPackage.engine.components.TransformComponent to org.mainPackage.engine.components.PhysicsComponent
 	at java.base/java.lang.Class.cast(Class.java:4139)
 	at org.mainPackage.engine.entities.impl.EntityImpl.getComponent(EntityImpl.java:25)
@@ -12,7 +12,7 @@
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
 </failure>
   </testcase>
-  <testcase name="playerCollisionsTest()" classname="org.mainPackage.engine.entities.impl.PhysicsTest" time="0.001">
+  <testcase name="playerCollisionsTest()" classname="org.mainPackage.engine.entities.impl.PhysicsTest" time="0.002">
     <failure message="java.lang.ClassCastException: Cannot cast org.mainPackage.engine.components.TransformComponent to org.mainPackage.engine.components.PhysicsTypes.PlayerPhysics" type="java.lang.ClassCastException">java.lang.ClassCastException: Cannot cast org.mainPackage.engine.components.TransformComponent to org.mainPackage.engine.components.PhysicsTypes.PlayerPhysics
 	at java.base/java.lang.Class.cast(Class.java:4139)
 	at org.mainPackage.engine.entities.impl.EntityImpl.getComponent(EntityImpl.java:25)

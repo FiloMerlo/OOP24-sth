@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="org.mainPackage.engine.entities.impl.EntityTest" tests="1" skipped="0" failures="1" errors="0" timestamp="2025-06-14T21:36:46.885Z" hostname="MacBook-Pro-di-Francesco.local" time="0.066">
+<testsuite name="org.mainPackage.engine.entities.impl.EntityTest" tests="1" skipped="0" failures="1" errors="0" timestamp="2025-06-16T17:47:08.262Z" hostname="Filo" time="0.185">
   <properties/>
-  <testcase name="componentsAddedCorrectly()" classname="org.mainPackage.engine.entities.impl.EntityTest" time="0.066">
+  <testcase name="componentsAddedCorrectly()" classname="org.mainPackage.engine.entities.impl.EntityTest" time="0.185">
     <failure message="java.lang.ClassCastException: Cannot cast org.mainPackage.engine.components.TransformComponent to org.mainPackage.engine.components.PhysicsTypes.PlayerPhysics" type="java.lang.ClassCastException">java.lang.ClassCastException: Cannot cast org.mainPackage.engine.components.TransformComponent to org.mainPackage.engine.components.PhysicsTypes.PlayerPhysics
 	at java.base/java.lang.Class.cast(Class.java:4139)
 	at org.mainPackage.engine.entities.impl.EntityImpl.getComponent(EntityImpl.java:25)
