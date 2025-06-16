@@ -56,6 +56,7 @@ public class GameStateManager implements Observer {
         this.playingState = new PlayingState(this, sizeView, sonicEntity, levelGrid, tileWorldSize, goal);
         this.pausedState = new PausedState(this, sizeView);
         ((EntityImpl) sonicEntity).addObserver(this);
+        goal.addObserver(this);
     }
 
     
