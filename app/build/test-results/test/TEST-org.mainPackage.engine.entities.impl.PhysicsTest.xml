@@ -1,20 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="org.mainPackage.engine.entities.impl.PhysicsTest" tests="2" skipped="0" failures="2" errors="0" timestamp="2025-06-16T18:03:54.155Z" hostname="Filo" time="0.023">
+<testsuite name="org.mainPackage.engine.entities.impl.PhysicsTest" tests="2" skipped="0" failures="1" errors="0" timestamp="2025-06-16T23:11:17.512Z" hostname="Filo" time="0.02">
   <properties/>
-  <testcase name="checkIfSonicDies()" classname="org.mainPackage.engine.entities.impl.PhysicsTest" time="0.016">
-    <failure message="org.opentest4j.AssertionFailedError: Sonic dies ==&gt; expected: &lt;true&gt; but was: &lt;false&gt;" type="org.opentest4j.AssertionFailedError">org.opentest4j.AssertionFailedError: Sonic dies ==&gt; expected: &lt;true&gt; but was: &lt;false&gt;
-	at app//org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
-	at app//org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
-	at app//org.junit.jupiter.api.AssertTrue.failNotTrue(AssertTrue.java:63)
-	at app//org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:36)
-	at app//org.junit.jupiter.api.Assertions.assertTrue(Assertions.java:214)
-	at app//org.mainPackage.engine.entities.impl.PhysicsTest.checkIfSonicDies(PhysicsTest.java:80)
-	at java.base@23.0.2/java.lang.reflect.Method.invoke(Method.java:580)
-	at java.base@23.0.2/java.util.ArrayList.forEach(ArrayList.java:1597)
-	at java.base@23.0.2/java.util.ArrayList.forEach(ArrayList.java:1597)
-</failure>
-  </testcase>
-  <testcase name="playerCollisionsTest()" classname="org.mainPackage.engine.entities.impl.PhysicsTest" time="0.004">
+  <testcase name="checkIfSonicDies()" classname="org.mainPackage.engine.entities.impl.PhysicsTest" time="0.004"/>
+  <testcase name="playerCollisionsTest()" classname="org.mainPackage.engine.entities.impl.PhysicsTest" time="0.013">
     <failure message="org.opentest4j.AssertionFailedError: expected: &lt;10.0&gt; but was: &lt;10.7&gt;" type="org.opentest4j.AssertionFailedError">org.opentest4j.AssertionFailedError: expected: &lt;10.0&gt; but was: &lt;10.7&gt;
 	at app//org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
 	at app//org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
@@ -22,13 +10,13 @@
 	at app//org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:102)
 	at app//org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:97)
 	at app//org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:735)
-	at app//org.mainPackage.engine.entities.impl.PhysicsTest.playerCollisionsTest(PhysicsTest.java:40)
+	at app//org.mainPackage.engine.entities.impl.PhysicsTest.playerCollisionsTest(PhysicsTest.java:41)
 	at java.base@23.0.2/java.lang.reflect.Method.invoke(Method.java:580)
 	at java.base@23.0.2/java.util.ArrayList.forEach(ArrayList.java:1597)
 	at java.base@23.0.2/java.util.ArrayList.forEach(ArrayList.java:1597)
 </failure>
   </testcase>
-  <system-out><![CDATA[State:falling
+  <system-out><![CDATA[State: falling
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
