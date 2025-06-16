@@ -74,6 +74,10 @@ public class PhysicsTest {
             gameOverTriggered[0] = true;
         }
          });
+         testEnemy.update(0.1f);
+        testSonic.update(0.1f);
+        System.out.println("State:" + testSonic.getComponent(PlayerPhysics.class).getAction());
+         assertTrue(gameOverTriggered[0], "Sonic dies");
         /*TODO check if sonic dies*/
     }
 }
