@@ -9,7 +9,7 @@ import org.mainPackage.engine.entities.api.Entity;
 import org.mainPackage.engine.entities.impl.EntityImpl;
 import org.mainPackage.engine.events.api.Event;
 import org.mainPackage.engine.events.api.Observer;
-import org.mainPackage.engine.events.impl.SubjectImpl;
+import org.mainPackage.engine.events.impl.GameEvent;
 
 /**
  * Gestisce i diversi stati del gioco (es. menu, gioco, pausa).
@@ -45,17 +45,17 @@ public class GameStateManager implements Observer {
 
         
         setState(State.MENU);
-
+        
     }
 
-    public void initState(Entity sonicEntity, int[][] levelGrid, int tileWorldSize) {
+    public void initState(Entity sonicEntity, int[][] levelGrid, int tileWorldSize, GoalComponent goal) {
         this.sonicEntity = sonicEntity;
         this.levelGrid = levelGrid;
         this.tileWorldSize = tileWorldSize;
 
-        this.playingState = new PlayingState(this, sizeView, sonicEntity, levelGrid, tileWorldSize);
+        this.playingState = new PlayingState(this, sizeView, sonicEntity, levelGrid, tileWorldSize, goal);
         this.pausedState = new PausedState(this, sizeView);
-
+        ((EntityImpl) sonicEntity).addObserver(this);
     }
 
     
@@ -159,22 +159,27 @@ public class GameStateManager implements Observer {
 
     @Override
     public void onNotify(Event e) {
-        // TODO Auto-generated method stub
+        if(e instanceof GameEvent){
         switch(e.getType()){
             case GAME_OVER:
+                setState(State.MENU);
                 break;
             case LEVEL_COMPLETED:
+                setState(State.MENU);
                 break;
             case LEVEL_STARTED:
+                setState(State.PLAYING);
                 break;
             case PAUSE:
+                setState(State.PAUSED);
                 break;
             case RESUME:
+                setState(State.PLAYING);
                 break;
             default:
                 break;
             
+            }
         }
     }
-
 }

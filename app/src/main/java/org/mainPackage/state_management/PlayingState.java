@@ -27,20 +27,21 @@ public class PlayingState extends GameState {
     private long lastUpdateTime = System.currentTimeMillis();
     
     
-    public PlayingState(GameStateManager gameStateManager, SizeView sizeView, Entity sonic, int[][] grid, int tileSize) {
+    public PlayingState(GameStateManager gameStateManager, SizeView sizeView, Entity sonic, int[][] grid, int tileSize, GoalComponent goal) {
         super(gameStateManager, sizeView);
         System.out.println("PlayingState inizializzato.");
         this.entityManager = EntityManagerImpl.getInstance();
         this.sonicPlayer = sonic;
         this.levelGrid = grid;
         this.tileWorldSize = tileSize;
-
+        this.goal = goal;
         this.playingRenderer = new PlayingRenderer(entityManager, levelGrid, tileWorldSize);
 
         if (this.sonicPlayer == null) {
             System.err.println("Sonic non è stato trovato");
         }
         ((EntityImpl) sonicPlayer).addObserver(this.gameStateManager);
+        ((GoalComponent) goal).addObserver(this.gameStateManager);
     }
     
     

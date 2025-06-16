@@ -39,7 +39,6 @@ public class InputManager extends SubjectImpl implements KeyListener{
         InputEvent i = new InputEvent(EventType.KEY_DOWN, e);
         keysDown.add(e.getKeyCode());
         notifyObservers(i);
-
     }
 
     @Override

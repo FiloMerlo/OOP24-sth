@@ -35,7 +35,7 @@ public class EntityImpl extends SubjectImpl implements Entity {
         components.put((Class<? extends Component>) superClass, c);
         superClass = superClass.getSuperclass();
         /*
-        * I add the interfaces too because there are components which implements observers or other interfaces
+        * I add the interface too
         */
         for (Class<?> interfaceClass : c.getClass().getInterfaces()) {
             components.put((Class<? extends Component>) interfaceClass, c);
