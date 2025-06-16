@@ -32,6 +32,9 @@ public class InputManager extends SubjectImpl implements KeyListener{
         mapActionKeys.put(KeyEvent.VK_RIGHT, input.RIGHT);
         mapActionKeys.put(KeyEvent.VK_SPACE, input.JUMP);
         mapActionKeys.put(KeyEvent.VK_DOWN, input.DOWN);
+        mapActionKeys.put(KeyEvent.VK_ESCAPE, input.PAUSE);
+        mapActionKeys.put(KeyEvent.VK_ESCAPE, input.RESUME);
+
     }
 
     @Override

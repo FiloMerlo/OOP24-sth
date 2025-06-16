@@ -4,5 +4,7 @@ public enum input {
     RIGHT,
     LEFT,
     JUMP,
-    DOWN
+    DOWN, 
+    PAUSE, 
+    RESUME
 }

@@ -10,6 +10,7 @@ import org.mainPackage.engine.entities.impl.EntityImpl;
 import org.mainPackage.engine.events.api.Event;
 import org.mainPackage.engine.events.api.Observer;
 import org.mainPackage.engine.events.impl.GameEvent;
+import org.mainPackage.engine.systems.InputManager;
 
 /**
  * Gestisce i diversi stati del gioco (es. menu, gioco, pausa).
@@ -18,7 +19,7 @@ import org.mainPackage.engine.events.impl.GameEvent;
 public class GameStateManager implements Observer {
 
     private GameState currentState; 
-    
+
     //private GameLoop gameLoop /* funzione di pausa gameLoop inutile */
     private PlayingState playingState;
     private PausedState pausedState;
@@ -37,7 +38,7 @@ public class GameStateManager implements Observer {
         PAUSED
         
     }
-
+    
 
     public GameStateManager(SizeView sizeView, Runnable shutdowGame) {
         this.sizeView = sizeView;
@@ -57,6 +58,7 @@ public class GameStateManager implements Observer {
         this.pausedState = new PausedState(this, sizeView);
         ((EntityImpl) sonicEntity).addObserver(this);
         goal.addObserver(this);
+        InputManager.getInstance().addObserver(this);
     }
 
     
