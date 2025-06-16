@@ -31,11 +31,18 @@ public class PhysicsTest {
         testEntity.addComponent(new PlayerPhysics(testEntity, rects));
         float firstX = testEntity.getComponent(TransformComponent.class).getX();
         float firstY = testEntity.getComponent(TransformComponent.class).getY();
+        System.out.println("FirstY: " + firstY);
 
         /*check vertical collisions*/
         testEntity.update(0.1f);
+        System.out.println("FirstY: " + firstY);
+
         float secondY = testEntity.getComponent(TransformComponent.class).getY();
-        testEntity.getComponent(PlayerPhysics.class).jump();
+System.out.println("FirstY: " + firstY);
+        System.out.println("SecondY: " + secondY);
+                testEntity.getComponent(PlayerPhysics.class).jump();
+        System.out.println("FirstY: " + firstY);
+        System.out.println("SecondY: " + secondY);
         testEntity.update(0.1f);
         float thirdY = testEntity.getComponent(TransformComponent.class).getY();
         assertEquals(firstY, secondY);
