@@ -1,25 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="org.mainPackage.engine.entities.impl.PhysicsTest" tests="2" skipped="0" failures="2" errors="0" timestamp="2025-06-16T17:47:08.452Z" hostname="Filo" time="0.007">
+<testsuite name="org.mainPackage.engine.entities.impl.PhysicsTest" tests="2" skipped="0" failures="1" errors="0" timestamp="2025-06-16T17:58:41.706Z" hostname="Filo" time="0.017">
   <properties/>
-  <testcase name="checkIfSonicDies()" classname="org.mainPackage.engine.entities.impl.PhysicsTest" time="0.004">
-    <failure message="java.lang.ClassCastException: Cannot cast org.mainPackage.engine.components.TransformComponent to org.mainPackage.engine.components.PhysicsComponent" type="java.lang.ClassCastException">java.lang.ClassCastException: Cannot cast org.mainPackage.engine.components.TransformComponent to org.mainPackage.engine.components.PhysicsComponent
-	at java.base/java.lang.Class.cast(Class.java:4139)
-	at org.mainPackage.engine.entities.impl.EntityImpl.getComponent(EntityImpl.java:25)
-	at org.mainPackage.engine.components.PhysicsTypes.EnemyPhysics.&lt;init&gt;(EnemyPhysics.java:24)
-	at org.mainPackage.engine.entities.impl.PhysicsTest.checkIfSonicDies(PhysicsTest.java:66)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
-</failure>
-  </testcase>
-  <testcase name="playerCollisionsTest()" classname="org.mainPackage.engine.entities.impl.PhysicsTest" time="0.002">
-    <failure message="java.lang.ClassCastException: Cannot cast org.mainPackage.engine.components.TransformComponent to org.mainPackage.engine.components.PhysicsTypes.PlayerPhysics" type="java.lang.ClassCastException">java.lang.ClassCastException: Cannot cast org.mainPackage.engine.components.TransformComponent to org.mainPackage.engine.components.PhysicsTypes.PlayerPhysics
-	at java.base/java.lang.Class.cast(Class.java:4139)
-	at org.mainPackage.engine.entities.impl.EntityImpl.getComponent(EntityImpl.java:25)
-	at org.mainPackage.engine.entities.impl.PhysicsTest.playerCollisionsTest(PhysicsTest.java:37)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+  <testcase name="checkIfSonicDies()" classname="org.mainPackage.engine.entities.impl.PhysicsTest" time="0.002"/>
+  <testcase name="playerCollisionsTest()" classname="org.mainPackage.engine.entities.impl.PhysicsTest" time="0.014">
+    <failure message="org.opentest4j.AssertionFailedError: expected: &lt;10.0&gt; but was: &lt;10.7&gt;" type="org.opentest4j.AssertionFailedError">org.opentest4j.AssertionFailedError: expected: &lt;10.0&gt; but was: &lt;10.7&gt;
+	at app//org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at app//org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at app//org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at app//org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:102)
+	at app//org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:97)
+	at app//org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:735)
+	at app//org.mainPackage.engine.entities.impl.PhysicsTest.playerCollisionsTest(PhysicsTest.java:40)
+	at java.base@23.0.2/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base@23.0.2/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base@23.0.2/java.util.ArrayList.forEach(ArrayList.java:1597)
 </failure>
   </testcase>
   <system-out><![CDATA[]]></system-out>
