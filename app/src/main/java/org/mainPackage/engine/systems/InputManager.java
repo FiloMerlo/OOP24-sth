@@ -38,7 +38,7 @@ public class InputManager extends SubjectImpl implements KeyListener{
     public void keyPressed(KeyEvent e) {
         InputEvent i = new InputEvent(EventType.KEY_DOWN, e);
         keysDown.add(e.getKeyCode());
-        i.notify();
+        notifyObservers(i);
 
     }
 
@@ -46,7 +46,7 @@ public class InputManager extends SubjectImpl implements KeyListener{
     public void keyReleased(KeyEvent e) {
         InputEvent i = new InputEvent(EventType.KEY_RELEASED, e);
         keysDown.remove(e.getKeyCode());
-        i.notify();
+        notifyObservers(i);
     }
     // keyTyped(KeyEvent e) regards about higher-level machine language, must be left empty
     @Override
