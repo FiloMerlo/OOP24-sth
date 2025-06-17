@@ -22,7 +22,7 @@ public class EntityImpl extends SubjectImpl implements Entity {
     }
     @Override
     public <T extends Component> T getComponent(Class<T> componentClass){
-        return componentClass.cast(components.get(Component.class));
+        return componentClass.cast(components.get(componentClass));
     }
 
     @Override
@@ -35,12 +35,12 @@ public class EntityImpl extends SubjectImpl implements Entity {
         components.put((Class<? extends Component>) superClass, c);
         superClass = superClass.getSuperclass();
         /*
-        * I add the interfaces too because there are components which implements observers or other interfaces
+        * I add the interface too
         */
         for (Class<?> interfaceClass : c.getClass().getInterfaces()) {
             components.put((Class<? extends Component>) interfaceClass, c);
         }
     }
-    }
 }
+
     

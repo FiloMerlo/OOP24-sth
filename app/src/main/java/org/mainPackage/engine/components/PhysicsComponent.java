@@ -21,6 +21,10 @@ public abstract class PhysicsComponent extends SubjectImpl implements Component{
         ySpeed = yS;
         owner = o;
         hitbox = new Rectangle2D.Float();
+        hitbox.setRect(owner.getComponent(TransformComponent.class).getX(), 
+        owner.getComponent(TransformComponent.class).getY(), 
+        owner.getComponent(TransformComponent.class).getWidth(), 
+        owner.getComponent(TransformComponent.class).getHeight());
         tiles = tList;
     }
     public Rectangle2D.Float getHitbox(){
