@@ -1,6 +1,6 @@
 package org.mainPackage.engine.components.graphics;
 
-import org.mainPackage.game_parts.action;
+import org.mainPackage.enums.action;
 import org.mainPackage.util.SpriteLoader;
 
 public class SonicAnimator extends GenericAnimator<action> {

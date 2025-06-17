@@ -11,7 +11,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import java.awt.event.MouseMotionAdapter;
-
 import java.awt.*;
 
 public class GamePanel extends JPanel implements SizeView {
@@ -20,10 +19,9 @@ public class GamePanel extends JPanel implements SizeView {
     public static final int DEFAULT_HEIGHT = 600;
 
     private GameStateManager gameStateManager;
+    
 
     public GamePanel() {
-        
-        
         this.setPreferredSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT)); 
         this.setFocusable(true);
         //this.requestFocusInWindow();
@@ -90,8 +88,8 @@ public class GamePanel extends JPanel implements SizeView {
         gameStateManager.draw(g2d);
        
         g2d.dispose();
-        
-    
+        /* Spostata la logica del renderer delle tites e delle entità nel PlayingRenderer */
+
     }
         
 }

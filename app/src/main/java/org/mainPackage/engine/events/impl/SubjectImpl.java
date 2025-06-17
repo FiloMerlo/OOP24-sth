@@ -2,6 +2,7 @@ package org.mainPackage.engine.events.impl;
 
 import java.util.List;
 
+import org.mainPackage.engine.events.api.Event;
 import org.mainPackage.engine.events.api.Observer;
 import org.mainPackage.engine.events.api.Subject;
 
@@ -21,7 +22,7 @@ public class SubjectImpl implements Subject {
     }
 
     @Override
-    public void notifyObservers(GameEvent e) {
+    public void notifyObservers(Event e) {
         observers.stream().forEach(o -> o.onNotify(e));
     }
     

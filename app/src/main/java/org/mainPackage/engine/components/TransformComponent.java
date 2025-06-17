@@ -1,30 +1,30 @@
 package org.mainPackage.engine.components;
 
 public class TransformComponent implements Component{
-    private int x, y, width, height;
+    private float x, y, width, height;
     
-    public TransformComponent(int x, int y, int width, int height){
+    public TransformComponent(float x, float y, float width, float height){
         this.x = x; 
         this.y = y;   
         this.width = width;
         this.height = height;
     }
-    public int getX(){
+    public float getX(){
         return this.x;
     }
-    public int getY(){
+    public float getY(){
         return this.y;
     }
-    public void moveX(int x){
+    public void moveX(float x){
         this.x += x;
     }
-    public void moveY(int y){
+    public void moveY(float y){
         this.y += y;
     }
-    public int getWidth(){
+    public float getWidth(){
         return this.width;
     }
-    public int getHeight(){
+    public float getHeight(){
         return this.height;
     }
     @SuppressWarnings(value = { "Passive component" })

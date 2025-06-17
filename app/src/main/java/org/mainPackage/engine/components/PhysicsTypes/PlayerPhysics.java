@@ -1,32 +1,34 @@
 package org.mainPackage.engine.components.PhysicsTypes;
 
+import org.mainPackage.colliders.Collider;
 import org.mainPackage.colliders.PlayerCollider;
 import org.mainPackage.engine.components.PhysicsComponent;
 import org.mainPackage.engine.components.TransformComponent;
-import org.mainPackage.game_parts.direction;
-import org.mainPackage.game_parts.action;
-import org.mainPackage.engine.entities.api.*;
+
+import org.mainPackage.engine.entities.impl.EntityImpl;
 import org.mainPackage.engine.events.impl.GameEvent;
+import org.mainPackage.enums.action;
+import org.mainPackage.enums.direction;
 import org.mainPackage.engine.events.api.EventType;
 
-import java.awt.Rectangle;
+import java.awt.geom.Rectangle2D;
 import java.util.*;
 
-public class PlayerPhysics extends PhysicsComponent{
+public class PlayerPhysics extends PhysicsComponent {
     private direction playerDir = direction.right;
-    private int speedMod = 1, maxSpeed = 15, jSpeed = -5;
-    private int rings = 0, jumping = 0;
+    private float speedMod = 0.1f, maxSpeed = 1.2f, fallingSpeed = 0.2f, fallMod = 0.1f, maxFallSpeed = 2;
+    private int rings = 0, jumping = 0, maxJumping = 100, jSpeed = -2;
     private HashMap<direction, Boolean> canMove = new HashMap<>();
     private action playerAction = action.idle;
     private int iFrames = 0;
 
-    public PlayerPhysics(Entity o, ArrayList<Rectangle> tList){
-        super(1, 5, o, tList);
+    public PlayerPhysics(EntityImpl o, ArrayList<Rectangle2D.Float> tList){
+        super(0.1f, 0.2f, o, tList);
         canMove.put(direction.left, true);
         canMove.put(direction.up, true);
         canMove.put(direction.right, true);
         canMove.put(direction.down, true);
-        collider = new PlayerCollider(tList, this);
+        colliders.add(new PlayerCollider(tList, this, hitbox));
     }
 
     @Override
@@ -38,8 +40,6 @@ public class PlayerPhysics extends PhysicsComponent{
         if (iFrames > 0) {
             iFrames--;
         }
-
-        collider.checkCollisions();
         determineAction();
         moveY();
     }
@@ -53,9 +53,9 @@ public class PlayerPhysics extends PhysicsComponent{
             if (canMove.get(direction.down)){
                 playerAction = action.falling;
             } else{
-                if (xSpeed > 15){
+                if (xSpeed == maxSpeed){
                     playerAction = action.dashing;
-                } else if (xSpeed > 10){
+                } else if (xSpeed > 15){
                     playerAction = action.running;
                 } else if(xSpeed > 0){
                     playerAction = action.walking;
@@ -74,7 +74,9 @@ public class PlayerPhysics extends PhysicsComponent{
         }
         if(canMove.get(dir) == true){
             owner.getComponent(TransformComponent.class).moveX(xSpeed);
-            collider.getSensor().translate(xSpeed, 0);
+            for (Collider coll : colliders) {
+                coll.getSensor().x += xSpeed;
+            }
             /*If sonic moves on the ground, he gains speed*/
             if (xSpeed < maxSpeed && canMove.get(direction.down) == false){
                 xSpeed += speedMod;
@@ -84,7 +86,7 @@ public class PlayerPhysics extends PhysicsComponent{
         }
         
     }
-    public void moveY(){  /*This method won't be requested by PlayerInputs. It simulates gravity*/
+    public void moveY(){  /*This method simulates gravity*/
     if(jumping > 0){
         if(canMove.get(direction.up)){
             jumping--;
@@ -92,18 +94,32 @@ public class PlayerPhysics extends PhysicsComponent{
             jumping = 0;
         }
     } else if (canMove.get(direction.down)){ 
-        ySpeed = 5;
+        if (ySpeed < fallingSpeed){
+            ySpeed = fallingSpeed;
+        } else{
+            if (ySpeed < maxFallSpeed){
+                ySpeed += fallMod;
+            }
+        }
     }
     else { ySpeed = 0; }
     owner.getComponent(TransformComponent.class).moveY(ySpeed);
-    collider.getSensor().translate(0, ySpeed);
+    for (Collider coll : colliders) {
+        coll.getSensor().y += ySpeed;
+    }
 }
     public void jump(){
-        if (canMove.get(direction.down) == false){
-            jumping = 5;
+        if (canMove.get(direction.down) == false && playerAction != action.jumping){
+            jumping = 100; /*number of jump frames*/
             ySpeed = jSpeed;
             playerAction = action.jumping;
         }
+        else if(jumping < maxJumping && playerAction == action.jumping){
+            jumping++;
+        }
+    }
+    public void smallJump(){
+        jumping++;
     }
 
     public void takeDamage(){
@@ -116,7 +132,7 @@ public class PlayerPhysics extends PhysicsComponent{
         } else {
             e = new GameEvent(EventType.GAME_OVER , owner);
         }
-        e.notify();
+        notifyObservers(e);
     }
     public void gotRing(){
         rings++;
@@ -131,7 +147,7 @@ public class PlayerPhysics extends PhysicsComponent{
             playerAction = action.hurt;
         }
     }
-    public Rectangle getHitbox(){ return hitbox; }
+    public Rectangle2D.Float getHitbox(){ return hitbox; }
     public action getAction() { return playerAction; }
     public direction getDirection() { return playerDir; }
     public void setMovement(direction dir, boolean bool){ 
