@@ -2,6 +2,9 @@ package org.mainPackage.engine.components;
 
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+
+import javax.swing.text.html.parser.Entity;
+
 import org.mainPackage.colliders.Collider;
 import org.mainPackage.engine.entities.impl.EntityImpl;
 import org.mainPackage.engine.events.api.EventType;
@@ -42,4 +45,7 @@ public abstract class PhysicsComponent extends SubjectImpl implements Component{
         }
     }
     public abstract void setMovement(direction dir, boolean b);
+    public EntityImpl getOwner() {
+        return owner;
+    }
 }

@@ -1,7 +1,4 @@
-State: falling
-FirstY: 10.0
-FirstY: 10.0
-FirstY: 10.0
-SecondY: 10.7
-FirstY: 10.0
-SecondY: 10.7
+State: walking
+FirstY: 10.0
+SecondY: 10.0
+thirdY: 8.0

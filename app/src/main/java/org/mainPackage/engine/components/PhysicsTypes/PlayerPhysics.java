@@ -16,8 +16,8 @@ import java.util.*;
 
 public class PlayerPhysics extends PhysicsComponent {
     private direction playerDir = direction.right;
-    private float speedMod = 0.1f, maxSpeed = 1.2f, fallingSpeed = 0.2f, fallMod = 0.1f, maxFallSpeed = 2;
-    private int rings = 0, jumping = 0, maxJumping = 100, jSpeed = -2;
+    private float speedMod = 0.1f, maxSpeed = 1.2f, fallingSpeed = 0.1f, fallMod = 0.1f, maxFallSpeed = 1;
+    private int rings = 0, jumping = 0, maxJumping = 100, jSpeed = -1;
     private HashMap<direction, Boolean> canMove = new HashMap<>();
     private action playerAction = action.idle;
     private int iFrames = 0;
@@ -96,13 +96,11 @@ public class PlayerPhysics extends PhysicsComponent {
     } else if (canMove.get(direction.down)){ 
         if (ySpeed < fallingSpeed){
             ySpeed = fallingSpeed;
-        } else{
-            if (ySpeed < maxFallSpeed){
-                ySpeed += fallMod;
-            }
+        } else if (ySpeed < maxFallSpeed){
+            ySpeed += fallMod;
         }
-    }
-    else { ySpeed = 0; }
+    } else { ySpeed = 0; }
+
     owner.getComponent(TransformComponent.class).moveY(ySpeed);
     for (Collider coll : colliders) {
         coll.getSensor().y += ySpeed;
@@ -110,16 +108,19 @@ public class PlayerPhysics extends PhysicsComponent {
 }
     public void jump(){
         if (canMove.get(direction.down) == false && playerAction != action.jumping){
-            jumping = 100; /*number of jump frames*/
+            jumping = 60; /*number of jump frames*/
             ySpeed = jSpeed;
             playerAction = action.jumping;
         }
         else if(jumping < maxJumping && playerAction == action.jumping){
-            jumping++;
+            /*this lets the player  */
+            smallJump();
         }
     }
     public void smallJump(){
-        jumping++;
+        jumping += 10;
+        ySpeed = jSpeed;
+        playerAction = action.jumping;
     }
 
     public void takeDamage(){
@@ -150,6 +151,7 @@ public class PlayerPhysics extends PhysicsComponent {
     public Rectangle2D.Float getHitbox(){ return hitbox; }
     public action getAction() { return playerAction; }
     public direction getDirection() { return playerDir; }
+    public boolean getCanMove(direction dir){ return canMove.get(playerDir); }
     public void setMovement(direction dir, boolean bool){ 
         canMove.replace(dir, bool); 
     }
