@@ -9,21 +9,31 @@ import org.mainPackage.engine.events.impl.*;
 
 
 public class EntityManagerImpl extends SubjectImpl implements EntityManager{
-    private List<Entity> entities = new ArrayList<>();
+    /*
+     * Separating lists to preventing concurrentiality issues
+     */
+    private List<Entity> entitiesToUpdate;
+    private List<Entity> entitiesToAdd; 
+    private List<Entity> entitiesToRemove;
     private final static EntityManagerImpl instance = new EntityManagerImpl();
 
     private EntityManagerImpl(){
-
+        entitiesToUpdate = new ArrayList<>();
+        entitiesToAdd = new ArrayList<>();
+        entitiesToRemove = new ArrayList<>();
     }
 
     public static EntityManagerImpl getInstance(){
+        if(instance == null){
+            return new EntityManagerImpl();
+        }
         return instance;
     }
 
     @Override
     public void addEntity(Entity entity) {
-        if (!entities.contains(entity)) {
-            entities.add(entity);
+        if (!entitiesToAdd.contains(entity)) {
+            entitiesToAdd.add(entity);
             GameEvent e = new GameEvent(EventType.ENTITY_SPAWN, entity);
             notifyObservers(e);
         }
@@ -31,28 +41,40 @@ public class EntityManagerImpl extends SubjectImpl implements EntityManager{
 
     @Override
     public void killEntity(Entity entity) {
-        entities.remove(entity);
+        entitiesToRemove.add(entity);
     }
 
-
+    /*
+     * Player is the last entity to be updated, plus the life cycle of an entity is:
+     * ADDED -> UPDATED -> REMOVED
+     */
     @Override
     public void updateEntities(float deltaTime) {
-        for (Entity entity : entities) {
-            entity.update(deltaTime);
+        if (!entitiesToAdd.isEmpty()){
+            entitiesToUpdate.addAll(entitiesToAdd);
+            entitiesToAdd.clear();
+        }
+        for (int i = 1; i < entitiesToUpdate.size(); i++){
+            entitiesToUpdate.get(i).update(deltaTime);
+        }
+        entitiesToUpdate.getFirst().update(deltaTime);
+        if (!entitiesToRemove.isEmpty()){
+            entitiesToUpdate.removeAll(entitiesToRemove);
+            entitiesToRemove.clear();
         }
     }
-    /* Se ne occupa direttamente il PlayingRenderer */
+
     public List<Entity> getEntities() {
-        return entities;
+        return entitiesToUpdate;
     }
 
     @Override
     public void removeEntity(Entity entity) {
-        entities.remove(entity);
+        entitiesToRemove.add(entity);
     }
 
     @Override
     public void killAllEntities() {
-        entities.clear();
+        entitiesToUpdate.clear();
     }
 }

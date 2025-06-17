@@ -13,5 +13,8 @@ public enum EventType {
     START_LEVEL,
     INPUT,
     PAUSE,
-    RESUME, KEY_DOWN, KEY_RELEASED, LEVEL_STARTED,
+    RESUME, 
+    KEY_DOWN, 
+    KEY_RELEASED, 
+    LEVEL_STARTED,
 }
