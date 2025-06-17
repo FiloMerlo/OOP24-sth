@@ -29,16 +29,16 @@ public class EntityImpl extends SubjectImpl implements Entity {
     public void addComponent(Component c){
         components.put(c.getClass(), c);
         /*
-         * I add the superclass with the same object name to allow better scalabity
+         * I add the superclass with the same object name to allow abstraction
          */
         Class<?> superClass = c.getClass().getSuperclass();
         /*
-         * This prevent from adding subjectImpl
+         * Preventing from adding non-Component(s) classes
          */
         if (superClass != null && Component.class.isAssignableFrom(superClass))
             components.put((Class<? extends Component>) superClass, c);
         /*
-        * I add component interface too (except observers)
+        * I add component interface too (same logic, just Component(s))
         */
         for (Class<?> interfaceClass : c.getClass().getInterfaces()) {
             if (Component.class.isAssignableFrom(interfaceClass)){
