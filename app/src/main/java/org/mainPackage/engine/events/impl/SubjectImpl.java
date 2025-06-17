@@ -1,11 +1,9 @@
 package org.mainPackage.engine.events.impl;
 
 import java.util.List;
-
 import org.mainPackage.engine.events.api.Event;
 import org.mainPackage.engine.events.api.Observer;
 import org.mainPackage.engine.events.api.Subject;
-
 import java.util.ArrayList;
 
 public class SubjectImpl implements Subject {

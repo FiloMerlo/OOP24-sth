@@ -18,7 +18,6 @@ public interface EntityManager {
     
     public void removeEntity(Entity entity);
 
-    // Method to kill all entities
     public void killAllEntities();
 
 }

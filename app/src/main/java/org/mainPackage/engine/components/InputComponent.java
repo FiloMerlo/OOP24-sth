@@ -23,7 +23,7 @@ public class InputComponent implements Component, Observer{
         owner.getComponent(PlayerPhysics.class);
         InputManager.getInstance().addObserver(this);
     }
-    // Polling through input manager when a key is down (Character running to right or left)
+    // Polling through @{link InputManager} when a key is down (Character running to right or left)
     @Override
     public void update(float deltaTime) {
         if (InputManager.getInstance().isKeyDown(KeyEvent.VK_RIGHT)){
@@ -34,7 +34,7 @@ public class InputComponent implements Component, Observer{
         }
     }
 
-    // Input manager fired the event, key is pressed, released within a fraction of a 'second'
+    // @{link InputManager} fired the @{link Event}, key is pressed, released within a certain fraction of time
     @Override
     public void onNotify(Event event) {
         if (event instanceof InputEvent){

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="org.mainPackage.engine.entities.impl.PhysicsTest" tests="2" skipped="0" failures="1" errors="0" timestamp="2025-06-17T11:23:20.995Z" hostname="Filo" time="0.028">
+<testsuite name="org.mainPackage.engine.entities.impl.PhysicsTest" tests="2" skipped="0" failures="1" errors="0" timestamp="2025-06-17T22:12:56.236Z" hostname="Filo" time="0.024">
   <properties/>
-  <testcase name="checkIfSonicDies()" classname="org.mainPackage.engine.entities.impl.PhysicsTest" time="0.006"/>
-  <testcase name="playerCollisionsTest()" classname="org.mainPackage.engine.entities.impl.PhysicsTest" time="0.021">
+  <testcase name="checkIfSonicDies()" classname="org.mainPackage.engine.entities.impl.PhysicsTest" time="0.007"/>
+  <testcase name="playerCollisionsTest()" classname="org.mainPackage.engine.entities.impl.PhysicsTest" time="0.015">
     <failure message="org.opentest4j.AssertionFailedError: expected: &lt;10.0&gt; but was: &lt;10.7&gt;" type="org.opentest4j.AssertionFailedError">org.opentest4j.AssertionFailedError: expected: &lt;10.0&gt; but was: &lt;10.7&gt;
 	at app//org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
 	at app//org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)

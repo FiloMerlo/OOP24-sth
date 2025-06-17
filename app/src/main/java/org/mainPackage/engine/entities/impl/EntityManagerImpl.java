@@ -15,7 +15,7 @@ public class EntityManagerImpl extends SubjectImpl implements EntityManager{
     private List<Entity> entitiesToUpdate;
     private List<Entity> entitiesToAdd; 
     private List<Entity> entitiesToRemove;
-    private final static EntityManagerImpl instance = new EntityManagerImpl();
+    private static EntityManagerImpl instance = null;
 
     private EntityManagerImpl(){
         entitiesToUpdate = new ArrayList<>();
@@ -24,8 +24,8 @@ public class EntityManagerImpl extends SubjectImpl implements EntityManager{
     }
 
     public static EntityManagerImpl getInstance(){
-        if(instance == null){
-            return new EntityManagerImpl();
+        if (instance == null){
+            instance = new EntityManagerImpl();
         }
         return instance;
     }
@@ -54,8 +54,10 @@ public class EntityManagerImpl extends SubjectImpl implements EntityManager{
             entitiesToUpdate.addAll(entitiesToAdd);
             entitiesToAdd.clear();
         }
-        for (int i = 1; i < entitiesToUpdate.size(); i++){
-            entitiesToUpdate.get(i).update(deltaTime);
+        if (!entitiesToUpdate.isEmpty()){
+            for (int i = 1; i < entitiesToUpdate.size(); i++){
+                entitiesToUpdate.get(i).update(deltaTime);
+            }
         }
         entitiesToUpdate.getFirst().update(deltaTime);
         if (!entitiesToRemove.isEmpty()){

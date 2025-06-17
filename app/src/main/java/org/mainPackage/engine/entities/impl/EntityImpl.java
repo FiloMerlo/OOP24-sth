@@ -31,12 +31,15 @@ public class EntityImpl extends SubjectImpl implements Entity {
         /*
          * I add the superclass with the same object name to allow abstraction
          */
-        Class<?> superClass = c.getClass().getSuperclass();
+        Class<?> superClass;
+        do {
+        superClass = c.getClass().getSuperclass();
         /*
          * Preventing from adding non-Component(s) classes
          */
         if (superClass != null && Component.class.isAssignableFrom(superClass))
             components.put((Class<? extends Component>) superClass, c);
+        }while(!superClass.getClass().getSuperclass().isAssignableFrom(Component.class));
         /*
         * I add component interface too (same logic, just Component(s))
         */
