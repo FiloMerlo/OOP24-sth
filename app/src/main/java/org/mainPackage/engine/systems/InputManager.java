@@ -33,8 +33,6 @@ public class InputManager extends SubjectImpl implements KeyListener{
         mapActionKeys.put(KeyEvent.VK_SPACE, input.JUMP);
         mapActionKeys.put(KeyEvent.VK_DOWN, input.DOWN);
         mapActionKeys.put(KeyEvent.VK_ESCAPE, input.PAUSE);
-        mapActionKeys.put(KeyEvent.VK_ESCAPE, input.RESUME);
-
     }
 
     @Override
@@ -50,7 +48,7 @@ public class InputManager extends SubjectImpl implements KeyListener{
         keysDown.remove(e.getKeyCode());
         notifyObservers(i);
     }
-    // keyTyped(KeyEvent e) regards about higher-level machine language, must be left empty
+    // keyTyped(KeyEvent e) regards about higher-level machine language such writing texts, then must be left empty
     @Override
     public void keyTyped(KeyEvent e) {
     }

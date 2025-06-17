@@ -21,7 +21,6 @@ public class GoalComponent extends SubjectImpl implements Component {
     public void update(float deltaTime){
         if (finishLine.intersects(player.getComponent(PhysicsComponent.class).getHitbox())) {
             System.out.println("Goal reached!");
-            /*TODO fermare la partita*/
             GameEvent e = new GameEvent(EventType.LEVEL_COMPLETED, player);
             notifyObservers(e);
         }

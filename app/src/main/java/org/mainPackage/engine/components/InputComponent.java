@@ -22,15 +22,14 @@ public class InputComponent implements Component, Observer{
         this.owner = owner;
         owner.getComponent(PlayerPhysics.class);
         InputManager.getInstance().addObserver(this);
-         
     }
     // Polling through input manager when a key is down (Character running to right or left)
     @Override
     public void update(float deltaTime) {
-        if(InputManager.getInstance().isKeyDown(KeyEvent.VK_RIGHT)){
+        if (InputManager.getInstance().isKeyDown(KeyEvent.VK_RIGHT)){
             playerPhysics.moveX(direction.right);
         }
-        if(InputManager.getInstance().isKeyDown(KeyEvent.VK_LEFT)){
+        if (InputManager.getInstance().isKeyDown(KeyEvent.VK_LEFT)){
             playerPhysics.moveX(direction.left);
         }
     }
@@ -40,18 +39,19 @@ public class InputComponent implements Component, Observer{
     public void onNotify(Event event) {
         if (event instanceof InputEvent){
             InputEvent i = (InputEvent) event;
-            if (playerPhysics == null){
-                return;
-            }
-            if (i.getKeyEvent().getKeyCode() == KeyEvent.VK_SPACE){
-                playerPhysics.jump();
-            }
-            if (i.getKeyEvent().getKeyCode() == KeyEvent.VK_ESCAPE){
-               pause = !pause;
-                EventType pauseEvent = pause ? EventType.PAUSE : EventType.RESUME;
-                ((EntityImpl) owner).notifyObservers(new GameEvent(pauseEvent, owner));
+            switch(i.getKeyEvent().getKeyCode()){
+                case(KeyEvent.VK_SPACE):
+                    playerPhysics.jump();
+                    break;
+                case(KeyEvent.VK_ESCAPE):
+                    pause = !pause;
+                    EventType pauseEvent = pause ? EventType.PAUSE : EventType.RESUME;
+                    GameEvent e = new GameEvent(pauseEvent, owner);
+                    ((EntityImpl) owner).notifyObservers(e);
+                    break;
+                default:
+                    break;
             }
         }
     }
-    
 }
