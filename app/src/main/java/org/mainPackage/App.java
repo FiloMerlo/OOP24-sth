@@ -21,6 +21,7 @@ public class App {
         
         
         EntityImpl sonic = new EntityImpl();
+        EntityImpl goal = null;
         sonic.addComponent(new TransformComponent(0, 0, sonicSize, sonicSize)); 
         sonic.addComponent(new PlayerPhysics(sonic, tileList));
         sonic.addComponent(new SonicAnimator());
@@ -78,7 +79,7 @@ public class App {
                         entityManager.addEntity(ring); 
                         break;
                     case 6:
-                        EntityImpl goal = new EntityImpl();
+                        goal = new EntityImpl();
                         goal.addComponent(new TransformComponent(xPos, yPos, 1, 3200));
                         goal.addComponent(new GoalComponent(goal));
                         break;
@@ -92,7 +93,7 @@ public class App {
 
 
             if (gameStateManager != null) {
-                gameStateManager.initState(sonic, levelGrid, sonicSize);
+                gameStateManager.initState(sonic, levelGrid, sonicSize, goal.getComponent(GoalComponent.class));
                 System.out.println("GameStateManager inizializzato con successo");
             } else {
                 System.err.println("GameStateManager non inizializzato correttamente");

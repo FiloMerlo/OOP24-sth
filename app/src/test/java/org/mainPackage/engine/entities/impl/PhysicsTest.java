@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.mainPackage.engine.components.PhysicsComponent;
@@ -30,11 +31,18 @@ public class PhysicsTest {
         testEntity.addComponent(new PlayerPhysics(testEntity, rects));
         float firstX = testEntity.getComponent(TransformComponent.class).getX();
         float firstY = testEntity.getComponent(TransformComponent.class).getY();
+        System.out.println("FirstY: " + firstY);
 
         /*check vertical collisions*/
         testEntity.update(0.1f);
+        System.out.println("FirstY: " + firstY);
+
         float secondY = testEntity.getComponent(TransformComponent.class).getY();
-        testEntity.getComponent(PlayerPhysics.class).jump();
+System.out.println("FirstY: " + firstY);
+        System.out.println("SecondY: " + secondY);
+                testEntity.getComponent(PlayerPhysics.class).jump();
+        System.out.println("FirstY: " + firstY);
+        System.out.println("SecondY: " + secondY);
         testEntity.update(0.1f);
         float thirdY = testEntity.getComponent(TransformComponent.class).getY();
         assertEquals(firstY, secondY);
@@ -59,21 +67,28 @@ public class PhysicsTest {
     @Test
     void checkIfSonicDies(){
         EntityImpl testSonic = new EntityImpl();
-        EntityImpl testEnemy = new EntityImpl();
-        testSonic.addComponent(new TransformComponent(10, 10, 4, 4));
-        testSonic.addComponent(new PlayerPhysics(testSonic, new ArrayList<>()));
-        testEnemy.addComponent(new TransformComponent(10, 10, 3, 3));
-        testEnemy.addComponent(new EnemyPhysics(0, testEnemy, new ArrayList<>(), testSonic));
-        final boolean[] gameOverTriggered = {false};
-        
-        testEnemy.update(0.1f);
-        testSonic.update(0.1f);
+    EntityImpl testEnemy = new EntityImpl();
+    
+    ArrayList<Rectangle2D.Float> tileList = new ArrayList<>();
+    tileList.add(new Rectangle2D.Float(10, 14, 4, 2)); // piattaforma sotto Sonic
 
-        testSonic.getComponent(PlayerPhysics.class).addObserver(event -> {
+    testSonic.addComponent(new TransformComponent(10, 10, 4, 4));
+    testSonic.addComponent(new PlayerPhysics(testSonic, tileList));
+    testEnemy.addComponent(new TransformComponent(10, 10, 3, 3));
+    testEnemy.addComponent(new EnemyPhysics(0, testEnemy, tileList, testSonic));
+
+    PlayerPhysics sonicPhysics = testSonic.getComponent(PlayerPhysics.class);
+
+    final boolean[] gameOverTriggered = {false};
+    sonicPhysics.addObserver(event -> {
         if (event.getType() == EventType.GAME_OVER) {
             gameOverTriggered[0] = true;
         }
-         });
-        /*TODO check if sonic dies*/
+    });
+    testEnemy.update(0);
+    testSonic.update(0);
+    System.out.println("State: " + sonicPhysics.getAction());
+
+    assertTrue(gameOverTriggered[0], "Sonic dies"); 
     }
 }
