@@ -8,7 +8,6 @@ import org.mainPackage.engine.components.*;
 import org.mainPackage.engine.components.PhysicsTypes.*;
 import org.mainPackage.engine.components.graphics.*;
 import org.mainPackage.engine.entities.impl.*;
-import org.mainPackage.state_management.GameStateManager;
 
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -35,7 +34,7 @@ public class App {
        
         /* levelGrid è la matrice che indica cosa c'è in ogni porzione del livello
         0 = empty, 1 = Tile, 2 = Static Enemies, 3 = Dynamic Enemies, 4 = player, 5 = ring, 6 = goal*/
-        int[][] levelGrid = {
+    /*    int[][] levelGrid = {
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
         {1, 5, 5, 5, 2, 0, 5, 0, 0, 1},
@@ -43,7 +42,7 @@ public class App {
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
         };
         for (int r = 0; r < 5; r++) {
-            for (int c = 0; c < 10; c++) {  /* sostituire i numeri */
+            for (int c = 0; c < 10; c++) {  /* sostituire i numeri 
                 int xPos = c * tileSize;
                 int yPos = r * tileSize;
                 
@@ -100,7 +99,7 @@ public class App {
             }
 
 
-            game.start();
+            game.start();*/
             
     }
 }

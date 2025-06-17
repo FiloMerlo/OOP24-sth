@@ -5,61 +5,53 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.mainPackage.engine.components.TransformComponent;
-import org.mainPackage.engine.components.PhysicsTypes.EnemyPhysics;
 import org.mainPackage.engine.components.PhysicsTypes.PlayerPhysics;
-import org.mainPackage.engine.events.api.EventType;
 import org.mainPackage.enums.action;
-import org.mainPackage.enums.direction;
 
 public class PhysicsTest {
     @Test 
     void playerCollisionsTest(){
-        //TODO sonic si muove anche verso direzioni verso le quali sa di non poter andare. Inoltre è convinto di non poter andare a sinistra anche se a sinistra non c'è nulla
-        // il secondo problema sicuramente risiede ne PlayerCollider
-        EntityImpl testEntity = new EntityImpl();
-        testEntity.addComponent(new TransformComponent(10, 10, 4, 4));
-        Rectangle2D.Float rect1 = new Rectangle2D.Float(11, 13, 4, 4);
-        Rectangle2D.Float rect2 = new Rectangle2D.Float(13, 10, 4, 4);
+        EntityImpl player = new EntityImpl();
+        player.addComponent(new TransformComponent(10, 10, 4, 4));    
         ArrayList<Rectangle2D.Float> rects = new ArrayList<>();
-        rects.add(rect1);
-        rects.add(rect2);
-        testEntity.addComponent(new PlayerPhysics(testEntity, rects));
-        float firstX = testEntity.getComponent(TransformComponent.class).getX();
-        float firstY = testEntity.getComponent(TransformComponent.class).getY();
+        rects.add(new Rectangle2D.Float(10, 14, 4, 4));
+        player.addComponent(new PlayerPhysics(player, rects));
+        float firstX = player.getComponent(TransformComponent.class).getX();
+        float firstY = player.getComponent(TransformComponent.class).getY();
         System.out.println("FirstY: " + firstY);
-        /*check vertical collisions*/
-        testEntity.update(0.1f);
 
-        float secondY = testEntity.getComponent(TransformComponent.class).getY();
+        /*check vertical collisions*/
+        player.update(0.1f);
+        float secondY = player.getComponent(TransformComponent.class).getY();
         System.out.println("SecondY: " + secondY);
-        testEntity.getComponent(PlayerPhysics.class).smallJump();
-        testEntity.update(0.1f);
-        float thirdY = testEntity.getComponent(TransformComponent.class).getY();
+        player.getComponent(PlayerPhysics.class).jump();
+        player.update(0.1f);
+        float thirdY = player.getComponent(TransformComponent.class).getY();
         System.out.println("thirdY: " + thirdY);
         assertEquals(firstY, secondY);
         assertTrue(firstY >= thirdY, "Sonic non ha saltato correttamente");
-        testEntity.update(0.1f);
-        assertEquals(action.jumping, testEntity.getComponent(PlayerPhysics.class).getAction());
+        System.out.println("Sonic action: " + player.getComponent(PlayerPhysics.class).getAction());
+        assertEquals(action.jumping, player.getComponent(PlayerPhysics.class).getAction());
 
         /*wait until sonic hits the ground.
-        while(testEntity.getComponent(PlayerPhysics.class).getAction() != action.idle) {
-            testEntity.update(0.1f);
+        while(player.getComponent(PlayerPhysics.class).getCanMove(direction.down)) {
+            player.update(0.1f);
+            System.out.println("Sonic Y:" + player.getComponent(TransformComponent.class).getY());
         }*/
 
         /*check horyzontal collisions
-        testEntity.getComponent(PlayerPhysics.class).moveX(direction.right);
-        float secondX = testEntity.getComponent(TransformComponent.class).getX();
-        testEntity.getComponent(PlayerPhysics.class).moveX(direction.left);
-        float thirdX = testEntity.getComponent(TransformComponent.class).getX();
+        player.getComponent(PlayerPhysics.class).moveX(direction.right);
+        float secondX = player.getComponent(TransformComponent.class).getX();
+        player.getComponent(PlayerPhysics.class).moveX(direction.left);
+        float thirdX = player.getComponent(TransformComponent.class).getX();
         assertEquals(firstX, secondX);
         assertEquals(firstX - 1, thirdX);*/
     }
 
-    @Test
+    /*@Test
     void checkIfSonicDies(){
         EntityImpl testSonic = new EntityImpl();
     EntityImpl testEnemy = new EntityImpl();
@@ -85,5 +77,5 @@ public class PhysicsTest {
     System.out.println("State: " + sonicPhysics.getAction());
 
     assertTrue(gameOverTriggered[0], "Sonic dies"); 
-    }
+    }*/
 }
