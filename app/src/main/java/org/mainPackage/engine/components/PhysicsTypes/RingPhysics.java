@@ -34,31 +34,17 @@ public class RingPhysics extends PhysicsComponent {
         } else if (xSpeed < 0){
             horizontalDir = direction.left;
         }
-
-        checkPlayer();
-        moveX();
-        moveY();
-    }
-
-    public void checkPlayer() {
-        Rectangle2D.Float ownHitbox = new Rectangle2D.Float(
-        owner.getComponent(TransformComponent.class).getX(),
-        owner.getComponent(TransformComponent.class).getY(),
-        owner.getComponent(TransformComponent.class).getWidth(),
-        owner.getComponent(TransformComponent.class).getHeight()
-        );
-        Rectangle2D.Float playerHitbox = new Rectangle2D.Float(
-        sonic.getComponent(TransformComponent.class).getX(),
-        sonic.getComponent(TransformComponent.class).getY(),
-        sonic.getComponent(TransformComponent.class).getWidth(),
-        sonic.getComponent(TransformComponent.class).getHeight()
-        );
-
-        if (ownHitbox.intersects(playerHitbox) && tangible){
+        if (checkIntersection(sonic.getComponent(TransformComponent.class))
+            && tangible){
             pickUp();
-        } else if (!ownHitbox.intersects(playerHitbox) && !tangible){
-            changeTangibility();
-        }
+        } else {
+            if(!checkIntersection(sonic.getComponent(TransformComponent.class))
+                && !tangible){
+                changeTangibility();
+            }
+            moveX();
+            moveY();
+        } 
     }
 
     public void moveX() {
