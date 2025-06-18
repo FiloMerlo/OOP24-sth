@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="org.mainPackage.engine.entities.impl.EntityTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-06-18T11:48:41.481Z" hostname="RISOFRESCO" time="0.207">
+<testsuite name="org.mainPackage.engine.entities.impl.EntityTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-06-18T13:28:26.021Z" hostname="RISOFRESCO" time="0.164">
   <properties/>
-  <testcase name="componentsAddedCorrectly()" classname="org.mainPackage.engine.entities.impl.EntityTest" time="0.207"/>
+  <testcase name="componentsAddedCorrectly()" classname="org.mainPackage.engine.entities.impl.EntityTest" time="0.164"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

@@ -1,4 +1,4 @@
-package org.mainPackage.engine.entities.impl;
+package org.mainPackage.engine.components.PhysicsTypes;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -9,10 +9,11 @@ import java.util.ArrayList;
 import org.junit.jupiter.api.Test;
 import org.mainPackage.engine.components.TransformComponent;
 import org.mainPackage.engine.components.PhysicsTypes.PlayerPhysics;
+import org.mainPackage.engine.entities.impl.EntityImpl;
 import org.mainPackage.enums.action;
 import org.mainPackage.enums.direction;
 
-public class PhysicsTest {
+public class PlayerPhysicsTest {
     @Test 
     void playerCollisionsTest(){
         EntityImpl player = new EntityImpl();

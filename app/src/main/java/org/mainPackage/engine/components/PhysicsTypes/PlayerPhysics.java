@@ -44,16 +44,9 @@ public class PlayerPhysics extends PhysicsComponent {
         determineAction();
     }
     public void moveX(){
-        direction oppositeDir;
-        if (playerDir == direction.left){
-            oppositeDir = direction.right;
-        } else {
-            oppositeDir = direction.left;
-        }
 
         if (playerAction == action.hurt){
-            xSpeed = 0.2f * oppositeDir.getValue();
-            if (canGoThere(oppositeDir, xSpeed)){
+            if (canGoThere(playerDir.opposite(), xSpeed)){
                 owner.getComponent(TransformComponent.class).moveX(xSpeed);
             }
         } else 
@@ -139,7 +132,7 @@ public class PlayerPhysics extends PhysicsComponent {
         } else {/*L'azione non cambia, rimane action.hurt*/}
     }
     
-    private void brake() {
+    public void brake() {
         for (int i = 0; i < brakeForce && xSpeed != 0; i++){
             /*Contingency*/
             if (xSpeed > -0.1f && xSpeed < 0.1f){
@@ -150,7 +143,7 @@ public class PlayerPhysics extends PhysicsComponent {
         }  
     }
     
-    private void landing() {
+    public void landing() {
         float yDist = Float.MAX_VALUE;
         TransformComponent transform = owner.getComponent(TransformComponent.class);
         for (Rectangle2D.Float tile : tiles) {
@@ -191,14 +184,21 @@ public class PlayerPhysics extends PhysicsComponent {
         iFrames = 240;
         GameEvent e;
         if (rings > 0){
-            rings = 0;
+            spreadRings();
             e = new GameEvent(EventType.PLAYER_HIT, owner);
-            xSpeed = 0.1f * playerDir.getValue() * (-1);
+            xSpeed = 0.2f * playerDir.opposite().getValue();
         } else {
             e = new GameEvent(EventType.GAME_OVER , owner);
         }
         notifyObservers(e);
     }
+    private void spreadRings() {
+        while (rings > 0){
+            
+            rings--;
+        }
+    }
+
     public void gotRing(){
         rings++;
     }
