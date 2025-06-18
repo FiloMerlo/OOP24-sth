@@ -1,4 +1,4 @@
-package org.mainPackage.engine.components.PhysicsTypes;
+/*package org.mainPackage.engine.components.PhysicsTypes;
 
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -57,3 +57,4 @@ public class RingPhysics extends PhysicsComponent {
     @Override
     public void setMovement(direction dir, boolean b) {}
 }
+*/

@@ -26,11 +26,15 @@ public class InputComponent implements Component, Observer{
     // Polling through @{link InputManager} when a key is down (Character running to right or left)
     @Override
     public void update(float deltaTime) {
-        if (InputManager.getInstance().isKeyDown(KeyEvent.VK_RIGHT)){
-            playerPhysics.moveX(direction.right);
+        if(InputManager.getInstance().isKeyDown(KeyEvent.VK_RIGHT)){
+            playerPhysics.setWill(direction.right, true);
+        } else {
+            playerPhysics.setWill(direction.right, false);
         }
-        if (InputManager.getInstance().isKeyDown(KeyEvent.VK_LEFT)){
-            playerPhysics.moveX(direction.left);
+        if(InputManager.getInstance().isKeyDown(KeyEvent.VK_LEFT)){
+            playerPhysics.setWill(direction.left, true);;
+        } else {
+            playerPhysics.setWill(direction.left, false);
         }
     }
 
