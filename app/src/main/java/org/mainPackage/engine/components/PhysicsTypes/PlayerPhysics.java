@@ -74,16 +74,12 @@ public class PlayerPhysics extends PhysicsComponent {
                 /*CHECK FOR COLLISIONS AND MOVE IF POSSIBLE*/
                 if (canGoThere(newDir, xSpeed)){
                     owner.getComponent(TransformComponent.class).moveX(xSpeed);
-                }
-                
-                if (!canGoThere(direction.down, 0.1f)){
-                    /*IF SONIC MOVES ON THE GROUND, HE GAINS SPEED*/
-                    if (newDir == direction.right && xSpeed < maxSpeed){
-                        xSpeed += accelMod;
-                    } else if (newDir == direction.left && xSpeed > -maxSpeed) {
-                        xSpeed -= accelMod;
+                    if (!canGoThere(direction.down, 0.1f)){
+                        /*IF SONIC MOVES ON THE GROUND, HE GAINS SPEED*/
+                        if (xSpeed < maxSpeed && xSpeed > -maxSpeed){
+                            xSpeed += accelMod * playerDir.getValue();
+                        }
                     }
-                    xSpeed += accelMod;
                 }
             } else {
                 brake();

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.mainPackage.engine.entities.impl.PhysicsTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-06-18T11:48:41.692Z" hostname="RISOFRESCO" time="0.013">
+  <properties/>
+  <testcase name="playerCollisionsTest()" classname="org.mainPackage.engine.entities.impl.PhysicsTest" time="0.013"/>
+  <system-out><![CDATA[FirstY: 10.0
+SecondY: 10.0
+thirdY: 8.0
+idle
+firstX: 10.0
+secondX: 10.0
+thirdX: 9.9
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
