@@ -1,7 +1,5 @@
 package org.mainPackage.engine.components.PhysicsTypes;
 
-import org.mainPackage.colliders.Collider;
-import org.mainPackage.colliders.PlayerCollider;
 import org.mainPackage.engine.components.PhysicsComponent;
 import org.mainPackage.engine.components.TransformComponent;
 
@@ -16,119 +14,186 @@ import java.util.*;
 
 public class PlayerPhysics extends PhysicsComponent {
     private direction playerDir = direction.right;
-    private float speedMod = 0.1f, maxSpeed = 1.2f, fallingSpeed = 0.2f, fallMod = 0.1f, maxFallSpeed = 2;
-    private int rings = 0, jumping = 0, maxJumping = 100, jSpeed = -2;
-    private HashMap<direction, Boolean> canMove = new HashMap<>();
     private action playerAction = action.idle;
+    private float accelMod = 0.01f, maxSpeed = 1.2f, minSpeed = 0.1f, initFallSpeed = 0.1f, fallMod = 0.1f, maxFallSpeed = 1;
+    private int rings = 0, jumpFrames = 0, maxJumpFrames = 100, jSpeed = -1, brakeForce = 1;
+    protected HashMap<direction, Boolean> tryToMove = new HashMap<>();
     private int iFrames = 0;
+    private boolean hit;
+    public int iterations = 0;
 
     public PlayerPhysics(EntityImpl o, ArrayList<Rectangle2D.Float> tList){
-        super(0.1f, 0.2f, o, tList);
-        canMove.put(direction.left, true);
-        canMove.put(direction.up, true);
-        canMove.put(direction.right, true);
-        canMove.put(direction.down, true);
-        colliders.add(new PlayerCollider(tList, this, hitbox));
+        super(o, tList);
+        ySpeed = initFallSpeed;
+        tryToMove.put(direction.left, false);
+        tryToMove.put(direction.up, false);
+        tryToMove.put(direction.right, false);
+        /*tryToMove per direction.down è sempre opposto a tryToMove per direction.up*/
     }
 
-    @Override
     public void update(float deltaTime) {
-        super.update(deltaTime);
-        if (playerAction == action.hurt){
+        iterations++;
+        if (hit == true){
             takeDamage();
         }
         if (iFrames > 0) {
             iFrames--;
         }
-        determineAction();
+        moveX();
         moveY();
+        determineAction();
     }
-    
-    public void setDirection(direction d){
-        playerDir = d;
+    public void moveX(){
+        direction oppositeDir;
+        if (playerDir == direction.left){
+            oppositeDir = direction.right;
+        } else {
+            oppositeDir = direction.left;
+        }
+
+        if (playerAction == action.hurt){
+            xSpeed = 0.2f * oppositeDir.getValue();
+            if (canGoThere(oppositeDir, xSpeed)){
+                owner.getComponent(TransformComponent.class).moveX(xSpeed);
+            }
+        } else 
+        if (tryToMove.get(direction.left) ^ tryToMove.get(direction.right)) {
+            /*DETERMINE WHICH DIRECTION THE PLAYER IS TRYING TO MOVE TOWARDS*/
+            direction newDir = direction.right;
+            if (tryToMove.get(direction.left)) {
+                newDir = direction.left;
+            }
+
+            if (newDir == playerDir) {
+                /*MAKE SURE THE PLAYER ISN'T TOO SLOW*/
+                if (newDir == direction.right && xSpeed < minSpeed){
+                    xSpeed = minSpeed;
+                } else if (newDir == direction.left && xSpeed > -minSpeed) {
+                    xSpeed = -minSpeed;
+                }
+                /*CHECK FOR COLLISIONS AND MOVE IF POSSIBLE*/
+                if (canGoThere(newDir, xSpeed)){
+                    owner.getComponent(TransformComponent.class).moveX(xSpeed);
+                    if (!canGoThere(direction.down, 0.1f)){
+                        /*IF SONIC MOVES ON THE GROUND, HE GAINS SPEED*/
+                        if (xSpeed < maxSpeed && xSpeed > -maxSpeed){
+                            xSpeed += accelMod * playerDir.getValue();
+                        }
+                    }
+                }
+            } else {
+                brake();
+                if (xSpeed == 0){
+                    playerDir = newDir;
+                }
+            }
+        } else {
+            brake();           
+        }
+    }
+    public void moveY(){
+        /*JUMPING*/
+        if(jumpFrames > 0){
+            if(canGoThere(direction.up, ySpeed)){
+                jumpFrames--;
+            } else { 
+                /*hitting the ceiling causes him to start falling */
+                jumpFrames = 0;
+                ySpeed = initFallSpeed;
+            }
+        }
+        /*FALLING.   Sonic starts to fall only one update after he ran out of jumpingFrames*/
+        else if (canGoThere(direction.down, Math.max(initFallSpeed, ySpeed))){
+            if (ySpeed <= 0){
+                ySpeed = initFallSpeed;
+            } else if (ySpeed < maxFallSpeed){
+                ySpeed += fallMod;
+            }
+        } 
+        /*LANDING*/
+        else { 
+            landing();
+        }
+        owner.getComponent(TransformComponent.class).moveY(ySpeed);
     }
 
     public void determineAction(){
-        if (playerAction != action.jumping){
-            if (canMove.get(direction.down)){
+        if (iFrames < 210){
+            if (ySpeed > 0 && playerAction != action.jumping){
                 playerAction = action.falling;
-            } else{
-                if (xSpeed == maxSpeed){
-                    playerAction = action.dashing;
-                } else if (xSpeed > 15){
-                    playerAction = action.running;
-                } else if(xSpeed > 0){
-                    playerAction = action.walking;
-                } else {
-                    playerAction = action.idle;
+            } else if (ySpeed < 0){
+                playerAction = action.jumping;
+            } else {
+                if (ySpeed <= 0){
+                    if (xSpeed > 1 || xSpeed < -1){
+                        playerAction = action.dashing;
+                    } else if (xSpeed > 0.5 || xSpeed < -0.5){
+                        playerAction = action.running;
+                    } else if(xSpeed != 0){
+                        playerAction = action.walking;
+                    } else {
+                        playerAction = action.idle;
+                    }
                 }
             }
-        } else {playerAction = action.jumping;}
-        
+        } else {/*L'azione non cambia, rimane action.hurt*/}
     }
-    public void moveX(direction dir){
-        if (dir != playerDir){
-            /*Sonic reverse his direction, losing the speed accumulated*/
-            playerDir = dir;
-            brake();
-        }
-        if(canMove.get(dir) == true){
-            owner.getComponent(TransformComponent.class).moveX(xSpeed);
-            for (Collider coll : colliders) {
-                coll.getSensor().x += xSpeed;
+    
+    private void brake() {
+        for (int i = 0; i < brakeForce && xSpeed != 0; i++){
+            /*Contingency*/
+            if (xSpeed > -0.1f && xSpeed < 0.1f){
+                xSpeed = 0;
+            } else if (xSpeed != 0){
+                xSpeed += (-1) * playerDir.getValue() * 0.1f;
             }
-            /*If sonic moves on the ground, he gains speed*/
-            if (xSpeed < maxSpeed && canMove.get(direction.down) == false){
-                xSpeed += speedMod;
-            }
-        } else{
-            brake();
-        }
-        
+        }  
     }
-    public void moveY(){  /*This method simulates gravity*/
-    if(jumping > 0){
-        if(canMove.get(direction.up)){
-            jumping--;
-        } else { /*hitting the ceiling causes him to start falling */
-            jumping = 0;
-        }
-    } else if (canMove.get(direction.down)){ 
-        if (ySpeed < fallingSpeed){
-            ySpeed = fallingSpeed;
-        } else{
-            if (ySpeed < maxFallSpeed){
-                ySpeed += fallMod;
+    
+    private void landing() {
+        float yDist = Float.MAX_VALUE;
+        TransformComponent transform = owner.getComponent(TransformComponent.class);
+        for (Rectangle2D.Float tile : tiles) {
+            if (tile.getY() >= transform.getY() + transform.getHeight() && canGoThere(direction.down, (float)(tile.getY() - (transform.getY() + transform.getHeight()))) == true){
+                float newDist = (float)(tile.getY() - (transform.getY() + transform.getHeight()));
+                if (newDist < yDist){
+                    yDist = newDist;
+                }
             }
         }
+        if(yDist == Float.MAX_VALUE){
+            yDist = 0;
+        }
+        transform.moveY(yDist);
+        ySpeed = 0;
     }
-    else { ySpeed = 0; }
-    owner.getComponent(TransformComponent.class).moveY(ySpeed);
-    for (Collider coll : colliders) {
-        coll.getSensor().y += ySpeed;
-    }
-}
+
     public void jump(){
-        if (canMove.get(direction.down) == false && playerAction != action.jumping){
-            jumping = 100; /*number of jump frames*/
+        if (!canGoThere(direction.down, 0.3f) && jumpFrames == 0){
+            jumpFrames = 65;
             ySpeed = jSpeed;
-            playerAction = action.jumping;
+            /*Sonic can jump when he's falling, even if he still haven't touched 
+             * the ground properly. This is an intended feature, it gives a better
+             * feeling to the player inputs
+            */
         }
-        else if(jumping < maxJumping && playerAction == action.jumping){
-            jumping++;
+        else if(jumpFrames < maxJumpFrames && playerAction == action.jumping){
+            smallJump();
+            /*this lets the player control the height of the jump to an extent */
         }
     }
     public void smallJump(){
-        jumping++;
+        jumpFrames += 10;
     }
 
     public void takeDamage(){
-        iFrames = 100;
+        hit = false;
+        iFrames = 240;
         GameEvent e;
-        brake();
         if (rings > 0){
             rings = 0;
             e = new GameEvent(EventType.PLAYER_HIT, owner);
+            xSpeed = 0.1f * playerDir.getValue() * (-1);
         } else {
             e = new GameEvent(EventType.GAME_OVER , owner);
         }
@@ -138,20 +203,15 @@ public class PlayerPhysics extends PhysicsComponent {
         rings++;
     }
 
-    public void brake(){
-        xSpeed = 1 * playerDir.getValue();
-    }
-
-    public void getHurt() {  
+    public void hit() { 
         if (iFrames == 0) {
-            playerAction = action.hurt;
+            hit = true;
         }
     }
-    public Rectangle2D.Float getHitbox(){ return hitbox; }
+
     public action getAction() { return playerAction; }
     public direction getDirection() { return playerDir; }
-    public void setMovement(direction dir, boolean bool){ 
-        canMove.replace(dir, bool); 
+    public void setWill(direction dir, boolean bool){
+        tryToMove.replace(dir, bool);
     }
-
 }

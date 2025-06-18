@@ -19,7 +19,8 @@ public class GoalComponent extends SubjectImpl implements Component {
     }
 
     public void update(float deltaTime){
-        if (finishLine.intersects(player.getComponent(PhysicsComponent.class).getHitbox())) {
+        TransformComponent transform = player.getComponent(TransformComponent.class);
+        if (finishLine.intersects(new Rectangle2D.Float(transform.getX(), transform.getY(), transform.getWidth(), transform.getHeight()))) {
             System.out.println("Goal reached!");
             GameEvent e = new GameEvent(EventType.LEVEL_COMPLETED, player);
             notifyObservers(e);
