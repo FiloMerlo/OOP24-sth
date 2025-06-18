@@ -24,6 +24,7 @@ public class App {
         EntityImpl goal = null;
         sonic.addComponent(new PlayerPhysics(sonic, tileList));
         sonic.addComponent(new SonicAnimator());
+        sonic.addComponent(new WalletComponent(entityManager, tileList));
         entityManager.addEntity(sonic);
         System.out.println("Transform: " + sonic.getComponent(TransformComponent.class));
         System.out.println("Physics: " + sonic.getComponent(PhysicsComponent.class));
@@ -75,6 +76,7 @@ public class App {
                         ring.addComponent(new RingPhysics(ring, tileList, sonic));
                         ring.addComponent(new TransformComponent(xPos + (tileSize - ringSize) / 2, yPos + (tileSize - ringSize) / 2, ringSize, ringSize));
                         ring.addComponent(new RingAnimator());
+                        ring.getComponent(RingPhysics.class).changeTangibility();
                         entityManager.addEntity(ring); 
                         break;
                     case 6:

@@ -81,6 +81,7 @@ public class PlayerPhysicsTest {
         assertTrue(firstY < secondY);
         assertTrue(secondY < thirdY);
     }
+    
     /*@Test
     void checkIfSonicDies(){
         EntityImpl testSonic = new EntityImpl();

@@ -2,7 +2,7 @@ package org.mainPackage.engine.components.PhysicsTypes;
 
 import org.mainPackage.engine.components.PhysicsComponent;
 import org.mainPackage.engine.components.TransformComponent;
-
+import org.mainPackage.engine.components.WalletComponent;
 import org.mainPackage.engine.entities.impl.EntityImpl;
 import org.mainPackage.engine.events.impl.GameEvent;
 import org.mainPackage.enums.action;
@@ -16,11 +16,9 @@ public class PlayerPhysics extends PhysicsComponent {
     private direction playerDir = direction.right;
     private action playerAction = action.idle;
     private float accelMod = 0.01f, maxSpeed = 1.2f, minSpeed = 0.1f, initFallSpeed = 0.1f, fallMod = 0.1f, maxFallSpeed = 1;
-    private int rings = 0, jumpFrames = 0, maxJumpFrames = 100, jSpeed = -1, brakeForce = 1;
+    private int jumpFrames = 0, maxJumpFrames = 100, jSpeed = -1, brakeForce = 1, iFrames = 0;
     protected HashMap<direction, Boolean> tryToMove = new HashMap<>();
-    private int iFrames = 0;
     private boolean hit;
-    public int iterations = 0;
 
     public PlayerPhysics(EntityImpl o, ArrayList<Rectangle2D.Float> tList){
         super(o, tList);
@@ -32,7 +30,6 @@ public class PlayerPhysics extends PhysicsComponent {
     }
 
     public void update(float deltaTime) {
-        iterations++;
         if (hit == true){
             takeDamage();
         }
@@ -183,18 +180,9 @@ public class PlayerPhysics extends PhysicsComponent {
         hit = false;
         iFrames = 240;
         GameEvent e;
-        if (rings > 0){
-
-            e = new GameEvent(EventType.PLAYER_HIT, owner);
-            xSpeed = 0.2f * playerDir.opposite().getValue();
-        } else {
-            e = new GameEvent(EventType.GAME_OVER , owner);
-        }
+        e = new GameEvent(EventType.PLAYER_HIT, owner);
         notifyObservers(e);
-    }
-
-    public void gotRing(){
-        rings++;
+        xSpeed = 0.2f * playerDir.opposite().getValue();
     }
 
     public void hit() { 

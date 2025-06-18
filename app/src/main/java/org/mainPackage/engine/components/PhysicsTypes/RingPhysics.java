@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import org.mainPackage.engine.components.PhysicsComponent;
 import org.mainPackage.engine.components.TransformComponent;
+import org.mainPackage.engine.components.WalletComponent;
 import org.mainPackage.engine.entities.impl.EntityImpl;
 import org.mainPackage.enums.direction;
 
@@ -12,6 +13,8 @@ public class RingPhysics extends PhysicsComponent {
     private float maxDistance = 10, spawnX, spawnY, maxSpeed = 0.6f;
     private EntityImpl sonic;
     private direction verticalDir, horizontalDir;
+    private boolean tangible = false; /*although this parametrer is false by default,
+    all the rings created at the formation of the level in the main method are set true */
 
     public RingPhysics(EntityImpl o, ArrayList<Rectangle2D.Float> tList, EntityImpl s){
         super(o, tList);
@@ -31,6 +34,7 @@ public class RingPhysics extends PhysicsComponent {
         } else if (xSpeed < 0){
             horizontalDir = direction.left;
         }
+
         checkPlayer();
         moveX();
         moveY();
@@ -50,8 +54,10 @@ public class RingPhysics extends PhysicsComponent {
         sonic.getComponent(TransformComponent.class).getHeight()
         );
 
-        if (ownHitbox.intersects(playerHitbox)){
+        if (ownHitbox.intersects(playerHitbox) && tangible){
             pickUp();
+        } else if (!ownHitbox.intersects(playerHitbox) && !tangible){
+            changeTangibility();
         }
     }
 
@@ -84,16 +90,19 @@ public class RingPhysics extends PhysicsComponent {
     }
 
     public void pickUp(){
-        sonic.getComponent(PlayerPhysics.class).gotRing();
+        sonic.getComponent(WalletComponent.class).increaseAmount();
         owner.getComponent(PhysicsComponent.class).die();
-        System.out.println("Ring Picked up");
     }
 
-    public void spredOut(){
+    public void spreadOut(){
         /*this method is the only way xSpeed and ySpeed can increase, and RingPhysics 
         * can't launch it on his own.
         */
         xSpeed = (float)(Math.random() * (2 * maxDistance) - maxDistance);
         ySpeed = (float)(Math.random() * (2 * maxDistance) - maxDistance);
+    }
+
+    public void changeTangibility(){
+        tangible = !tangible;
     }
 }
