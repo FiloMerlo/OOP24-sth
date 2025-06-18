@@ -12,8 +12,8 @@ import org.mainPackage.engine.systems.InputManager;
 import org.mainPackage.enums.direction;
 import java.awt.event.KeyEvent;
 
-/*
- * Component responsible for inputs, must added to the entity controlled by the player(s)
+/**
+ * {@link Component} responsible for handling {@link InputEvent}s, must added to the {@link Entity} controlled by the player(s)
  */
 
 public class InputComponent implements Component, Observer{
@@ -26,7 +26,9 @@ public class InputComponent implements Component, Observer{
         owner.getComponent(PlayerPhysics.class);
         InputManager.getInstance().addObserver(this);
     }
-    // Polling through @{link InputManager} when a key is down (Character running to right or left)
+    /**
+     * Polling through {@link InputManager} , it handles input which are pressed until being released
+     */
     @Override
     public void update(float deltaTime) {
         if(InputManager.getInstance().isKeyDown(KeyEvent.VK_RIGHT)){
@@ -41,7 +43,9 @@ public class InputComponent implements Component, Observer{
         }
     }
 
-    // @{link InputManager} fired the @{link Event}, key is pressed, released within a certain fraction of time
+    /**
+     * {@link InputManager} fired the {@link InputEvent} , the key is pressed and released within a certain fraction of time
+     */
     @Override
     public void onNotify(Event event) {
         if (event instanceof InputEvent){

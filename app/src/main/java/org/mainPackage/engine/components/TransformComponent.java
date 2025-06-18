@@ -28,8 +28,8 @@ public class TransformComponent implements Component{
         return this.height;
     }
     
-    /*
-     * Does nothing, the only {@link Component} which does not require to be updated
+    /**
+     * Does nothing, the only {@link Component} which does not require to be {@link update}d
      */
     @SuppressWarnings(value = { "Passive component" })
     public void update(float deltaTime) {

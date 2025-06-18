@@ -7,7 +7,7 @@ import org.mainPackage.engine.entities.api.*;
 import org.mainPackage.engine.events.api.*;
 import org.mainPackage.engine.events.impl.*;
 
-/*
+/**
  * Implemention of {@link EntityManager}
  */
 public class EntityManagerImpl implements EntityManager, Observer {
@@ -44,8 +44,8 @@ public class EntityManagerImpl implements EntityManager, Observer {
         entitiesToRemove.add(entity);
     }
 
-    /*
-     * Player is the last entity to be updated, plus the life cycle of an @{link Entity} is:
+    /**
+     * Player is the last entity to be updated, plus the life cycle of an {@link Entity} is:
      * ADDED -> UPDATED -> REMOVED
      */
     @Override
@@ -96,7 +96,7 @@ public class EntityManagerImpl implements EntityManager, Observer {
                     addEntity((((GameEvent)e).getSource()));
                     break;
                 case PLAYER_HIT:
-                
+
                     break;
                 default:
                     break;

@@ -3,8 +3,8 @@ package org.mainPackage.engine.entities.api;
 import java.util.List;
 
 
-/* 
-*   It manages the lifecycle of entities on a single instance 
+/**
+*   It manages the lifecycle of multiple {@link Entity} on a single instance 
 */
 public interface EntityManager {
     
