@@ -184,19 +184,13 @@ public class PlayerPhysics extends PhysicsComponent {
         iFrames = 240;
         GameEvent e;
         if (rings > 0){
-            spreadRings();
+
             e = new GameEvent(EventType.PLAYER_HIT, owner);
             xSpeed = 0.2f * playerDir.opposite().getValue();
         } else {
             e = new GameEvent(EventType.GAME_OVER , owner);
         }
         notifyObservers(e);
-    }
-    private void spreadRings() {
-        while (rings > 0){
-            
-            rings--;
-        }
     }
 
     public void gotRing(){

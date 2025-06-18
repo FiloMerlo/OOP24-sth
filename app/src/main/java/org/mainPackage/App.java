@@ -8,6 +8,7 @@ import org.mainPackage.engine.components.*;
 import org.mainPackage.engine.components.PhysicsTypes.*;
 import org.mainPackage.engine.components.graphics.*;
 import org.mainPackage.engine.entities.impl.*;
+import org.mainPackage.state_management.GameStateManager;
 
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -21,7 +22,6 @@ public class App {
         
         EntityImpl sonic = new EntityImpl();
         EntityImpl goal = null;
-        sonic.addComponent(new TransformComponent(0, 0, sonicSize, sonicSize)); 
         sonic.addComponent(new PlayerPhysics(sonic, tileList));
         sonic.addComponent(new SonicAnimator());
         entityManager.addEntity(sonic);
@@ -34,7 +34,7 @@ public class App {
        
         /* levelGrid è la matrice che indica cosa c'è in ogni porzione del livello
         0 = empty, 1 = Tile, 2 = Static Enemies, 3 = Dynamic Enemies, 4 = player, 5 = ring, 6 = goal*/
-    /*    int[][] levelGrid = {
+        int[][] levelGrid = {
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
         {1, 5, 5, 5, 2, 0, 5, 0, 0, 1},
@@ -42,7 +42,7 @@ public class App {
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
         };
         for (int r = 0; r < 5; r++) {
-            for (int c = 0; c < 10; c++) {  /* sostituire i numeri 
+            for (int c = 0; c < 10; c++) { 
                 int xPos = c * tileSize;
                 int yPos = r * tileSize;
                 
@@ -54,7 +54,7 @@ public class App {
                         break;
                     case 2:
                         EntityImpl staticEnemy = new EntityImpl();
-                        staticEnemy.addComponent(new EnemyPhysics(0, staticEnemy, tileList, sonic));
+                        //staticEnemy.addComponent(new EnemyPhysics(0, staticEnemy, tileList, sonic));
                         staticEnemy.addComponent(new TransformComponent(xPos, yPos + tileSize - enemySize, enemySize, enemySize));
                         staticEnemy.addComponent(new StaticEnemyAnimator());
                         entityManager.addEntity(staticEnemy);
@@ -62,17 +62,17 @@ public class App {
                         break;
                     case 3:
                         EntityImpl chasingEnemy = new EntityImpl();
-                        chasingEnemy.addComponent(new EnemyPhysics(5, chasingEnemy, tileList, sonic));
+                        //chasingEnemy.addComponent(new EnemyPhysics(5, chasingEnemy, tileList, sonic));
                         chasingEnemy.addComponent(new TransformComponent(xPos, yPos + tileSize - enemySize, enemySize, enemySize));
                         chasingEnemy.addComponent(new ChasingEnemyAnimator());
                         entityManager.addEntity(chasingEnemy);                        
                         break;
                     case 4:
-                        //
+                        sonic.addComponent(new TransformComponent(xPos, yPos, sonicSize, sonicSize));
                         break;
                     case 5:
                         EntityImpl ring = new EntityImpl();
-                        ring.addComponent(new RingPhysics(ring, tileList, (PlayerPhysics)sonic.getComponent(PhysicsComponent.class)));
+                        ring.addComponent(new RingPhysics(ring, tileList, sonic));
                         ring.addComponent(new TransformComponent(xPos + (tileSize - ringSize) / 2, yPos + (tileSize - ringSize) / 2, ringSize, ringSize));
                         ring.addComponent(new RingAnimator());
                         entityManager.addEntity(ring); 
@@ -87,9 +87,7 @@ public class App {
             }
         }
          
-
          GameStateManager gameStateManager = game.getGameStateManager();
-
 
             if (gameStateManager != null) {
                 gameStateManager.initState(sonic, levelGrid, sonicSize, goal.getComponent(GoalComponent.class));
@@ -98,8 +96,7 @@ public class App {
                 System.err.println("GameStateManager non inizializzato correttamente");
             }
 
-
-            game.start();*/
+        game.start();
             
     }
 }
