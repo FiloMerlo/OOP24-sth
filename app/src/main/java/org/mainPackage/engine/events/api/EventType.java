@@ -16,5 +16,7 @@ public enum EventType {
     RESUME, 
     KEY_DOWN, 
     KEY_RELEASED, 
-    LEVEL_STARTED,
+    LEVEL_STARTED, 
+    ENTITY_DEAD,
+    SPREADED_RINGS,
 }

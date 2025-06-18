@@ -6,6 +6,10 @@ import org.mainPackage.engine.components.Component;
 import org.mainPackage.engine.entities.api.Entity;
 import org.mainPackage.engine.events.impl.SubjectImpl;
 
+/*
+ * Implemention of {@link Entity}
+ * It is a @{link Subject}, it causes @{link Event}s to occurs and to be notified
+ */
 public class EntityImpl extends SubjectImpl implements Entity {
     private HashMap<Class<? extends Component>, Component> components = new HashMap<>();
     public EntityImpl() {}
@@ -39,7 +43,7 @@ public class EntityImpl extends SubjectImpl implements Entity {
          */
         if (superClass != null && Component.class.isAssignableFrom(superClass))
             components.put((Class<? extends Component>) superClass, c);
-        }while(!superClass.getClass().getSuperclass().isAssignableFrom(Component.class));
+        } while(!superClass.getClass().getSuperclass().isAssignableFrom(Component.class));
         /*
         * I add component interface too (same logic, just Component(s))
         */

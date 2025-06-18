@@ -10,8 +10,11 @@ import org.mainPackage.engine.events.impl.GameEvent;
 import org.mainPackage.engine.events.impl.InputEvent;
 import org.mainPackage.engine.systems.InputManager;
 import org.mainPackage.enums.direction;
-
 import java.awt.event.KeyEvent;
+
+/*
+ * Component responsible for inputs, must added to the entity controlled by the player(s)
+ */
 
 public class InputComponent implements Component, Observer{
 
