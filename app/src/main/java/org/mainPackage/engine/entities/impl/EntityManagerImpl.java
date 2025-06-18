@@ -7,10 +7,12 @@ import org.mainPackage.engine.entities.api.*;
 import org.mainPackage.engine.events.api.*;
 import org.mainPackage.engine.events.impl.*;
 
-
-public class EntityManagerImpl extends SubjectImpl implements EntityManager{
+/*
+ * Implemention of {@link EntityManager}
+ */
+public class EntityManagerImpl implements EntityManager, Observer {
     /*
-     * Separating lists to preventing concurrentiality issues
+     * Separating lists to prevent concurrentiality issues
      */
     private List<Entity> entitiesToUpdate;
     private List<Entity> entitiesToAdd; 
@@ -34,8 +36,6 @@ public class EntityManagerImpl extends SubjectImpl implements EntityManager{
     public void addEntity(Entity entity) {
         if (!entitiesToAdd.contains(entity)) {
             entitiesToAdd.add(entity);
-            GameEvent e = new GameEvent(EventType.ENTITY_SPAWN, entity);
-            notifyObservers(e);
         }
     }
 
@@ -45,13 +45,15 @@ public class EntityManagerImpl extends SubjectImpl implements EntityManager{
     }
 
     /*
-     * Player is the last entity to be updated, plus the life cycle of an entity is:
+     * Player is the last entity to be updated, plus the life cycle of an @{link Entity} is:
      * ADDED -> UPDATED -> REMOVED
      */
     @Override
     public void updateEntities(float deltaTime) {
         if (!entitiesToAdd.isEmpty()){
-            entitiesToUpdate.addAll(entitiesToAdd);
+            for (Entity entity : entitiesToAdd){
+                entitiesToUpdate.add(entity);
+            }
             entitiesToAdd.clear();
         }
         if (!entitiesToUpdate.isEmpty()){
@@ -61,7 +63,9 @@ public class EntityManagerImpl extends SubjectImpl implements EntityManager{
         }
         entitiesToUpdate.getFirst().update(deltaTime);
         if (!entitiesToRemove.isEmpty()){
-            entitiesToUpdate.removeAll(entitiesToRemove);
+            for (Entity entity : entitiesToRemove){
+                entitiesToUpdate.remove(entity);
+            }
             entitiesToRemove.clear();
         }
     }
@@ -77,6 +81,27 @@ public class EntityManagerImpl extends SubjectImpl implements EntityManager{
 
     @Override
     public void killAllEntities() {
+        entitiesToRemove.clear();
         entitiesToUpdate.clear();
+    }
+
+    @Override
+    public void onNotify(Event e) {
+        if (e instanceof GameEvent){
+            switch(e.getType()){
+                case ENTITY_DEAD:
+                    removeEntity((((GameEvent)e).getSource()));
+                    break;
+                case ENTITY_SPAWN:
+                    addEntity((((GameEvent)e).getSource()));
+                    break;
+                case PLAYER_HIT:
+                
+                    break;
+                default:
+                    break;
+                
+            }
+        }
     }
 }
