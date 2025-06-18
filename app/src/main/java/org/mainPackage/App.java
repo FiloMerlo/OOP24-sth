@@ -56,7 +56,7 @@ public class App {
                     case 2 -> {
                         EntityImpl staticEnemy = new EntityImpl();
                         staticEnemy.addComponent(new TransformComponent(xPos, yPos + tileSize - enemySize, enemySize, enemySize));
-                        staticEnemy.addComponent(new EnemyPhysics(0, staticEnemy, tileList, sonic));
+                        //staticEnemy.addComponent(new EnemyPhysics(0, staticEnemy, tileList, sonic));
                         staticEnemy.addComponent(new StaticEnemyAnimator());
                         entityManager.addEntity(staticEnemy);
                         System.out.println("Static enemy added");
@@ -64,7 +64,7 @@ public class App {
                     case 3 -> {
                         EntityImpl chasingEnemy = new EntityImpl();
                         chasingEnemy.addComponent(new TransformComponent(xPos, yPos + tileSize - enemySize, enemySize, enemySize));
-                        chasingEnemy.addComponent(new EnemyPhysics(5, chasingEnemy, tileList, sonic));
+                        //chasingEnemy.addComponent(new EnemyPhysics(5, chasingEnemy, tileList, sonic));
                         chasingEnemy.addComponent(new ChasingEnemyAnimator());
                         entityManager.addEntity(chasingEnemy);
                         System.out.println("Chasing enemy added");
@@ -78,7 +78,7 @@ public class App {
                     case 5 -> {
                         EntityImpl ring = new EntityImpl();
                         ring.addComponent(new TransformComponent(xPos + (tileSize - ringSize) / 2, yPos + (tileSize - ringSize) / 2, ringSize, ringSize));
-                        ring.addComponent(new RingPhysics(ring, tileList, (PlayerPhysics)sonic.getComponent(PhysicsComponent.class)));
+                        //ring.addComponent(new RingPhysics(ring, tileList, (PlayerPhysics)sonic.getComponent(PhysicsComponent.class)));
                         ring.addComponent(new RingAnimator());
                         entityManager.addEntity(ring); 
                     }
