@@ -13,13 +13,14 @@ import org.mainPackage.engine.components.TransformComponent;
 
 public class EnemyPhysics extends PhysicsComponent{
         private EntityImpl sonic;
-        private double maxChaseDistance = 320, spawnX;
+        private float maxChaseDistance = 320, spawnX, fallSpeed = 0.2f;
         private action enemyAction = action.idle;
         private direction enemyDirection = direction.left;
 
         public EnemyPhysics(float xS, EntityImpl o, ArrayList<Rectangle2D.Float>tList, EntityImpl s){
         super(o, tList); /*the falling speed is always 3 by default, the horizontal speed determines if its a chasingEnemy or staticEnemy*/
-        xSpeed = xS;
+        xSpeed = -xS;
+        ySpeed = fallSpeed;
         sonic = s;
         spawnX = owner.getComponent(TransformComponent.class).getX();
     }
@@ -29,6 +30,7 @@ public class EnemyPhysics extends PhysicsComponent{
         if (checkIntersection(sonic.getComponent(TransformComponent.class))){
             if (sonic.getComponent(PlayerPhysics.class).getAction() == action.jumping){
                 die();
+                System.out.println("Enemy killed!");
             } else {
                 sonic.getComponent(PlayerPhysics.class).hit();
             }
@@ -36,9 +38,7 @@ public class EnemyPhysics extends PhysicsComponent{
         if (xSpeed != 0){
             chase();
         }
-        if (ySpeed != 0){
-            moveY();
-        }
+        moveY();
     }
 
     public void chase(){
@@ -55,13 +55,20 @@ public class EnemyPhysics extends PhysicsComponent{
     }
 
     public void moveX(double goTo){
-        /*determine enemy direction */
+        /*determine enemy direction and speed needed to get to goTo*/
         if (goTo > owner.getComponent(TransformComponent.class).getX()){
-            enemyDirection = direction.right;
+            if (enemyDirection != direction.right){
+                enemyDirection = direction.right;
+                xSpeed = Math.abs(xSpeed);
+            }
         } else if (goTo < owner.getComponent(TransformComponent.class).getX()){
-            enemyDirection = direction.left;
+            if (enemyDirection != direction.left){
+                enemyDirection = direction.left;
+                if (xSpeed > 0){
+                    xSpeed *= -1;
+                }
+            }
         }
-        xSpeed *= enemyDirection.getValue();
 
         /*check for collisions before moving*/
         if (canGoThere(enemyDirection, xSpeed)){
@@ -70,7 +77,10 @@ public class EnemyPhysics extends PhysicsComponent{
         }
     }
     private void moveY() {
-        if (canGoThere(direction.down, ySpeed)){
+        if (canGoThere(direction.down, fallSpeed) && ySpeed == 0){
+            ySpeed = fallSpeed;
+        } 
+        if(canGoThere(direction.down, ySpeed)){
             owner.getComponent(TransformComponent.class).moveY(ySpeed);
         } else {
             landing();

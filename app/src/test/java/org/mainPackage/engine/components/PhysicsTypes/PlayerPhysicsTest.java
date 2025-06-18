@@ -24,16 +24,16 @@ public class PlayerPhysicsTest {
         player.addComponent(new PlayerPhysics(player, rects));
         float firstX = player.getComponent(TransformComponent.class).getX();
         float firstY = player.getComponent(TransformComponent.class).getY();
-        System.out.println("FirstY: " + firstY);
+        //System.out.println("FirstY: " + firstY);
 
         /*check vertical collisions*/
         player.update(0.1f);
         float secondY = player.getComponent(TransformComponent.class).getY();
-        System.out.println("SecondY: " + secondY);
+        //System.out.println("SecondY: " + secondY);
         player.getComponent(PlayerPhysics.class).jump();
         player.update(0.1f);
         float thirdY = player.getComponent(TransformComponent.class).getY();
-        System.out.println("thirdY: " + thirdY);
+        //System.out.println("thirdY: " + thirdY);
         assertEquals(firstY, secondY);
         assertTrue(firstY >= thirdY, "Sonic non ha saltato correttamente");
         assertEquals(action.jumping, player.getComponent(PlayerPhysics.class).getAction());
@@ -42,7 +42,7 @@ public class PlayerPhysicsTest {
         while(player.getComponent(PlayerPhysics.class).getAction() == action.jumping) {
             player.update(0.1f);
         }
-        System.out.println(player.getComponent(PlayerPhysics.class).getAction());
+        //System.out.println(player.getComponent(PlayerPhysics.class).getAction());
 
         /*check horyzontal collisions*/
         player.getComponent(PlayerPhysics.class).setWill(direction.right, true);
@@ -52,9 +52,9 @@ public class PlayerPhysicsTest {
         player.getComponent(PlayerPhysics.class).setWill(direction.right, false);
         player.update(0.1f);
         float thirdX = player.getComponent(TransformComponent.class).getX();
-        System.out.println("firstX: " + firstX);
-        System.out.println("secondX: " + secondX);
-        System.out.println("thirdX: " + thirdX);
+        //System.out.println("firstX: " + firstX);
+        //System.out.println("secondX: " + secondX);
+        //System.out.println("thirdX: " + thirdX);
         assertEquals(firstX, secondX);
         assertTrue(firstX > thirdX, "Sonic non si è mosso correttamente");
     }
@@ -70,14 +70,14 @@ public class PlayerPhysicsTest {
         float firstX = player.getComponent(TransformComponent.class).getX();
         float firstY = player.getComponent(TransformComponent.class).getY();
         
-        System.out.println("FirstY: " + firstY);
+        //System.out.println("FirstY: " + firstY);
         player.update(0.1f);
         float secondY = player.getComponent(TransformComponent.class).getY();
-        System.out.println("SecondY: " + secondY);
+        //System.out.println("SecondY: " + secondY);
         player.getComponent(PlayerPhysics.class).jump();
         player.update(0.1f);
         float thirdY = player.getComponent(TransformComponent.class).getY();
-        System.out.println("thirdY: " + thirdY);
+        //System.out.println("thirdY: " + thirdY);
         assertTrue(firstY < secondY);
         assertTrue(secondY < thirdY);
     }

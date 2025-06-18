@@ -78,6 +78,7 @@ public class RingPhysics extends PhysicsComponent {
     public void pickUp(){
         sonic.getComponent(WalletComponent.class).increaseAmount();
         owner.getComponent(PhysicsComponent.class).die();
+        System.out.println("Ring picked up!");
     }
 
     public void spreadOut(){

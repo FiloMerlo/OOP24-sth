@@ -161,6 +161,7 @@ public class PlayerPhysics extends PhysicsComponent {
     }
 
     public void takeDamage(){
+        System.out.println("Sonic took damage!");
         hit = false;
         iFrames = 240;
         GameEvent e;
