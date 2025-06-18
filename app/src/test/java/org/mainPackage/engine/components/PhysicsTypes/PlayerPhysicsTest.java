@@ -1,4 +1,4 @@
-package org.mainPackage.engine.entities.impl;
+package org.mainPackage.engine.components.PhysicsTypes;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -9,10 +9,11 @@ import java.util.ArrayList;
 import org.junit.jupiter.api.Test;
 import org.mainPackage.engine.components.TransformComponent;
 import org.mainPackage.engine.components.PhysicsTypes.PlayerPhysics;
+import org.mainPackage.engine.entities.impl.EntityImpl;
 import org.mainPackage.enums.action;
 import org.mainPackage.enums.direction;
 
-public class PhysicsTest {
+public class PlayerPhysicsTest {
     @Test 
     void playerCollisionsTest(){
         EntityImpl player = new EntityImpl();
@@ -58,6 +59,29 @@ public class PhysicsTest {
         assertTrue(firstX > thirdX, "Sonic non si è mosso correttamente");
     }
 
+    @Test
+    void checkIfSonicFalls(){
+        EntityImpl player = new EntityImpl();
+        player.addComponent(new TransformComponent(10, 10, 4, 4));    
+        ArrayList<Rectangle2D.Float> rects = new ArrayList<>();
+        rects.add(new Rectangle2D.Float(14, 10, 4, 4));
+        rects.add(new Rectangle2D.Float(14, 14, 4, 4));
+        player.addComponent(new PlayerPhysics(player, rects));
+        float firstX = player.getComponent(TransformComponent.class).getX();
+        float firstY = player.getComponent(TransformComponent.class).getY();
+        
+        System.out.println("FirstY: " + firstY);
+        player.update(0.1f);
+        float secondY = player.getComponent(TransformComponent.class).getY();
+        System.out.println("SecondY: " + secondY);
+        player.getComponent(PlayerPhysics.class).jump();
+        player.update(0.1f);
+        float thirdY = player.getComponent(TransformComponent.class).getY();
+        System.out.println("thirdY: " + thirdY);
+        assertTrue(firstY < secondY);
+        assertTrue(secondY < thirdY);
+    }
+    
     /*@Test
     void checkIfSonicDies(){
         EntityImpl testSonic = new EntityImpl();
