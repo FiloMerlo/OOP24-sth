@@ -15,8 +15,8 @@ import java.util.*;
 public class PlayerPhysics extends PhysicsComponent {
     private direction playerDir = direction.right;
     private action playerAction = action.idle;
-    private float accelMod = 0.01f, maxSpeed = 1.2f, minSpeed = 0.1f, initFallSpeed = 0.1f, fallMod = 0.1f, maxFallSpeed = 1, brakeSpeed = 0.5f;
-    private int rings = 0, jumpFrames = 0, maxJumpFrames = 100, jSpeed = -1;
+    private float accelMod = 0.01f, maxSpeed = 1.2f, minSpeed = 0.1f, initFallSpeed = 0.1f, fallMod = 0.1f, maxFallSpeed = 1;
+    private int rings = 0, jumpFrames = 0, maxJumpFrames = 100, jSpeed = -1, brakeForce = 1;
     protected HashMap<direction, Boolean> tryToMove = new HashMap<>();
     private int iFrames = 0;
     private boolean hit;
@@ -87,6 +87,9 @@ public class PlayerPhysics extends PhysicsComponent {
                 }
             } else {
                 brake();
+                if (xSpeed == 0){
+                    playerDir = newDir;
+                }
             }
         } else {
             brake();           
@@ -104,10 +107,10 @@ public class PlayerPhysics extends PhysicsComponent {
             }
         }
         /*FALLING.   Sonic starts to fall only one update after he ran out of jumpingFrames*/
-        else if (canGoThere(direction.down, ySpeed)){
-            if (ySpeed == 0 && canGoThere(direction.down, initFallSpeed)){
+        else if (canGoThere(direction.down, Math.max(initFallSpeed, ySpeed))){
+            if (ySpeed <= 0){
                 ySpeed = initFallSpeed;
-            } else if (ySpeed < maxFallSpeed && ySpeed > 0){
+            } else if (ySpeed < maxFallSpeed){
                 ySpeed += fallMod;
             }
         } 
@@ -119,27 +122,36 @@ public class PlayerPhysics extends PhysicsComponent {
     }
 
     public void determineAction(){
-        if (iFrames < 100){
-            if (ySpeed == 0){
-                if (xSpeed > 1 || xSpeed < -1){
-                    playerAction = action.dashing;
-                } else if (xSpeed > 0.5 || xSpeed < -0.5){
-                    playerAction = action.running;
-                } else if(xSpeed != 0){
-                    playerAction = action.walking;
-                } else {
-                    playerAction = action.idle;
-                }
-            } else if (ySpeed > 0){
+        if (iFrames < 210){
+            if (ySpeed > 0 && playerAction != action.jumping){
                 playerAction = action.falling;
-            } else {
+            } else if (ySpeed < 0){
                 playerAction = action.jumping;
+            } else {
+                if (ySpeed <= 0){
+                    if (xSpeed > 1 || xSpeed < -1){
+                        playerAction = action.dashing;
+                    } else if (xSpeed > 0.5 || xSpeed < -0.5){
+                        playerAction = action.running;
+                    } else if(xSpeed != 0){
+                        playerAction = action.walking;
+                    } else {
+                        playerAction = action.idle;
+                    }
+                }
             }
         } else {/*L'azione non cambia, rimane action.hurt*/}
     }
     
     private void brake() {
-        xSpeed += (-1) * playerDir.getValue() * brakeSpeed;
+        for (int i = 0; i < brakeForce && xSpeed != 0; i++){
+            /*Contingency*/
+            if (xSpeed > -0.1f && xSpeed < 0.1f){
+                xSpeed = 0;
+            } else if (xSpeed != 0){
+                xSpeed += (-1) * playerDir.getValue() * 0.1f;
+            }
+        }  
     }
     
     private void landing() {
@@ -147,8 +159,14 @@ public class PlayerPhysics extends PhysicsComponent {
         TransformComponent transform = owner.getComponent(TransformComponent.class);
         for (Rectangle2D.Float tile : tiles) {
             if (tile.getY() >= transform.getY() + transform.getHeight() && canGoThere(direction.down, (float)(tile.getY() - (transform.getY() + transform.getHeight()))) == true){
-                yDist = (float)(tile.getY() - (transform.getY() + transform.getHeight()));
+                float newDist = (float)(tile.getY() - (transform.getY() + transform.getHeight()));
+                if (newDist < yDist){
+                    yDist = newDist;
+                }
             }
+        }
+        if(yDist == Float.MAX_VALUE){
+            yDist = 0;
         }
         transform.moveY(yDist);
         ySpeed = 0;

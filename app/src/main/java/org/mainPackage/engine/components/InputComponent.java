@@ -29,9 +29,13 @@ public class InputComponent implements Component, Observer{
     public void update(float deltaTime) {
         if(InputManager.getInstance().isKeyDown(KeyEvent.VK_RIGHT)){
             playerPhysics.setWill(direction.right, true);
+        } else {
+            playerPhysics.setWill(direction.right, false);
         }
         if(InputManager.getInstance().isKeyDown(KeyEvent.VK_LEFT)){
             playerPhysics.setWill(direction.left, true);;
+        } else {
+            playerPhysics.setWill(direction.left, false);
         }
     }
 

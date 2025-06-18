@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.mainPackage.engine.components.TransformComponent;
 import org.mainPackage.engine.components.PhysicsTypes.PlayerPhysics;
 import org.mainPackage.enums.action;
+import org.mainPackage.enums.direction;
 
 public class PhysicsTest {
     @Test 
@@ -18,6 +19,7 @@ public class PhysicsTest {
         player.addComponent(new TransformComponent(10, 10, 4, 4));    
         ArrayList<Rectangle2D.Float> rects = new ArrayList<>();
         rects.add(new Rectangle2D.Float(10, 14, 4, 4));
+        rects.add(new Rectangle2D.Float(14, 10, 4, 4));
         player.addComponent(new PlayerPhysics(player, rects));
         float firstX = player.getComponent(TransformComponent.class).getX();
         float firstY = player.getComponent(TransformComponent.class).getY();
@@ -33,22 +35,27 @@ public class PhysicsTest {
         System.out.println("thirdY: " + thirdY);
         assertEquals(firstY, secondY);
         assertTrue(firstY >= thirdY, "Sonic non ha saltato correttamente");
-        System.out.println("Sonic action: " + player.getComponent(PlayerPhysics.class).getAction());
         assertEquals(action.jumping, player.getComponent(PlayerPhysics.class).getAction());
 
-        /*wait until sonic hits the ground.
-        while(player.getComponent(PlayerPhysics.class).getCanMove(direction.down)) {
+        /*wait until sonic hits the ground.*/
+        while(player.getComponent(PlayerPhysics.class).getAction() == action.jumping) {
             player.update(0.1f);
-            System.out.println("Sonic Y:" + player.getComponent(TransformComponent.class).getY());
-        }*/
+        }
+        System.out.println(player.getComponent(PlayerPhysics.class).getAction());
 
-        /*check horyzontal collisions
-        player.getComponent(PlayerPhysics.class).moveX(direction.right);
+        /*check horyzontal collisions*/
+        player.getComponent(PlayerPhysics.class).setWill(direction.right, true);
+        player.update(0.1f);
         float secondX = player.getComponent(TransformComponent.class).getX();
-        player.getComponent(PlayerPhysics.class).moveX(direction.left);
+        player.getComponent(PlayerPhysics.class).setWill(direction.left, true);
+        player.getComponent(PlayerPhysics.class).setWill(direction.right, false);
+        player.update(0.1f);
         float thirdX = player.getComponent(TransformComponent.class).getX();
+        System.out.println("firstX: " + firstX);
+        System.out.println("secondX: " + secondX);
+        System.out.println("thirdX: " + thirdX);
         assertEquals(firstX, secondX);
-        assertEquals(firstX - 1, thirdX);*/
+        assertTrue(firstX > thirdX, "Sonic non si è mosso correttamente");
     }
 
     /*@Test
