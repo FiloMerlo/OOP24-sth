@@ -3,6 +3,8 @@ package org.mainPackage.engine.entities.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.mainPackage.core.Game;
+import org.mainPackage.engine.components.WalletComponent;
 import org.mainPackage.engine.entities.api.*;
 import org.mainPackage.engine.events.api.*;
 import org.mainPackage.engine.events.impl.*;
@@ -88,15 +90,17 @@ public class EntityManagerImpl implements EntityManager, Observer {
     @Override
     public void onNotify(Event e) {
         if (e instanceof GameEvent){
+            GameEvent gameEvent = (GameEvent) e;
             switch(e.getType()){
                 case ENTITY_DEAD:
-                    removeEntity((((GameEvent)e).getSource()));
+                    removeEntity((gameEvent.getSource()));
                     break;
                 case ENTITY_SPAWN:
-                    addEntity((((GameEvent)e).getSource()));
+                    addEntity((gameEvent.getSource()));
                     break;
-                case PLAYER_HIT:
-
+                case SPREADED_RINGS:
+                    Entity player =(EntityImpl) gameEvent.getSource();
+                    player.getComponent(WalletComponent.class).spawnRings();
                     break;
                 default:
                     break;
