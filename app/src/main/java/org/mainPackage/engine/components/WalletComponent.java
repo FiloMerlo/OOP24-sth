@@ -1,7 +1,6 @@
 package org.mainPackage.engine.components;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.mainPackage.engine.components.PhysicsTypes.RingPhysics;
 import org.mainPackage.engine.entities.impl.EntityImpl;
@@ -52,7 +51,6 @@ public class WalletComponent extends SubjectImpl implements Component, Observer{
     public void onNotify(Event e) {
         if (e instanceof GameEvent){
             if (e.getType() == EventType.PLAYER_HIT){
-                spawnRings();
                 GameEvent ringSpreadEvent = new GameEvent(EventType.SPREADED_RINGS, ((GameEvent) e).getSource());
                 notifyObservers(ringSpreadEvent);
             }

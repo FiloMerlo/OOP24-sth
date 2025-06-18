@@ -22,7 +22,7 @@ public class App {
         
         sonic.addComponent(new PlayerPhysics(sonic, tileList));
         sonic.addComponent(new SonicAnimator());
-        sonic.addComponent(new WalletComponent(entityManager, tileList));
+        sonic.addComponent(new WalletComponent(tileList));
         entityManager.addEntity(sonic);
        
         /* Debug */

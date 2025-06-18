@@ -69,9 +69,9 @@ public class InputManager extends SubjectImpl implements KeyListener{
     /**
      * 
      * @param keyCode
-     * @return
+     * @return Boolean if a given key is down
      */
-    public boolean isKeyDown(int keyCode){
+    public Boolean isKeyDown(int keyCode){
         return keysDown.contains(keyCode);
     }
 }

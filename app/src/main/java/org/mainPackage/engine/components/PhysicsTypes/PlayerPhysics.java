@@ -2,7 +2,6 @@ package org.mainPackage.engine.components.PhysicsTypes;
 
 import org.mainPackage.engine.components.PhysicsComponent;
 import org.mainPackage.engine.components.TransformComponent;
-import org.mainPackage.engine.components.WalletComponent;
 import org.mainPackage.engine.entities.impl.EntityImpl;
 import org.mainPackage.engine.events.impl.GameEvent;
 import org.mainPackage.enums.action;
