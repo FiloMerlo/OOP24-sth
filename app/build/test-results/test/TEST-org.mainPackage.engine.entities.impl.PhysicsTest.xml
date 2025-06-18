@@ -1,28 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="org.mainPackage.engine.entities.impl.PhysicsTest" tests="2" skipped="0" failures="1" errors="0" timestamp="2025-06-18T00:01:08.394Z" hostname="Filo" time="0.031">
+<testsuite name="org.mainPackage.engine.entities.impl.PhysicsTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-06-18T15:54:57.633Z" hostname="MacBook-Pro-di-Francesco.local" time="0.004">
   <properties/>
-  <testcase name="checkIfSonicDies()" classname="org.mainPackage.engine.entities.impl.PhysicsTest" time="0.006"/>
-  <testcase name="playerCollisionsTest()" classname="org.mainPackage.engine.entities.impl.PhysicsTest" time="0.023">
-    <failure message="org.opentest4j.AssertionFailedError: expected: &lt;10.0&gt; but was: &lt;10.7&gt;" type="org.opentest4j.AssertionFailedError">org.opentest4j.AssertionFailedError: expected: &lt;10.0&gt; but was: &lt;10.7&gt;
-	at app//org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
-	at app//org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
-	at app//org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
-	at app//org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:102)
-	at app//org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:97)
-	at app//org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:735)
-	at app//org.mainPackage.engine.entities.impl.PhysicsTest.playerCollisionsTest(PhysicsTest.java:48)
-	at java.base@23.0.2/java.lang.reflect.Method.invoke(Method.java:580)
-	at java.base@23.0.2/java.util.ArrayList.forEach(ArrayList.java:1597)
-	at java.base@23.0.2/java.util.ArrayList.forEach(ArrayList.java:1597)
-</failure>
-  </testcase>
-  <system-out><![CDATA[State: falling
-FirstY: 10.0
-FirstY: 10.0
-FirstY: 10.0
-SecondY: 10.7
-FirstY: 10.0
-SecondY: 10.7
+  <testcase name="playerCollisionsTest()" classname="org.mainPackage.engine.entities.impl.PhysicsTest" time="0.004"/>
+  <system-out><![CDATA[FirstY: 10.0
+SecondY: 10.0
+thirdY: 8.0
+idle
+firstX: 10.0
+secondX: 10.0
+thirdX: 9.9
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
