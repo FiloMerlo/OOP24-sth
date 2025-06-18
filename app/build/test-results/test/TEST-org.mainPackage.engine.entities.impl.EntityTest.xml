@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="org.mainPackage.engine.entities.impl.EntityTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-06-18T09:42:47.125Z" hostname="MacBook-Pro-di-Francesco.local" time="0.036">
-  <properties/>
-  <testcase name="componentsAddedCorrectly()" classname="org.mainPackage.engine.entities.impl.EntityTest" time="0.036"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
