@@ -1,5 +1,23 @@
 # Ignore Gradle project-specific cache directory
 .gradle
 
+
 # Ignore Gradle build output directory
-build
+build/
+bin/
+
+# Ignore Idea customizations
+.idea
+
+# Ignore Eclipse and VS code settings
+.project
+.settings/
+.classpath
+
+.vscode/*
+.vscode/
+*.class
+
+# Ignore file OS
+.DS_Store
+Thumbs.db 
