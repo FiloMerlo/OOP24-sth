@@ -19,9 +19,11 @@ public class App {
 
         /* Sonic */
         EntityImpl sonic = new EntityImpl();
-        sonic.addComponent(new TransformComponent(0, 0, sonicSize, sonicSize));
-        sonic.addComponent(new PlayerPhysics(sonic, tileList));
+        // WalletComponent va aggiunto prima di PlayerPhysics
         sonic.addComponent(new SonicAnimator());
+        sonic.addComponent(new WalletComponent(tileList));
+        sonic.addComponent(new PlayerPhysics(sonic, tileList));
+
         entityManager.addEntity(sonic);
        
         /* Debug */
@@ -33,9 +35,9 @@ public class App {
 
         /* Level */
         int[][] levelGrid = {
+            {1, 4, 0, 0, 0, 0, 0, 0, 0, 1},
             {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-            {1, 0, 0, 0, 4, 0, 0, 0, 0, 1},
-            {1, 5, 5, 5, 5, 5, 5, 2, 2, 1},
+            {1, 0, 5, 5, 5, 5, 5, 2, 2, 1},
             {1, 0, 0, 0, 1, 0, 0, 3, 6, 1},
             {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
         };
@@ -80,6 +82,7 @@ public class App {
                         ring.addComponent(new TransformComponent(xPos + (tileSize - ringSize) / 2, yPos + (tileSize - ringSize) / 2, ringSize, ringSize));
                         //ring.addComponent(new RingPhysics(ring, tileList, (PlayerPhysics)sonic.getComponent(PhysicsComponent.class)));
                         ring.addComponent(new RingAnimator());
+                        ring.getComponent(RingPhysics.class).changeTangibility();
                         entityManager.addEntity(ring); 
                     }
                     case 6 -> {
@@ -94,7 +97,7 @@ public class App {
         
         game.start();
 
-        GameStateManager gameStateManager = game.getGameStateManager();
+        GameStateManager gameStateManager = GameStateManager.getInstance();
 
         if (gameStateManager != null && goal != null) {
             GoalComponent goalComponent = goal.getComponent(GoalComponent.class);

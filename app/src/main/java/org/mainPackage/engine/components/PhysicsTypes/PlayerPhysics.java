@@ -2,12 +2,12 @@ package org.mainPackage.engine.components.PhysicsTypes;
 
 import org.mainPackage.engine.components.PhysicsComponent;
 import org.mainPackage.engine.components.TransformComponent;
-
 import org.mainPackage.engine.entities.impl.EntityImpl;
 import org.mainPackage.engine.events.impl.GameEvent;
 import org.mainPackage.enums.action;
 import org.mainPackage.enums.direction;
 import org.mainPackage.engine.events.api.EventType;
+import org.mainPackage.engine.components.WalletComponent;
 
 import java.awt.geom.Rectangle2D;
 import java.util.*;
@@ -16,11 +16,9 @@ public class PlayerPhysics extends PhysicsComponent {
     private direction playerDir = direction.right;
     private action playerAction = action.idle;
     private float accelMod = 0.01f, maxSpeed = 1.2f, minSpeed = 0.1f, initFallSpeed = 0.1f, fallMod = 0.1f, maxFallSpeed = 1;
-    private int rings = 0, jumpFrames = 0, maxJumpFrames = 100, jSpeed = -1, brakeForce = 1;
+    private int jumpFrames = 0, maxJumpFrames = 100, jSpeed = -1, brakeForce = 1, iFrames = 0;
     protected HashMap<direction, Boolean> tryToMove = new HashMap<>();
-    private int iFrames = 0;
     private boolean hit;
-    public int iterations = 0;
 
     public PlayerPhysics(EntityImpl o, ArrayList<Rectangle2D.Float> tList){
         super(o, tList);
@@ -28,11 +26,11 @@ public class PlayerPhysics extends PhysicsComponent {
         tryToMove.put(direction.left, false);
         tryToMove.put(direction.up, false);
         tryToMove.put(direction.right, false);
+        addObserver(o.getComponent(WalletComponent.class));
         /*tryToMove per direction.down è sempre opposto a tryToMove per direction.up*/
     }
 
     public void update(float deltaTime) {
-        iterations++;
         if (hit == true){
             takeDamage();
         }
@@ -44,16 +42,9 @@ public class PlayerPhysics extends PhysicsComponent {
         determineAction();
     }
     public void moveX(){
-        direction oppositeDir;
-        if (playerDir == direction.left){
-            oppositeDir = direction.right;
-        } else {
-            oppositeDir = direction.left;
-        }
 
         if (playerAction == action.hurt){
-            xSpeed = 0.2f * oppositeDir.getValue();
-            if (canGoThere(oppositeDir, xSpeed)){
+            if (canGoThere(playerDir.opposite(), xSpeed)){
                 owner.getComponent(TransformComponent.class).moveX(xSpeed);
             }
         } else 
@@ -139,7 +130,7 @@ public class PlayerPhysics extends PhysicsComponent {
         } else {/*L'azione non cambia, rimane action.hurt*/}
     }
     
-    private void brake() {
+    public void brake() {
         for (int i = 0; i < brakeForce && xSpeed != 0; i++){
             /*Contingency*/
             if (xSpeed > -0.1f && xSpeed < 0.1f){
@@ -150,7 +141,7 @@ public class PlayerPhysics extends PhysicsComponent {
         }  
     }
     
-    private void landing() {
+    public void landing() {
         float yDist = Float.MAX_VALUE;
         TransformComponent transform = owner.getComponent(TransformComponent.class);
         for (Rectangle2D.Float tile : tiles) {
@@ -190,17 +181,9 @@ public class PlayerPhysics extends PhysicsComponent {
         hit = false;
         iFrames = 240;
         GameEvent e;
-        if (rings > 0){
-            rings = 0;
-            e = new GameEvent(EventType.PLAYER_HIT, owner);
-            xSpeed = 0.1f * playerDir.getValue() * (-1);
-        } else {
-            e = new GameEvent(EventType.GAME_OVER , owner);
-        }
+        e = new GameEvent(EventType.PLAYER_HIT, owner);
         notifyObservers(e);
-    }
-    public void gotRing(){
-        rings++;
+        xSpeed = 0.2f * playerDir.opposite().getValue();
     }
 
     public void hit() { 

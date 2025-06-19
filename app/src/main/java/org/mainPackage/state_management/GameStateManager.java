@@ -18,6 +18,7 @@ import org.mainPackage.engine.systems.InputManager;
  */
 public class GameStateManager implements Observer {
 
+    private static GameStateManager instance = null;
     private GameState currentState; 
 
     //private GameLoop gameLoop /* funzione di pausa gameLoop inutile */
@@ -38,15 +39,20 @@ public class GameStateManager implements Observer {
         PAUSED
         
     }
-    
-
-    public GameStateManager(SizeView sizeView, Runnable shutdowGame) {
+    public static GameStateManager getInstance() {
+        if (instance == null){
+            instance = new GameStateManager();
+        }
+        return instance;
+    }
+    public void setGameState(SizeView sizeView, Runnable shutdownGame){
         this.sizeView = sizeView;
-        this.shutdownGame = shutdowGame;
+        this.shutdownGame = shutdownGame;
 
-        
         setState(State.MENU);
-        
+    }
+
+    private GameStateManager() {
     }
 
     public void initState(Entity sonicEntity, int[][] levelGrid, int tileWorldSize, GoalComponent goal) {
@@ -159,10 +165,13 @@ public class GameStateManager implements Observer {
         }
     }
 
-
+    /**
+     * Given a @param Event , it detects the {@link EventType} 
+     * and set the {@link GameState} according to it
+     */
     @Override
     public void onNotify(Event e) {
-        if(e instanceof GameEvent){
+        if (e instanceof GameEvent){
         switch(e.getType()){
             case GAME_OVER:
                 setState(State.MENU);

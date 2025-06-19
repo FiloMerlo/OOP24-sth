@@ -5,7 +5,9 @@ import org.mainPackage.engine.events.api.Event;
 import org.mainPackage.engine.events.api.Observer;
 import org.mainPackage.engine.events.api.Subject;
 import java.util.ArrayList;
-
+/**
+ * Implementaion of {@link Subject} , it comes with a list of {@link Observer}s
+ */
 public class SubjectImpl implements Subject {
     private List<Observer> observers = new ArrayList<>();
 
