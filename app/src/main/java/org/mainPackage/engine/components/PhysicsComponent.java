@@ -47,6 +47,42 @@ public abstract class PhysicsComponent extends SubjectImpl implements Component{
 
         return true;
     }
+    public void landing() {
+        float yDist = Float.MAX_VALUE;
+        TransformComponent transform = owner.getComponent(TransformComponent.class);
+        for (Rectangle2D.Float tile : tiles) {
+            if (tile.getY() >= transform.getY() + transform.getHeight() && canGoThere(direction.down, (float)(tile.getY() - (transform.getY() + transform.getHeight()))) == true){
+                float newDist = (float)(tile.getY() - (transform.getY() + transform.getHeight()));
+                if (newDist < yDist){
+                    yDist = newDist;
+                }
+            }
+        }
+        if(yDist == Float.MAX_VALUE){
+            yDist = 0;
+        }
+        transform.moveY(yDist);
+        ySpeed = 0;
+    }
+
+    public boolean checkIntersection(TransformComponent other) {
+        Rectangle2D.Float ownHitbox = new Rectangle2D.Float(
+        owner.getComponent(TransformComponent.class).getX(),
+        owner.getComponent(TransformComponent.class).getY(),
+        owner.getComponent(TransformComponent.class).getWidth(),
+        owner.getComponent(TransformComponent.class).getHeight()
+        );
+        Rectangle2D.Float playerHitbox = new Rectangle2D.Float(
+        other.getX(),
+        other.getY(),
+        other.getWidth(),
+        other.getHeight()
+        );
+        if (ownHitbox.intersects(playerHitbox)){
+            return true;
+        } 
+        return false;
+    }
     
     public EntityImpl getOwner() {
         return owner;

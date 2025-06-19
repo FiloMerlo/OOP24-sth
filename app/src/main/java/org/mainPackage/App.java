@@ -57,6 +57,8 @@ public class App {
                     }
                     case 2 -> {
                         EntityImpl staticEnemy = new EntityImpl();
+
+                        staticEnemy.addComponent(new EnemyPhysics(0, staticEnemy, tileList, sonic));
                         staticEnemy.addComponent(new TransformComponent(xPos, yPos + tileSize - enemySize, enemySize, enemySize));
                         //staticEnemy.addComponent(new EnemyPhysics(0, staticEnemy, tileList, sonic));
                         staticEnemy.addComponent(new StaticEnemyAnimator());
@@ -65,7 +67,7 @@ public class App {
                     }
                     case 3 -> {
                         EntityImpl chasingEnemy = new EntityImpl();
-                        chasingEnemy.addComponent(new TransformComponent(xPos, yPos + tileSize - enemySize, enemySize, enemySize));
+                        chasingEnemy.addComponent(new EnemyPhysics(0.2f, chasingEnemy, tileList, sonic));                        chasingEnemy.addComponent(new TransformComponent(xPos, yPos + tileSize - enemySize, enemySize, enemySize));
                         //chasingEnemy.addComponent(new EnemyPhysics(5, chasingEnemy, tileList, sonic));
                         chasingEnemy.addComponent(new ChasingEnemyAnimator());
                         entityManager.addEntity(chasingEnemy);
@@ -79,8 +81,8 @@ public class App {
 
                     case 5 -> {
                         EntityImpl ring = new EntityImpl();
-                        ring.addComponent(new TransformComponent(xPos + (tileSize - ringSize) / 2, yPos + (tileSize - ringSize) / 2, ringSize, ringSize));
-                        //ring.addComponent(new RingPhysics(ring, tileList, (PlayerPhysics)sonic.getComponent(PhysicsComponent.class)));
+                        ring.addComponent(new RingPhysics(ring, tileList, sonic));
+                        ring.addComponent(new TransformComponent(xPos + tileSize - ringSize, yPos + tileSize - ringSize, ringSize, ringSize));
                         ring.addComponent(new RingAnimator());
                         ring.getComponent(RingPhysics.class).changeTangibility();
                         entityManager.addEntity(ring); 

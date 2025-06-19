@@ -103,7 +103,9 @@ public class PlayerPhysics extends PhysicsComponent {
         } 
         /*LANDING*/
         else { 
-            landing();
+            if(ySpeed > 0){
+                landing();
+            }
         }
         owner.getComponent(TransformComponent.class).moveY(ySpeed);
     }
@@ -140,24 +142,6 @@ public class PlayerPhysics extends PhysicsComponent {
             }
         }  
     }
-    
-    public void landing() {
-        float yDist = Float.MAX_VALUE;
-        TransformComponent transform = owner.getComponent(TransformComponent.class);
-        for (Rectangle2D.Float tile : tiles) {
-            if (tile.getY() >= transform.getY() + transform.getHeight() && canGoThere(direction.down, (float)(tile.getY() - (transform.getY() + transform.getHeight()))) == true){
-                float newDist = (float)(tile.getY() - (transform.getY() + transform.getHeight()));
-                if (newDist < yDist){
-                    yDist = newDist;
-                }
-            }
-        }
-        if(yDist == Float.MAX_VALUE){
-            yDist = 0;
-        }
-        transform.moveY(yDist);
-        ySpeed = 0;
-    }
 
     public void jump(){
         if (!canGoThere(direction.down, 0.3f) && jumpFrames == 0){
@@ -178,10 +162,17 @@ public class PlayerPhysics extends PhysicsComponent {
     }
 
     public void takeDamage(){
+        System.out.println("Sonic took damage!");
+        playerAction = action.hurt;
         hit = false;
         iFrames = 240;
         GameEvent e;
-        e = new GameEvent(EventType.PLAYER_HIT, owner);
+        if (owner.getComponent(WalletComponent.class).getAmount() > 0){
+            e = new GameEvent(EventType.PLAYER_HIT, owner);
+        }
+        else {
+            e = new GameEvent(EventType.GAME_OVER, owner);
+        }
         notifyObservers(e);
         xSpeed = 0.2f * playerDir.opposite().getValue();
     }
