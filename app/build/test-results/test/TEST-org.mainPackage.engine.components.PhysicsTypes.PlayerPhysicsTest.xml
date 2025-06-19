@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="org.mainPackage.engine.components.PhysicsTypes.PlayerPhysicsTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2025-06-18T23:46:52.976Z" hostname="RISOFRESCO" time="0.008">
+<testsuite name="org.mainPackage.engine.components.PhysicsTypes.PlayerPhysicsTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2025-06-19T09:48:06.351Z" hostname="RISOFRESCO" time="0.027">
   <properties/>
-  <testcase name="checkIfSonicFalls()" classname="org.mainPackage.engine.components.PhysicsTypes.PlayerPhysicsTest" time="0.002"/>
+  <testcase name="checkIfSonicDies()" classname="org.mainPackage.engine.components.PhysicsTypes.PlayerPhysicsTest" time="0.017"/>
+  <testcase name="checkIfSonicFalls()" classname="org.mainPackage.engine.components.PhysicsTypes.PlayerPhysicsTest" time="0.001"/>
   <testcase name="playerCollisionsTest()" classname="org.mainPackage.engine.components.PhysicsTypes.PlayerPhysicsTest" time="0.004"/>
-  <system-out><![CDATA[]]></system-out>
+  <system-out><![CDATA[Sonic took damage!
+State: hurt
+]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

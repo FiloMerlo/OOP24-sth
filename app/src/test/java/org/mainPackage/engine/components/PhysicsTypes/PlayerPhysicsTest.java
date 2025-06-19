@@ -8,8 +8,11 @@ import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
 import org.mainPackage.engine.components.TransformComponent;
+import org.mainPackage.engine.components.WalletComponent;
 import org.mainPackage.engine.components.PhysicsTypes.PlayerPhysics;
 import org.mainPackage.engine.entities.impl.EntityImpl;
+import org.mainPackage.engine.entities.impl.EntityManagerImpl;
+import org.mainPackage.engine.events.api.EventType;
 import org.mainPackage.enums.action;
 import org.mainPackage.enums.direction;
 
@@ -82,31 +85,32 @@ public class PlayerPhysicsTest {
         assertTrue(secondY < thirdY);
     }
     
-    /*@Test
+    @Test
     void checkIfSonicDies(){
-        EntityImpl testSonic = new EntityImpl();
-    EntityImpl testEnemy = new EntityImpl();
-    
-    ArrayList<Rectangle2D.Float> tileList = new ArrayList<>();
-    tileList.add(new Rectangle2D.Float(10, 14, 4, 2)); // piattaforma sotto Sonic
+        EntityImpl sonic = new EntityImpl();
+        EntityImpl enemy = new EntityImpl();
+        ArrayList<Rectangle2D.Float> world = new ArrayList<>();
+        world.add(new Rectangle2D.Float(10, 14, 4, 4)); // piattaforma sotto Sonic
 
-    testSonic.addComponent(new TransformComponent(10, 10, 4, 4));
-    testSonic.addComponent(new PlayerPhysics(testSonic, tileList));
-    testEnemy.addComponent(new TransformComponent(10, 10, 3, 3));
-    testEnemy.addComponent(new EnemyPhysics(0, testEnemy, tileList, testSonic));
+        sonic.addComponent(new TransformComponent(10, 10, 4, 4));
+        sonic.addComponent(new PlayerPhysics(sonic, world));
+        sonic.addComponent(new WalletComponent(EntityManagerImpl.getInstance(), world));
+        
+        enemy.addComponent(new TransformComponent(10, 10, 3, 3));
+        enemy.addComponent(new EnemyPhysics(0, enemy, world, sonic));
 
-    PlayerPhysics sonicPhysics = testSonic.getComponent(PlayerPhysics.class);
+        PlayerPhysics sonicPhysics = sonic.getComponent(PlayerPhysics.class);
 
-    final boolean[] gameOverTriggered = {false};
-    sonicPhysics.addObserver(event -> {
-        if (event.getType() == EventType.GAME_OVER) {
-            gameOverTriggered[0] = true;
-        }
-    });
-    testEnemy.update(0);
-    testSonic.update(0);
-    System.out.println("State: " + sonicPhysics.getAction());
+        final boolean[] gameOverTriggered = {false};
+        sonicPhysics.addObserver(event -> {
+            if (event.getType() == EventType.GAME_OVER) {
+                gameOverTriggered[0] = true;
+            }
+        });
+        enemy.update(0);
+        sonic.update(0);
+        System.out.println("State: " + sonicPhysics.getAction());
 
-    assertTrue(gameOverTriggered[0], "Sonic dies"); 
-    }*/
+        assertTrue(gameOverTriggered[0], "Sonic dies"); 
+    }
 }

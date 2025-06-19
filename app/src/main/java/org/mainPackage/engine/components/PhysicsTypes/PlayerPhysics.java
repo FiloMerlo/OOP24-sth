@@ -162,10 +162,16 @@ public class PlayerPhysics extends PhysicsComponent {
 
     public void takeDamage(){
         System.out.println("Sonic took damage!");
+        playerAction = action.hurt;
         hit = false;
         iFrames = 240;
         GameEvent e;
-        e = new GameEvent(EventType.PLAYER_HIT, owner);
+        if (owner.getComponent(WalletComponent.class).getAmount() > 0){
+            e = new GameEvent(EventType.PLAYER_HIT, owner);
+        }
+        else {
+            e = new GameEvent(EventType.GAME_OVER, owner);
+        }
         notifyObservers(e);
         xSpeed = 0.2f * playerDir.opposite().getValue();
     }
