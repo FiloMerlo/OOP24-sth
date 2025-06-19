@@ -4,11 +4,16 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
-public abstract class GameState {
-    protected GameStateManager gameStateManager;// Già presente per la comunicazione tra stati
+import org.mainPackage.engine.events.impl.SubjectImpl;
+import org.mainPackage.util.SizeView;
 
-    public GameState(GameStateManager gameStateManager) {
+public abstract class GameState extends SubjectImpl {
+    protected GameStateManager gameStateManager;// Già presente per la comunicazione tra stati
+    protected SizeView sizeView;
+    
+    public GameState(GameStateManager gameStateManager, SizeView sizeView) {
         this.gameStateManager = gameStateManager;
+        this.sizeView = sizeView;
     }
 
     /* Metodi implemetati da ogni stato */
@@ -20,6 +25,8 @@ public abstract class GameState {
     
     public void keyReleased(KeyEvent e) {} // Implementazione vuota di default
     
-    public void mouseClicked(MouseEvent e) {} // Implementazione vuota di default
+    public void mousePressed(MouseEvent e) {} // Implementazione vuota di default
     
+
+    public void mouseMoved(MouseEvent e) {}
 }

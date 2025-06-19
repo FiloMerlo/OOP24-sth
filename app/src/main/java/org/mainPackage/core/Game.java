@@ -2,6 +2,7 @@ package org.mainPackage.core;
 
 
 import org.mainPackage.state_management.GameStateManager;
+import org.mainPackage.util.SizeView;
 
 public class Game {
 
@@ -9,13 +10,18 @@ public class Game {
     private GamePanel gamePanel;
     private GameLoop gameLoop;
     
-    private GameStateManager gameStateManager;
+    private SizeView sizeView;
 
     public Game() {
-        gameStateManager = new GameStateManager();
-        gamePanel = new GamePanel(gameStateManager);
+        
+        gamePanel = new GamePanel();
+        this.sizeView = gamePanel;
+        GameStateManager.getInstance().setGameState(sizeView, this ::stop); /* game panel vuole state manager */
+
+        gamePanel.setGameStateManager(GameStateManager.getInstance());
         gameWindow = new GameWindow("Sonic Game", gamePanel, this);
-        gameLoop = new GameLoop(gameStateManager,gamePanel);
+        
+        gameLoop = new GameLoop(GameStateManager.getInstance(), gamePanel);
         //gameStateManager.setGameLoop(gameLoop); /* funzionalità inule */
     }
 
@@ -28,10 +34,4 @@ public class Game {
         gameWindow.dispose();
     }
     
-    
-    
-    public static void main(String[] args) {
-        Game game = new Game();
-        game.start();
-    }
 }

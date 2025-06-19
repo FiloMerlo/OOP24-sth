@@ -1,10 +1,10 @@
 package  org.mainPackage.engine.events.api;
 
-import  org.mainPackage.engine.events.impl.GameEvent;
-
-/*
- * 
+/**
+ * Given a @param Event by a {@link Subject} , this interface is implemented by
+ * those classes which need to observe the {@link Event} , then behave according to the
+ * {@link EventType} and it's source
  */
 public interface Observer {
-    void onNotify(GameEvent event);
+    void onNotify(Event e);
 }

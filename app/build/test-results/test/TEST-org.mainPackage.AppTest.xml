@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="org.mainPackage.AppTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-06-09T16:35:00.385Z" hostname="NICOLAS" time="0.0">
-  <properties/>
-  <testcase name="appHasAGreeting()" classname="org.mainPackage.AppTest" time="0.0"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

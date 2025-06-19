@@ -3,20 +3,34 @@ package org.mainPackage.state_management;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-
-
+import org.mainPackage.util.SizeView;
+import org.mainPackage.engine.components.GoalComponent;
+import org.mainPackage.engine.entities.api.Entity;
+import org.mainPackage.engine.entities.impl.EntityImpl;
+import org.mainPackage.engine.events.api.Event;
+import org.mainPackage.engine.events.api.Observer;
+import org.mainPackage.engine.events.impl.GameEvent;
+import org.mainPackage.engine.systems.InputManager;
 
 /**
  * Gestisce i diversi stati del gioco (es. menu, gioco, pausa).
  * Si occupa di delegare l'aggiornamento e il disegno dello stato corrente. Delega anche gli input
  */
-public class GameStateManager {
+public class GameStateManager implements Observer {
 
+    private static GameStateManager instance = null;
     private GameState currentState; 
-    
+
     //private GameLoop gameLoop /* funzione di pausa gameLoop inutile */
     private PlayingState playingState;
     private PausedState pausedState;
+    private SizeView sizeView;
+    private Runnable shutdownGame;
+
+    /* Campi per il playingState */
+    private Entity sonicEntity;
+    private int[][] levelGrid;
+    private int tileWorldSize;
 
   
     public enum State {
@@ -25,14 +39,32 @@ public class GameStateManager {
         PAUSED
         
     }
+    public static GameStateManager getInstance() {
+        if (instance == null){
+            instance = new GameStateManager();
+        }
+        return instance;
+    }
+    public void setGameState(SizeView sizeView, Runnable shutdownGame){
+        this.sizeView = sizeView;
+        this.shutdownGame = shutdownGame;
 
-
-    public GameStateManager() {
-
-        playingState = new PlayingState(this);
-        pausedState = new PausedState(this);
         setState(State.MENU);
+    }
 
+    private GameStateManager() {
+    }
+
+    public void initState(Entity sonicEntity, int[][] levelGrid, int tileWorldSize, GoalComponent goal) {
+        this.sonicEntity = sonicEntity;
+        this.levelGrid = levelGrid;
+        this.tileWorldSize = tileWorldSize;
+
+        this.playingState = new PlayingState(this, sizeView, sonicEntity, levelGrid, tileWorldSize, goal);
+        this.pausedState = new PausedState(this, sizeView);
+        ((EntityImpl) sonicEntity).addObserver(this);
+        goal.addObserver(this);
+        InputManager.getInstance().addObserver(this);
     }
 
     
@@ -40,8 +72,7 @@ public class GameStateManager {
         
         switch (state) {
             case MENU:
-                
-                currentState = new MenuState(this); 
+                currentState = new MenuState(this,sizeView); 
                 break;
             case PLAYING:
                 currentState = playingState; 
@@ -59,6 +90,33 @@ public class GameStateManager {
     }
 
     
+    /* Metodi per playing state */
+    public void setSonicEntity(Entity Sonic) {
+        this.sonicEntity = Sonic;
+    }
+
+    public void setLevelGrid(int[][] grid) {
+        this.levelGrid = grid;
+    }
+
+    public void setTileWorldSize(int size) {
+        this.tileWorldSize = size;
+    }
+
+    
+    public Entity getSonicEntity() {
+        return this.sonicEntity;
+    }
+
+    public int[][] getLevelGrid() {
+        return this.levelGrid;
+    }
+
+    public int getTileWorldSize() {
+        return this.tileWorldSize;
+    }
+
+    
     public void update() {
         if (currentState != null) 
             currentState.update();
@@ -73,17 +131,14 @@ public class GameStateManager {
         }
     }
 
-    /*public void setGameLoop(GameLoop gameLoop) {
-        this.gameLoop = gameLoop;
+
+    public void gameShutdown() {
+        if (shutdownGame != null) {
+            shutdownGame.run(); 
+        }
     }
 
-    
-    public GameLoop getGameLoop() {
-        return gameLoop;
-    }
-        metodi inutili al momento */
 
-    
     public void keyPressed(KeyEvent e) {
         if (currentState != null) {
             currentState.keyPressed(e);
@@ -98,11 +153,45 @@ public class GameStateManager {
     }
 
     
-    public void mouseClicked(MouseEvent e) {
+    public void mousePressed(MouseEvent e) {
         if (currentState != null) {
-            currentState.mouseClicked(e);
+            currentState.mousePressed(e);
+        }
+    }
+    
+    public void mouseMoved (MouseEvent e) {
+        if (currentState != null) {
+            currentState.mouseMoved(e);
         }
     }
 
-
+    /**
+     * Given a @param Event , it detects the {@link EventType} 
+     * and set the {@link GameState} according to it
+     */
+    @Override
+    public void onNotify(Event e) {
+        if (e instanceof GameEvent){
+        switch(e.getType()){
+            case GAME_OVER:
+                setState(State.MENU);
+                break;
+            case LEVEL_COMPLETED:
+                setState(State.MENU);
+                break;
+            case LEVEL_STARTED:
+                setState(State.PLAYING);
+                break;
+            case PAUSE:
+                setState(State.PAUSED);
+                break;
+            case RESUME:
+                setState(State.PLAYING);
+                break;
+            default:
+                break;
+            
+            }
+        }
+    }
 }
