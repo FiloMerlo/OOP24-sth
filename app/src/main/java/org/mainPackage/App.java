@@ -22,8 +22,9 @@ public class App {
         // WalletComponent va aggiunto prima di PlayerPhysics
         sonic.addComponent(new SonicAnimator());
         sonic.addComponent(new WalletComponent(tileList));
+        sonic.addComponent(new TransformComponent(0, 0, sonicSize, sonicSize));
         sonic.addComponent(new PlayerPhysics(sonic, tileList));
-
+       
         entityManager.addEntity(sonic);
        
         /* Debug */
@@ -57,18 +58,19 @@ public class App {
                     }
                     case 2 -> {
                         EntityImpl staticEnemy = new EntityImpl();
+                        staticEnemy.addComponent(new TransformComponent(xPos, yPos + tileSize - enemySize, enemySize, enemySize));
 
                         staticEnemy.addComponent(new EnemyPhysics(0, staticEnemy, tileList, sonic));
-                        staticEnemy.addComponent(new TransformComponent(xPos, yPos + tileSize - enemySize, enemySize, enemySize));
-                        //staticEnemy.addComponent(new EnemyPhysics(0, staticEnemy, tileList, sonic));
+                        
                         staticEnemy.addComponent(new StaticEnemyAnimator());
                         entityManager.addEntity(staticEnemy);
                         System.out.println("Static enemy added");
                     }
                     case 3 -> {
                         EntityImpl chasingEnemy = new EntityImpl();
-                        chasingEnemy.addComponent(new EnemyPhysics(0.2f, chasingEnemy, tileList, sonic));                        chasingEnemy.addComponent(new TransformComponent(xPos, yPos + tileSize - enemySize, enemySize, enemySize));
-                        //chasingEnemy.addComponent(new EnemyPhysics(5, chasingEnemy, tileList, sonic));
+                        chasingEnemy.addComponent(new TransformComponent(xPos, yPos + tileSize - enemySize, enemySize, enemySize));
+                        chasingEnemy.addComponent(new EnemyPhysics(0.2f, chasingEnemy, tileList, sonic));                        
+                        
                         chasingEnemy.addComponent(new ChasingEnemyAnimator());
                         entityManager.addEntity(chasingEnemy);
                         System.out.println("Chasing enemy added");
@@ -81,8 +83,9 @@ public class App {
 
                     case 5 -> {
                         EntityImpl ring = new EntityImpl();
-                        ring.addComponent(new RingPhysics(ring, tileList, sonic));
                         ring.addComponent(new TransformComponent(xPos + tileSize - ringSize, yPos + tileSize - ringSize, ringSize, ringSize));
+                        ring.addComponent(new RingPhysics(ring, tileList, sonic));
+                        
                         ring.addComponent(new RingAnimator());
                         ring.getComponent(RingPhysics.class).changeTangibility();
                         entityManager.addEntity(ring); 

@@ -22,7 +22,6 @@ public class Game {
         gameWindow = new GameWindow("Sonic Game", gamePanel, this);
         
         gameLoop = new GameLoop(GameStateManager.getInstance(), gamePanel);
-        //gameStateManager.setGameLoop(gameLoop); /* funzionalità inule */
     }
 
     public void start() {
