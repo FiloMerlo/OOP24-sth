@@ -24,6 +24,6 @@ public class EntityTest {
         assertInstanceOf(TransformComponent.class, testEntity.getComponent(TransformComponent.class));
         assertInstanceOf(PlayerPhysics.class, testEntity.getComponent(PhysicsComponent.class));
         assertInstanceOf(SonicAnimator.class, testEntity.getComponent(GenericAnimator.class));
-        assertNotNull(testEntity.getComponent(PhysicsComponent.class).getHitbox());
+        assertNotNull(((PhysicsComponent)testEntity.getComponent(PhysicsComponent.class)).getHitbox());
     }
 }

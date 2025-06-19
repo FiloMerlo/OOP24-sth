@@ -7,7 +7,6 @@ import org.mainPackage.engine.entities.api.Entity;
 import org.mainPackage.engine.entities.impl.EntityManagerImpl;
 
 import java.awt.*;
-import java.awt.image.BufferedImage; /* immagine delle tiles */
 import java.util.List;
 
 
