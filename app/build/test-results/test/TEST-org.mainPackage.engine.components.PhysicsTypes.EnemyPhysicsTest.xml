@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="org.mainPackage.engine.components.PhysicsTypes.EnemyPhysicsTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2025-06-19T09:48:06.316Z" hostname="RISOFRESCO" time="0.029">
+<testsuite name="org.mainPackage.engine.components.PhysicsTypes.EnemyPhysicsTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2025-06-19T13:34:34.537Z" hostname="Filo" time="0.008">
   <properties/>
-  <testcase name="testFalling()" classname="org.mainPackage.engine.components.PhysicsTypes.EnemyPhysicsTest" time="0.022"/>
-  <testcase name="testTheChaseAndCollisionWithGround()" classname="org.mainPackage.engine.components.PhysicsTypes.EnemyPhysicsTest" time="0.005"/>
+  <testcase name="testFalling()" classname="org.mainPackage.engine.components.PhysicsTypes.EnemyPhysicsTest" time="0.006"/>
+  <testcase name="testTheChaseAndCollisionWithGround()" classname="org.mainPackage.engine.components.PhysicsTypes.EnemyPhysicsTest" time="0.001"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
