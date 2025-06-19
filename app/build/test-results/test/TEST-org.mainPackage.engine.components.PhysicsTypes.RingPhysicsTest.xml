@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="org.mainPackage.engine.components.PhysicsTypes.RingPhysicsTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-06-18T20:28:27.401Z" hostname="Filo" time="0.002">
+<testsuite name="org.mainPackage.engine.components.PhysicsTypes.RingPhysicsTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-06-19T00:12:33.639Z" hostname="Filo" time="0.001">
   <properties/>
-  <testcase name="playerPickUpTest()" classname="org.mainPackage.engine.components.PhysicsTypes.RingPhysicsTest" time="0.002"/>
+  <testcase name="playerPickUpTest()" classname="org.mainPackage.engine.components.PhysicsTypes.RingPhysicsTest" time="0.001"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

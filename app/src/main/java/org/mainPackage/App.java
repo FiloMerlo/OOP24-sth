@@ -19,10 +19,11 @@ public class App {
 
         /* Sonic */
         EntityImpl sonic = new EntityImpl();
-        
-        sonic.addComponent(new PlayerPhysics(sonic, tileList));
+        // WalletComponent va aggiunto prima di PlayerPhysics
         sonic.addComponent(new SonicAnimator());
         sonic.addComponent(new WalletComponent(tileList));
+        sonic.addComponent(new PlayerPhysics(sonic, tileList));
+
         entityManager.addEntity(sonic);
        
         /* Debug */
@@ -96,7 +97,7 @@ public class App {
         
         game.start();
 
-        GameStateManager gameStateManager = game.getGameStateManager();
+        GameStateManager gameStateManager = GameStateManager.getInstance();
 
         if (gameStateManager != null && goal != null) {
             GoalComponent goalComponent = goal.getComponent(GoalComponent.class);

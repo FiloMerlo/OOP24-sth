@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="org.mainPackage.engine.components.PhysicsTypes.PlayerPhysicsTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2025-06-18T20:28:27.374Z" hostname="Filo" time="0.023">
+<testsuite name="org.mainPackage.engine.components.PhysicsTypes.PlayerPhysicsTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2025-06-19T00:12:33.619Z" hostname="Filo" time="0.018">
   <properties/>
-  <testcase name="checkIfSonicFalls()" classname="org.mainPackage.engine.components.PhysicsTypes.PlayerPhysicsTest" time="0.015"/>
-  <testcase name="playerCollisionsTest()" classname="org.mainPackage.engine.components.PhysicsTypes.PlayerPhysicsTest" time="0.007"/>
+  <testcase name="checkIfSonicFalls()" classname="org.mainPackage.engine.components.PhysicsTypes.PlayerPhysicsTest" time="0.009"/>
+  <testcase name="playerCollisionsTest()" classname="org.mainPackage.engine.components.PhysicsTypes.PlayerPhysicsTest" time="0.004"/>
   <system-out><![CDATA[FirstY: 10.0
 SecondY: 10.5
 thirdY: 11.4

@@ -7,6 +7,7 @@ import org.mainPackage.engine.events.impl.GameEvent;
 import org.mainPackage.enums.action;
 import org.mainPackage.enums.direction;
 import org.mainPackage.engine.events.api.EventType;
+import org.mainPackage.engine.components.WalletComponent;
 
 import java.awt.geom.Rectangle2D;
 import java.util.*;
@@ -25,6 +26,7 @@ public class PlayerPhysics extends PhysicsComponent {
         tryToMove.put(direction.left, false);
         tryToMove.put(direction.up, false);
         tryToMove.put(direction.right, false);
+        addObserver(o.getComponent(WalletComponent.class));
         /*tryToMove per direction.down è sempre opposto a tryToMove per direction.up*/
     }
 
