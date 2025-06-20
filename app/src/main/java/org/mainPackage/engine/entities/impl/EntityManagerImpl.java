@@ -58,11 +58,10 @@ public class EntityManagerImpl implements EntityManager, Observer {
             entitiesToAdd.clear();
         }
         if (!entitiesToUpdate.isEmpty()){
-            for (int i = 1; i < entitiesToUpdate.size(); i++){
-                entitiesToUpdate.get(i).update(deltaTime);
+            for (Entity entity : entitiesToUpdate){
+                entity.update(deltaTime);
             }
         }
-        entitiesToUpdate.getFirst().update(deltaTime);
         if (!entitiesToRemove.isEmpty()){
             for (Entity entity : entitiesToRemove){
                 entitiesToUpdate.remove(entity);
@@ -90,16 +89,12 @@ public class EntityManagerImpl implements EntityManager, Observer {
     public void onNotify(Event e) {
         if (e instanceof GameEvent){
             GameEvent gameEvent = (GameEvent) e;
-            switch(e.getType()){
+            switch (e.getType()){
                 case ENTITY_DEAD:
                     removeEntity((gameEvent.getSource()));
                     break;
                 case ENTITY_SPAWN:
                     addEntity((gameEvent.getSource()));
-                    break;
-                case SPREADED_RINGS:
-                    Entity player =(EntityImpl) gameEvent.getSource();
-                    player.getComponent(WalletComponent.class).spawnRings();
                     break;
                 default:
                     break;

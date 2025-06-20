@@ -24,6 +24,7 @@ public abstract class PhysicsComponent extends SubjectImpl implements Component{
     }
     public void die(){ 
         GameEvent e = new GameEvent(EventType.ENTITY_DEAD, owner);
+        this.removeObserver(EntityManagerImpl.getInstance());
         notifyObservers(e);
     }
 

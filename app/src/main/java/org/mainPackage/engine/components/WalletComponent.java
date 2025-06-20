@@ -3,23 +3,24 @@ package org.mainPackage.engine.components;
 import java.util.ArrayList;
 
 import org.mainPackage.engine.components.PhysicsTypes.RingPhysics;
+import org.mainPackage.engine.entities.api.Entity;
 import org.mainPackage.engine.entities.impl.EntityImpl;
 import org.mainPackage.engine.entities.impl.EntityManagerImpl;
 import org.mainPackage.engine.events.api.Event;
 import org.mainPackage.engine.events.api.EventType;
 import org.mainPackage.engine.events.api.Observer;
 import org.mainPackage.engine.events.impl.GameEvent;
-import org.mainPackage.engine.events.impl.SubjectImpl;
 
 import java.awt.geom.Rectangle2D;
 
-public class WalletComponent extends SubjectImpl implements Component, Observer{
+public class WalletComponent implements Component, Observer{
+    private Entity owner;
     private int ringAmount;
     private ArrayList<Rectangle2D.Float> tiles;
-    public WalletComponent(ArrayList<Rectangle2D.Float> t) {
+    public WalletComponent(ArrayList<Rectangle2D.Float> t, Entity owner) {
         ringAmount = 0;
         tiles = t;
-        addObserver(EntityManagerImpl.getInstance());
+        this.owner = owner;
     }
 
     public void increaseAmount(){
@@ -29,13 +30,13 @@ public class WalletComponent extends SubjectImpl implements Component, Observer{
         return ringAmount;
     }
     public void spawnRings(){
-        TransformComponent playerTransform = EntityManagerImpl.getInstance().getEntities().getFirst().getComponent(TransformComponent.class);
+        TransformComponent playerTransform = owner.getComponent(TransformComponent.class);
         while(ringAmount > 0){
-            EntityImpl newRing = new EntityImpl();
-            RingPhysics  newPhysics = new RingPhysics(newRing, tiles, (EntityImpl)(EntityManagerImpl.getInstance().getEntities().getFirst()));
+            EntityImpl newRing = new EntityImpl();            
             TransformComponent newTransform = new TransformComponent(playerTransform.getX(), playerTransform.getY(), playerTransform.getWidth(), playerTransform.getHeight());
-            newRing.addComponent(newPhysics);
             newRing.addComponent(newTransform);
+            RingPhysics  newPhysics = new RingPhysics(newRing, tiles, (EntityImpl)(EntityManagerImpl.getInstance().getEntities().getFirst()));
+            newRing.addComponent(newPhysics);
             newRing.getComponent(RingPhysics.class).spreadOut();
             EntityManagerImpl.getInstance().addEntity(newRing);
             ringAmount--;
@@ -46,8 +47,7 @@ public class WalletComponent extends SubjectImpl implements Component, Observer{
     public void onNotify(Event e) {
         if (e instanceof GameEvent){
             if (e.getType() == EventType.PLAYER_HIT){
-                GameEvent ringSpreadEvent = new GameEvent(EventType.SPREADED_RINGS, ((GameEvent) e).getSource());
-                notifyObservers(ringSpreadEvent);
+                spawnRings();
             }
         }
     }   

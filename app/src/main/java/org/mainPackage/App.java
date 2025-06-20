@@ -21,7 +21,7 @@ public class App {
         EntityImpl sonic = new EntityImpl();
         // WalletComponent va aggiunto prima di PlayerPhysics
         sonic.addComponent(new SonicAnimator());
-        sonic.addComponent(new WalletComponent(tileList));
+        sonic.addComponent(new WalletComponent(tileList, sonic));
         TransformComponent sonicTransform = new TransformComponent(0, 0, sonicSize, sonicSize);
         sonic.addComponent(sonicTransform);
         sonic.addComponent(new PlayerPhysics(sonic, tileList));

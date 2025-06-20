@@ -5,8 +5,12 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import org.mainPackage.util.SizeView;
 import org.mainPackage.engine.components.GoalComponent;
+import org.mainPackage.engine.components.InputComponent;
+import org.mainPackage.engine.components.WalletComponent;
+import org.mainPackage.engine.components.PhysicsTypes.PlayerPhysics;
 import org.mainPackage.engine.entities.api.Entity;
 import org.mainPackage.engine.entities.impl.EntityImpl;
+import org.mainPackage.engine.entities.impl.EntityManagerImpl;
 import org.mainPackage.engine.events.api.Event;
 import org.mainPackage.engine.events.api.Observer;
 import org.mainPackage.engine.events.impl.GameEvent;
@@ -31,7 +35,7 @@ public class GameStateManager implements Observer {
     private Entity sonicEntity;
     private int[][] levelGrid;
     private int tileWorldSize;
-
+    private GoalComponent goal;
   
     public enum State {
         MENU,
@@ -62,8 +66,9 @@ public class GameStateManager implements Observer {
 
         this.playingState = new PlayingState(this, sizeView, sonicEntity, levelGrid, tileWorldSize, goal);
         this.pausedState = new PausedState(this, sizeView);
+        this.goal = goal;
         ((EntityImpl) sonicEntity).addObserver(this);
-        goal.addObserver(this);
+        this.goal.addObserver(this);
         InputManager.getInstance().addObserver(this);
     }
 
@@ -181,6 +186,8 @@ public void onNotify(Event e) {
             case GAME_OVER:
                 setState(State.MENU);
                 System.out.println("DEBUG: GameStateManager - Stato cambiato a MENU (GAME_OVER).");
+                EntityImpl entityImpl = (EntityImpl) sonicEntity;
+                removeObservers(entityImpl);
                 break;
             case LEVEL_COMPLETED:
                 setState(State.MENU);
@@ -203,4 +210,12 @@ public void onNotify(Event e) {
         }
     }
 }
+    private void removeObservers(EntityImpl entityImpl) {
+        entityImpl.removeObserver(entityImpl.getComponent(WalletComponent.class));
+        entityImpl.removeObserver(entityImpl.getComponent(InputComponent.class));
+        this.goal.removeObserver(this);
+        InputManager.getInstance().removeObserver(this);
+        entityImpl.removeObserver(this);
+        entityImpl.getComponent(PlayerPhysics.class).removeObserver(EntityManagerImpl.getInstance());
+    }
 }
