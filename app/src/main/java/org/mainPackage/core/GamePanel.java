@@ -9,6 +9,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;      
 import java.awt.event.MouseAdapter;  
 import java.awt.event.MouseEvent;
+import org.mainPackage.engine.systems.InputManager;
 
 import java.awt.event.MouseMotionAdapter;
 import java.awt.*;
@@ -32,11 +33,16 @@ public class GamePanel extends JPanel implements SizeView {
             @Override
             public void keyPressed(KeyEvent e) {
                 gameStateManager.keyPressed(e);
+                System.out.println("DEBUG: Key Pressed in GamePanel: " + KeyEvent.getKeyText(e.getKeyCode()));
+                InputManager.getInstance().keyPressed(e); // Passa l'evento a InputManager
+                
             }
 
             @Override
             public void keyReleased(KeyEvent e) {
                 gameStateManager.keyReleased(e);
+                System.out.println("DEBUG: Key Released in GamePanel: " + KeyEvent.getKeyText(e.getKeyCode()));
+                InputManager.getInstance().keyReleased(e); // Passa l'evento a InputManager
             }
         });
 

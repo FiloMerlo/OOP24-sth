@@ -27,6 +27,14 @@ public class TransformComponent implements Component{
     public float getHeight(){
         return this.height;
     }
+
+    public void setX(float x){
+        this.x = x;
+    }
+
+    public void setY(float y){
+        this.y = y;
+    }
     
     /**
      * Does nothing, the only {@link Component} which does not require to be {@link update}d

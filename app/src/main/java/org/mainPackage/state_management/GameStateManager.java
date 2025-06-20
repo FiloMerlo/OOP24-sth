@@ -140,6 +140,8 @@ public class GameStateManager implements Observer {
 
 
     public void keyPressed(KeyEvent e) {
+            System.out.println("DEBUG: GameStateManager - keyPressed delegato allo stato corrente. Key: " + KeyEvent.getKeyText(e.getKeyCode()));
+
         if (currentState != null) {
             currentState.keyPressed(e);
         }
@@ -147,6 +149,8 @@ public class GameStateManager implements Observer {
 
 
     public void keyReleased(KeyEvent e) {
+            System.out.println("DEBUG: GameStateManager - keyReleased delegato allo stato corrente. Key: " + KeyEvent.getKeyText(e.getKeyCode()));
+
         if (currentState != null) {
             currentState.keyReleased(e);
         }
@@ -169,29 +173,34 @@ public class GameStateManager implements Observer {
      * Given a @param Event , it detects the {@link EventType} 
      * and set the {@link GameState} according to it
      */
-    @Override
-    public void onNotify(Event e) {
-        if (e instanceof GameEvent){
+   @Override
+public void onNotify(Event e) {
+    System.out.println("DEBUG: GameStateManager - onNotify ricevuto evento: " + e.getType());
+    if (e instanceof GameEvent){
         switch(e.getType()){
             case GAME_OVER:
                 setState(State.MENU);
+                System.out.println("DEBUG: GameStateManager - Stato cambiato a MENU (GAME_OVER).");
                 break;
             case LEVEL_COMPLETED:
                 setState(State.MENU);
+                System.out.println("DEBUG: GameStateManager - Stato cambiato a MENU (LEVEL_COMPLETED).");
                 break;
             case LEVEL_STARTED:
                 setState(State.PLAYING);
+                System.out.println("DEBUG: GameStateManager - Stato cambiato a PLAYING (LEVEL_STARTED).");
                 break;
             case PAUSE:
                 setState(State.PAUSED);
+                System.out.println("DEBUG: GameStateManager - Stato cambiato a PAUSED.");
                 break;
             case RESUME:
                 setState(State.PLAYING);
+                System.out.println("DEBUG: GameStateManager - Stato cambiato a PLAYING (RESUME).");
                 break;
             default:
                 break;
-            
-            }
         }
     }
+}
 }

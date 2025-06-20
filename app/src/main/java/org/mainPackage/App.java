@@ -22,8 +22,10 @@ public class App {
         // WalletComponent va aggiunto prima di PlayerPhysics
         sonic.addComponent(new SonicAnimator());
         sonic.addComponent(new WalletComponent(tileList));
-        sonic.addComponent(new TransformComponent(0, 0, sonicSize, sonicSize));
+        TransformComponent sonicTransform = new TransformComponent(0, 0, sonicSize, sonicSize);
+        sonic.addComponent(sonicTransform);
         sonic.addComponent(new PlayerPhysics(sonic, tileList));
+        sonic.addComponent(new InputComponent(sonic));
        
         entityManager.addEntity(sonic);
        
@@ -36,10 +38,10 @@ public class App {
 
         /* Level */
         int[][] levelGrid = {
-            {1, 4, 0, 0, 0, 0, 0, 3, 0, 1},
-            {1, 0, 0, 3, 3, 0, 0, 0, 0, 1},
-            {1, 0, 5, 5, 5, 5, 5, 2, 2, 1},
-            {1, 0, 0, 0, 1, 0, 0, 3, 6, 1},
+            {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+            {1, 4, 0, 0, 0, 0, 0, 0, 0, 1},
+            {1, 0, 0, 5, 5, 5, 0, 2, 6, 1},
+            {1, 0, 0, 0, 0, 0, 0, 3, 1, 1},
             {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
         };
 
@@ -77,8 +79,10 @@ public class App {
                     }
                     case 4 -> {
                         /* Replace Sonic's TransformComponent with a new one derived from map */
-                        sonic.addComponent(new TransformComponent(xPos, yPos + tileSize - sonicSize, sonicSize, sonicSize));
-                        System.out.println("Sonic positioned case 4");
+                        sonicTransform.setX(xPos);
+                        sonicTransform.setY(yPos + tileSize - sonicSize);
+                        System.out.println("Sonic positioned at: " + xPos + ", " + (yPos + tileSize - sonicSize));
+
                     }
 
                     case 5 -> {
