@@ -1,0 +1,31 @@
+# === BUILD SYSTEM ===
+.gradle/
+build/
+bin/
+app/build/
+
+
+# === JAVA COMPILED FILES ===
+*.class
+
+# === IDE CONFIGURATION ===
+.vscode/
+.idea/
+*.iml
+.project
+.classpath
+.settings/
+
+# === TEST REPORTS ===
+/build/test-results/
+/build/reports/
+/test-results/
+
+# === TEMPORARY FILES ===
+*.log
+*.tmp
+*.swp
+
+# === OS-SPECIFIC FILES ===
+.DS_Store
+Thumbs.db

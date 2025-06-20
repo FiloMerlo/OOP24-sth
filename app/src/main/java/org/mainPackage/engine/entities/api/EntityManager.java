@@ -3,8 +3,8 @@ package org.mainPackage.engine.entities.api;
 import java.util.List;
 
 
-/*  This interface could be seen as the 'world' of the game 
-    since it manages lifecycle of entities on a single instance 
+/**
+*   It manages the lifecycle of multiple {@link Entity} on a single instance 
 */
 public interface EntityManager {
     
@@ -18,7 +18,6 @@ public interface EntityManager {
     
     public void removeEntity(Entity entity);
 
-    // Method to kill all entities
     public void killAllEntities();
 
 }

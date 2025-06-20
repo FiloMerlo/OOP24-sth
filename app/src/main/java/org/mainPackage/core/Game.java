@@ -10,20 +10,18 @@ public class Game {
     private GamePanel gamePanel;
     private GameLoop gameLoop;
     
-    private GameStateManager gameStateManager;
     private SizeView sizeView;
 
     public Game() {
         
         gamePanel = new GamePanel();
         this.sizeView = gamePanel;
-        gameStateManager = new GameStateManager(sizeView, this ::stop); /* game panel vuole state manager */
+        GameStateManager.getInstance().setGameState(sizeView, this ::stop); /* game panel vuole state manager */
 
-        gamePanel.setGameStateManager(gameStateManager);
+        gamePanel.setGameStateManager(GameStateManager.getInstance());
         gameWindow = new GameWindow("Sonic Game", gamePanel, this);
         
-        gameLoop = new GameLoop(gameStateManager,gamePanel);
-        //gameStateManager.setGameLoop(gameLoop); /* funzionalità inule */
+        gameLoop = new GameLoop(GameStateManager.getInstance(), gamePanel);
     }
 
     public void start() {
@@ -33,10 +31,6 @@ public class Game {
     public void stop(){
         gameLoop.stopLoop();
         gameWindow.dispose();
-    }
-    
-    public GameStateManager getGameStateManager(){
-        return gameStateManager;
     }
     
 }

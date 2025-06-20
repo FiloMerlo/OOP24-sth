@@ -4,6 +4,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import org.mainPackage.engine.entities.impl.EntityImpl;
+import org.mainPackage.engine.entities.impl.EntityManagerImpl;
 import org.mainPackage.engine.events.api.EventType;
 import org.mainPackage.engine.events.impl.GameEvent;
 import org.mainPackage.engine.events.impl.SubjectImpl;
@@ -19,9 +20,10 @@ public abstract class PhysicsComponent extends SubjectImpl implements Component{
         owner = o;
         hitbox = owner.getComponent(TransformComponent.class);
         tiles = tList;
+        this.addObserver(EntityManagerImpl.getInstance());
     }
     public void die(){ 
-        GameEvent e = new GameEvent(EventType.ENEMY_DIED, owner);
+        GameEvent e = new GameEvent(EventType.ENTITY_DEAD, owner);
         notifyObservers(e);
     }
 

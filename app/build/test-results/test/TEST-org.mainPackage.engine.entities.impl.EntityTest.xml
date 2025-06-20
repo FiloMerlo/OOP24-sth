@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="org.mainPackage.engine.entities.impl.EntityTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-06-18T23:46:52.997Z" hostname="RISOFRESCO" time="0.31">
-  <properties/>
-  <testcase name="componentsAddedCorrectly()" classname="org.mainPackage.engine.entities.impl.EntityTest" time="0.31"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

@@ -6,6 +6,11 @@ import org.mainPackage.engine.components.Component;
 import org.mainPackage.engine.entities.api.Entity;
 import org.mainPackage.engine.events.impl.SubjectImpl;
 
+/**
+ * Implemention of {@link Entity}
+ * It is a {@link SubjectImpl}, it causes {@link org.mainPackage.engine.events.api.Event} 
+ * to occurs and fire {@link OnNotify}
+ */
 public class EntityImpl extends SubjectImpl implements Entity {
     private HashMap<Class<? extends Component>, Component> components = new HashMap<>();
     public EntityImpl() {}
@@ -25,22 +30,22 @@ public class EntityImpl extends SubjectImpl implements Entity {
         return componentClass.cast(components.get(componentClass));
 
     }
-
+    /**
+     * Given a {@link Component} @param c , it is added to {@link Components}
+     * To allow abstraction with update methods, I add superclasses and interfaces
+     * that are assignable from {@link Component}
+     */
     @Override
     public void addComponent(Component c){
         components.put(c.getClass(), c);
-        /*
-         * I add the superclass with the same object name to allow abstraction
-         */
-        Class<?> superClass = c.getClass().getSuperclass();
-        /*
-         * Preventing from adding non-Component(s) classes
-         */
+        Class<?> superClass;
+        do {
+        superClass = c.getClass().getSuperclass();
+
         if (superClass != null && Component.class.isAssignableFrom(superClass))
             components.put((Class<? extends Component>) superClass, c);
-        /*
-        * I add component interface too (same logic, just Component(s))
-        */
+        } while(!superClass.getClass().getSuperclass().isAssignableFrom(Component.class));
+
         for (Class<?> interfaceClass : c.getClass().getInterfaces()) {
             if (Component.class.isAssignableFrom(interfaceClass)){
                 components.put((Class<? extends Component>) interfaceClass, c);

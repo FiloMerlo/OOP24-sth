@@ -2,12 +2,12 @@ package org.mainPackage.engine.components.PhysicsTypes;
 
 import org.mainPackage.engine.components.PhysicsComponent;
 import org.mainPackage.engine.components.TransformComponent;
-import org.mainPackage.engine.components.WalletComponent;
 import org.mainPackage.engine.entities.impl.EntityImpl;
 import org.mainPackage.engine.events.impl.GameEvent;
 import org.mainPackage.enums.action;
 import org.mainPackage.enums.direction;
 import org.mainPackage.engine.events.api.EventType;
+import org.mainPackage.engine.components.WalletComponent;
 
 import java.awt.geom.Rectangle2D;
 import java.util.*;
@@ -26,6 +26,7 @@ public class PlayerPhysics extends PhysicsComponent {
         tryToMove.put(direction.left, false);
         tryToMove.put(direction.up, false);
         tryToMove.put(direction.right, false);
+        addObserver(o.getComponent(WalletComponent.class));
         /*tryToMove per direction.down è sempre opposto a tryToMove per direction.up*/
     }
 
@@ -162,10 +163,16 @@ public class PlayerPhysics extends PhysicsComponent {
 
     public void takeDamage(){
         System.out.println("Sonic took damage!");
+        playerAction = action.hurt;
         hit = false;
         iFrames = 240;
         GameEvent e;
-        e = new GameEvent(EventType.PLAYER_HIT, owner);
+        if (owner.getComponent(WalletComponent.class).getAmount() > 0){
+            e = new GameEvent(EventType.PLAYER_HIT, owner);
+        }
+        else {
+            e = new GameEvent(EventType.GAME_OVER, owner);
+        }
         notifyObservers(e);
         xSpeed = 0.2f * playerDir.opposite().getValue();
     }

@@ -10,13 +10,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+/**
+* {@link InputManager} which is a {@link SubjectImpl}
+*/
 public class InputManager extends SubjectImpl implements KeyListener{
+    /** It uses a Singleton pattern
+    * {@link mapActionKeys} is a map containing the keys used in the game with his corrispettive action
+    * {@link keysDown} keysDown is a list containing the keysCode of the keys pressed and not released yet
+    */
     private static InputManager instance = null;
-    private Map<Integer, input> mapActionKeys = new HashMap<>();
-    private List<Integer> keysDown = new ArrayList<>();
+    private Map<Integer, input> mapActionKeys;
+    private List<Integer> keysDown;
 
     private InputManager(){
+        mapActionKeys = new HashMap<>();
+        keysDown = new ArrayList<>();
         setActionKeys();
     }
 
@@ -34,26 +42,36 @@ public class InputManager extends SubjectImpl implements KeyListener{
         mapActionKeys.put(KeyEvent.VK_DOWN, input.DOWN);
         mapActionKeys.put(KeyEvent.VK_ESCAPE, input.PAUSE);
     }
-
+    /**
+     * @param KeyEvent , it created a new {@link InputEvent}, adds the KeyCode to {@link keysDown} and {@link NotifyObsevers} of it
+     */
     @Override
     public void keyPressed(KeyEvent e) {
         InputEvent i = new InputEvent(EventType.KEY_DOWN, e);
         keysDown.add(e.getKeyCode());
         notifyObservers(i);
     }
-
+    /**
+     * @param KeyEvent , it created a new {@link InputEvent}, removes the KeyCode from {@link keysDown} and {@link NotifyObsevers} of it
+     */
     @Override
     public void keyReleased(KeyEvent e) {
         InputEvent i = new InputEvent(EventType.KEY_RELEASED, e);
         keysDown.remove(e.getKeyCode());
         notifyObservers(i);
     }
-    // keyTyped(KeyEvent e) regards about higher-level machine language such writing texts, then must be left empty
+    /**
+     * Given a @param keyEvent is a method regard higher-level language such as writing on a textBox, then must be left empty
+     */
     @Override
     public void keyTyped(KeyEvent e) {
     }
-    
-    public boolean isKeyDown(int keyCode){
+    /**
+     * 
+     * @param keyCode
+     * @return Boolean if a given key is down
+     */
+    public Boolean isKeyDown(int keyCode){
         return keysDown.contains(keyCode);
     }
 }
