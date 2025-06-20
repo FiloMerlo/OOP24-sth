@@ -32,17 +32,21 @@ public class GamePanel extends JPanel implements SizeView {
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                gameStateManager.keyPressed(e);
-                System.out.println("DEBUG: Key Pressed in GamePanel: " + KeyEvent.getKeyText(e.getKeyCode()));
-                InputManager.getInstance().keyPressed(e); // Passa l'evento a InputManager
-                
+                if (gameStateManager.getEnumState() != GameStateManager.State.PLAYING) {
+                    gameStateManager.keyPressed(e); // Passa l'evento a GameStateManager
+                } else {
+                    InputManager.getInstance().keyPressed(e); // Passa l'evento a InputManager
+                }
             }
 
             @Override
             public void keyReleased(KeyEvent e) {
-                gameStateManager.keyReleased(e);
-                System.out.println("DEBUG: Key Released in GamePanel: " + KeyEvent.getKeyText(e.getKeyCode()));
-                InputManager.getInstance().keyReleased(e); // Passa l'evento a InputManager
+                if (gameStateManager.getEnumState() != GameStateManager.State.PLAYING) {
+                    
+                    gameStateManager.keyReleased(e); // Passa l'evento a GameStateManager
+                } else {
+                    InputManager.getInstance().keyReleased(e); // Passa l'evento a InputManager
+                }
             }
         });
 
@@ -54,11 +58,11 @@ public class GamePanel extends JPanel implements SizeView {
         });
 
         addMouseMotionListener(new MouseMotionAdapter() {
-        @Override
-        public void mouseMoved(MouseEvent e) {
-        gameStateManager.mouseMoved(e);
-    }
-});
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                gameStateManager.mouseMoved(e);
+            }
+        });
     }
 
     /* Setting del GameStateMangaer dopo aver inizializzato il gamePanel */

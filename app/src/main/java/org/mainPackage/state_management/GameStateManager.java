@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import org.mainPackage.util.SizeView;
+import org.mainPackage.core.Game;
 import org.mainPackage.engine.components.GoalComponent;
 import org.mainPackage.engine.entities.api.Entity;
 import org.mainPackage.engine.entities.impl.EntityImpl;
@@ -26,6 +27,8 @@ public class GameStateManager implements Observer {
     private PausedState pausedState;
     private SizeView sizeView;
     private Runnable shutdownGame;
+
+    private State currentEnumState; 
 
     /* Campi per il playingState */
     private Entity sonicEntity;
@@ -67,9 +70,13 @@ public class GameStateManager implements Observer {
         InputManager.getInstance().addObserver(this);
     }
 
+    public State getEnumState() {
+        return currentEnumState;
+    }
+
     
     public void setState(State state) {
-        
+        this.currentEnumState = state; // Aggiorna lo stato corrente
         switch (state) {
             case MENU:
                 currentState = new MenuState(this,sizeView); 
@@ -140,8 +147,6 @@ public class GameStateManager implements Observer {
 
 
     public void keyPressed(KeyEvent e) {
-            System.out.println("DEBUG: GameStateManager - keyPressed delegato allo stato corrente. Key: " + KeyEvent.getKeyText(e.getKeyCode()));
-
         if (currentState != null) {
             currentState.keyPressed(e);
         }
@@ -149,8 +154,6 @@ public class GameStateManager implements Observer {
 
 
     public void keyReleased(KeyEvent e) {
-            System.out.println("DEBUG: GameStateManager - keyReleased delegato allo stato corrente. Key: " + KeyEvent.getKeyText(e.getKeyCode()));
-
         if (currentState != null) {
             currentState.keyReleased(e);
         }
@@ -173,34 +176,33 @@ public class GameStateManager implements Observer {
      * Given a @param Event , it detects the {@link EventType} 
      * and set the {@link GameState} according to it
      */
-   @Override
-public void onNotify(Event e) {
-    System.out.println("DEBUG: GameStateManager - onNotify ricevuto evento: " + e.getType());
-    if (e instanceof GameEvent){
+    @Override
+    public void onNotify(Event e) {
+        if (e instanceof GameEvent){
+        
+        GameEvent gameEvent = (GameEvent) e; //debug
+        System.out.println("DEBUG: GameStateManager - Received GameEvent: " + gameEvent.getType());
+
         switch(e.getType()){
             case GAME_OVER:
                 setState(State.MENU);
-                System.out.println("DEBUG: GameStateManager - Stato cambiato a MENU (GAME_OVER).");
                 break;
             case LEVEL_COMPLETED:
                 setState(State.MENU);
-                System.out.println("DEBUG: GameStateManager - Stato cambiato a MENU (LEVEL_COMPLETED).");
                 break;
             case LEVEL_STARTED:
                 setState(State.PLAYING);
-                System.out.println("DEBUG: GameStateManager - Stato cambiato a PLAYING (LEVEL_STARTED).");
                 break;
             case PAUSE:
                 setState(State.PAUSED);
-                System.out.println("DEBUG: GameStateManager - Stato cambiato a PAUSED.");
                 break;
             case RESUME:
                 setState(State.PLAYING);
-                System.out.println("DEBUG: GameStateManager - Stato cambiato a PLAYING (RESUME).");
                 break;
             default:
                 break;
+            
+            }
         }
     }
-}
 }

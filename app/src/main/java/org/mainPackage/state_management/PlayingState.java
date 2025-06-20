@@ -73,30 +73,5 @@ public class PlayingState extends GameState {
         playingRenderer.render(g2d, currentWidth, currentHeight);
     }
     
-   @Override
-    public void keyPressed(KeyEvent e) {
-        
-           if (e.getKeyCode() == KeyEvent.VK_P) {
-            gameStateManager.setState(GameStateManager.State.PAUSED);
-        }
-
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-        
-        // switch (e.getKeyCode()) {
-        //     case KeyEvent.VK_A:
-        //         character.brake(); 
-        //         break;
-        //     case KeyEvent.VK_D:
-        //         character.brake(); 
-        //         break;
-        //     default:
-               
-        //     break;
-        // }
-    }
   
-
 }
