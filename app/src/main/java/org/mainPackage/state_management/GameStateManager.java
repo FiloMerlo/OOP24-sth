@@ -6,6 +6,9 @@ import java.awt.event.MouseEvent;
 import org.mainPackage.util.SizeView;
 import org.mainPackage.core.Game;
 import org.mainPackage.engine.components.GoalComponent;
+import org.mainPackage.engine.components.InputComponent;
+import org.mainPackage.engine.components.WalletComponent;
+import org.mainPackage.engine.components.PhysicsTypes.PlayerPhysics;
 import org.mainPackage.engine.entities.api.Entity;
 import org.mainPackage.engine.entities.impl.EntityImpl;
 import org.mainPackage.engine.events.api.Event;
@@ -34,7 +37,7 @@ public class GameStateManager implements Observer {
     private Entity sonicEntity;
     private int[][] levelGrid;
     private int tileWorldSize;
-
+    private GoalComponent goal;
   
     public enum State {
         MENU,
@@ -51,7 +54,6 @@ public class GameStateManager implements Observer {
     public void setGameState(SizeView sizeView, Runnable shutdownGame){
         this.sizeView = sizeView;
         this.shutdownGame = shutdownGame;
-
         setState(State.MENU);
     }
 
@@ -62,11 +64,11 @@ public class GameStateManager implements Observer {
         this.sonicEntity = sonicEntity;
         this.levelGrid = levelGrid;
         this.tileWorldSize = tileWorldSize;
-
         this.playingState = new PlayingState(this, sizeView, sonicEntity, levelGrid, tileWorldSize, goal);
         this.pausedState = new PausedState(this, sizeView);
+        this.goal = goal;
         ((EntityImpl) sonicEntity).addObserver(this);
-        goal.addObserver(this);
+        this.goal.addObserver(this);
         InputManager.getInstance().addObserver(this);
     }
 
@@ -79,7 +81,7 @@ public class GameStateManager implements Observer {
         this.currentEnumState = state; // Aggiorna lo stato corrente
         switch (state) {
             case MENU:
-                currentState = new MenuState(this,sizeView); 
+                currentState = new MenuState(this, sizeView); 
                 break;
             case PLAYING:
                 currentState = playingState; 
@@ -176,6 +178,8 @@ public class GameStateManager implements Observer {
      * Given a @param Event , it detects the {@link EventType} 
      * and set the {@link GameState} according to it
      */
+
+
     @Override
     public void onNotify(Event e) {
         if (e instanceof GameEvent){
@@ -184,8 +188,15 @@ public class GameStateManager implements Observer {
         System.out.println("DEBUG: GameStateManager - Received GameEvent: " + gameEvent.getType());
 
         switch(e.getType()){
+
             case GAME_OVER:
+                System.out.println("SIAMO NEL MENU!!!");
                 setState(State.MENU);
+
+                System.out.println("DEBUG: GameStateManager - Stato cambiato a MENU (GAME_OVER).");
+                EntityImpl entityImpl = (EntityImpl) sonicEntity;
+                removeObservers(entityImpl);
+
                 break;
             case LEVEL_COMPLETED:
                 setState(State.MENU);
@@ -205,4 +216,18 @@ public class GameStateManager implements Observer {
             }
         }
     }
+  
+    /**
+     * 
+     * @param entityImpl Removal of all {@link Observer}s from {@link Subject}s but {@link PlayerPhysics}
+     */
+    private void removeObservers(EntityImpl entityImpl) {
+        System.out.println("RIMOZIONE DEGLI OBSERVERS");
+        entityImpl.removeObserver(entityImpl.getComponent(WalletComponent.class));
+        entityImpl.removeObserver(entityImpl.getComponent(InputComponent.class));
+        this.goal.removeObserver(this);
+        InputManager.getInstance().removeObserver(this);
+        entityImpl.removeObserver(this);    
+    }
+
 }

@@ -6,6 +6,8 @@ import java.awt.geom.Rectangle2D;
 
 
 import org.mainPackage.engine.entities.impl.EntityImpl;
+import org.mainPackage.engine.events.api.EventType;
+import org.mainPackage.engine.events.impl.GameEvent;
 import org.mainPackage.enums.action;
 import org.mainPackage.enums.direction;
 import org.mainPackage.engine.components.PhysicsComponent;
@@ -29,7 +31,7 @@ public class EnemyPhysics extends PhysicsComponent{
     public void update(float deltaTime){
         if (checkIntersection(sonic.getComponent(TransformComponent.class))){
             if (sonic.getComponent(PlayerPhysics.class).getAction() == action.jumping){
-                die();
+                notifyObservers(new GameEvent(EventType.ENTITY_DEAD, this.owner));   
                 System.out.println("Enemy killed!");
             } else {
                 sonic.getComponent(PlayerPhysics.class).hit();

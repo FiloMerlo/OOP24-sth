@@ -44,8 +44,9 @@ public class InputManager extends SubjectImpl implements KeyListener{
     }
     /**
      * @param KeyEvent , it created a new {@link InputEvent}, adds the KeyCode to {@link keysDown} and {@link NotifyObsevers} of it
+     * if checks if the command is already present in the polling
      */
-    @Override
+  @Override
     public void keyPressed(KeyEvent e) {
         System.out.println("DEBUG: InputManager - keyPressed: " + KeyEvent.getKeyText(e.getKeyCode()));
         InputEvent i = new InputEvent(EventType.KEY_DOWN, e);

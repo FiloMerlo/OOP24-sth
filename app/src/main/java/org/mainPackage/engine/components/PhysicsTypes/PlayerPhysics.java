@@ -9,6 +9,10 @@ import org.mainPackage.engine.events.api.EventType;
 import org.mainPackage.enums.action;
 import org.mainPackage.enums.direction;
 
+import org.mainPackage.state_management.GameStateManager;
+import org.mainPackage.engine.events.api.EventType;
+import org.mainPackage.engine.components.WalletComponent;
+
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -16,28 +20,20 @@ import java.util.EnumMap;
 public class PlayerPhysics extends PhysicsComponent {
     private direction playerDir = direction.right;
     private action playerAction = action.idle;
+    private float accelMod = 0.01f, maxSpeed = 1.2f, minSpeed = 0.1f, initFallSpeed = 0.1f, fallMod = 0.1f, maxFallSpeed = 1;
+    private int jumpFrames = 0, maxJumpFrames = 100, jSpeed = -1, brakeForce = 1, iFrames = 0;
+    protected HashMap<direction, Boolean> tryToMove = new HashMap<>();
+    private boolean hit;
 
-    private static final float ACCEL = 0.1f;
-    private static final float MAX_SPEED = 1.5f;
-    private static final float AIR_ACCEL = 0.05f;
-    private static final float FRICTION = 0.1f;
-    private static final float GRAVITY = 0.1f;
-    private static final float MAX_FALL_SPEED = 2.0f;
-    private static final float JUMP_SPEED = -2.0f;
-    private static final int INVINCIBLE_FRAMES = 240;
-    private static final int MAX_JUMP_FRAMES = 20;
-
-    private int jumpFrames = 0;
-    private int iFrames = 0;
-    private boolean hit = false;
-
-    private EnumMap<direction, Boolean> input = new EnumMap<>(direction.class);
-
-    public PlayerPhysics(EntityImpl owner, ArrayList<Rectangle2D.Float> tiles) {
-        super(owner, tiles);
-        for (direction dir : direction.values()) input.put(dir, false);
-        ySpeed = 0.01f;
-        addObserver(owner.getComponent(WalletComponent.class));
+    public PlayerPhysics(EntityImpl o, ArrayList<Rectangle2D.Float> tList){
+        super(o, tList);
+        ySpeed = initFallSpeed;
+        tryToMove.put(direction.left, false);
+        tryToMove.put(direction.up, false);
+        tryToMove.put(direction.right, false);
+        addObserver(o.getComponent(WalletComponent.class));
+        addObserver(GameStateManager.getInstance());
+        /*tryToMove per direction.down è sempre opposto a tryToMove per direction.up*/
     }
 
     public void update(float deltaTime) {
@@ -109,23 +105,32 @@ public class PlayerPhysics extends PhysicsComponent {
         if (iFrames == 0) hit = true;
     }
 
-    private void takeDamage() {
+    public void takeDamage(){
+        System.out.println("Sonic took damage!");
         playerAction = action.hurt;
         hit = false;
-        iFrames = INVINCIBLE_FRAMES;
-
-        GameEvent e = owner.getComponent(WalletComponent.class).getAmount() > 0
-            ? new GameEvent(EventType.PLAYER_HIT, owner)
-            : new GameEvent(EventType.GAME_OVER, owner);
-
+        iFrames = 240;
+        GameEvent e;
+        if (owner.getComponent(WalletComponent.class).getAmount() > 0){
+            e = new GameEvent(EventType.PLAYER_HIT, owner);
+        }
+        else {
+            System.out.println("GAME OVER!!!!!");
+            e = new GameEvent(EventType.GAME_OVER, owner);
+        }
         notifyObservers(e);
-        xSpeed = 0.5f * playerDir.opposite().getValue();
+        xSpeed = 0.2f * playerDir.opposite().getValue();
     }
 
-    public void setWill(direction dir, boolean willMove) {
-        input.put(dir, willMove);
+    public void hit() { 
+        if (iFrames == 0) {
+            hit = true;
+        }
     }
 
     public action getAction() { return playerAction; }
     public direction getDirection() { return playerDir; }
+    public void setWill(direction dir, boolean bool){
+        tryToMove.replace(dir, bool);
+    }
 }

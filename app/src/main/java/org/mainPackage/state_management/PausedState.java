@@ -25,7 +25,6 @@ public class PausedState extends GameState {
         super(gameStateManager, sizeView);
         System.out.println("PausedState inizializzato.");
         pausedRenderer = new PausedRenderer();
-
     }
     
     @Override

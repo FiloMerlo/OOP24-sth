@@ -3,9 +3,7 @@ package org.mainPackage.state_management;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
-import org.mainPackage.engine.entities.impl.EntityImpl;
 import org.mainPackage.engine.entities.impl.EntityManagerImpl;
-import org.mainPackage.engine.events.impl.SubjectImpl;
 import org.mainPackage.engine.components.GoalComponent;
 import org.mainPackage.engine.components.TransformComponent;
 import org.mainPackage.engine.components.PhysicsTypes.PlayerPhysics;
@@ -25,7 +23,6 @@ public class PlayingState extends GameState {
     private final Entity sonicPlayer;
     private final int[][] levelGrid;
     private final int tileWorldSize;
-    private GoalComponent goal;
     private long lastUpdateTime = System.currentTimeMillis();
     
     
@@ -36,14 +33,11 @@ public class PlayingState extends GameState {
         this.sonicPlayer = sonic;
         this.levelGrid = grid;
         this.tileWorldSize = tileSize;
-        this.goal = goal;
         this.playingRenderer = new PlayingRenderer(entityManager, levelGrid, tileWorldSize);
 
         if (this.sonicPlayer == null) {
             System.err.println("Sonic non è stato trovato");
         }
-        ((EntityImpl) sonicPlayer).addObserver(this.gameStateManager);
-        ((GoalComponent) goal).addObserver(this.gameStateManager);
     }
     
     

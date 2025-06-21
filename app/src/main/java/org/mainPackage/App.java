@@ -21,13 +21,16 @@ public class App {
         EntityImpl sonic = new EntityImpl();
         // WalletComponent va aggiunto prima di PlayerPhysics
         sonic.addComponent(new SonicAnimator());
-        sonic.addComponent(new WalletComponent(tileList));
+        sonic.addComponent(new WalletComponent(tileList, sonic));
         TransformComponent sonicTransform = new TransformComponent(0, 0, sonicSize, sonicSize);
         sonic.addComponent(sonicTransform);
         sonic.addComponent(new PlayerPhysics(sonic, tileList));
         sonic.addComponent(new InputComponent(sonic));
-       
+        HUDComponent hudRing = new HUDComponent(sonic);
+        EntityImpl hud = new EntityImpl();
+        hud.addComponent(hudRing);
         entityManager.addEntity(sonic);
+        entityManager.addEntity(hud);
        
         /* Debug */
         System.out.println("Transform: " + sonic.getComponent(TransformComponent.class));
@@ -89,7 +92,6 @@ public class App {
                         EntityImpl ring = new EntityImpl();
                         ring.addComponent(new TransformComponent(xPos + tileSize - ringSize, yPos + tileSize - ringSize, ringSize, ringSize));
                         ring.addComponent(new RingPhysics(ring, tileList, sonic));
-                        
                         ring.addComponent(new RingAnimator());
                         ring.getComponent(RingPhysics.class).changeTangibility();
                         entityManager.addEntity(ring); 
