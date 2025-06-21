@@ -116,14 +116,12 @@ public class PlayingRenderer implements Renderer {
                     }
                 });
             }
-        }
-        g.dispose();
-        for (Entity e : entities) {
             if (e.hasComponent(HUDComponent.class)) {
                 HUDComponent hud = e.getComponent(HUDComponent.class);
                 hud.render(g2d, width, height);
             }
         }
+        g.dispose();
     }
     
  
