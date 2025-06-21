@@ -35,6 +35,7 @@ public class EntityImpl extends SubjectImpl implements Entity {
      * To allow abstraction with update methods, I add superclasses and interfaces
      * that are assignable from {@link Component}
      */
+    @SuppressWarnings("unchecked")
     @Override
     public void addComponent(Component c){
         components.put(c.getClass(), c);

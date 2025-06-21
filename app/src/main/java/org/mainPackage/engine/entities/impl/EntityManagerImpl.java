@@ -3,7 +3,6 @@ package org.mainPackage.engine.entities.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.mainPackage.engine.components.WalletComponent;
 import org.mainPackage.engine.entities.api.*;
 import org.mainPackage.engine.events.api.*;
 import org.mainPackage.engine.events.impl.*;

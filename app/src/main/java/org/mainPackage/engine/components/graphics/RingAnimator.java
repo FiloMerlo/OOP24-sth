@@ -14,6 +14,4 @@ public class RingAnimator extends GenericAnimator<RingAnimator.State> {
             e.printStackTrace();
         }
     }
-
-    
 }

@@ -26,8 +26,11 @@ public class App {
         sonic.addComponent(sonicTransform);
         sonic.addComponent(new PlayerPhysics(sonic, tileList));
         sonic.addComponent(new InputComponent(sonic));
-       
+        HUDComponent hudRing = new HUDComponent(sonic);
+        EntityImpl hud = new EntityImpl();
+        hud.addComponent(hudRing);
         entityManager.addEntity(sonic);
+        entityManager.addEntity(hud);
        
         /* Debug */
         System.out.println("Transform: " + sonic.getComponent(TransformComponent.class));
@@ -89,7 +92,6 @@ public class App {
                         EntityImpl ring = new EntityImpl();
                         ring.addComponent(new TransformComponent(xPos + tileSize - ringSize, yPos + tileSize - ringSize, ringSize, ringSize));
                         ring.addComponent(new RingPhysics(ring, tileList, sonic));
-                        
                         ring.addComponent(new RingAnimator());
                         ring.getComponent(RingPhysics.class).changeTangibility();
                         entityManager.addEntity(ring); 

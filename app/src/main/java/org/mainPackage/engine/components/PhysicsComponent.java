@@ -3,6 +3,7 @@ package org.mainPackage.engine.components;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
+import org.mainPackage.engine.components.graphics.RingAnimator;
 import org.mainPackage.engine.entities.impl.EntityImpl;
 import org.mainPackage.engine.entities.impl.EntityManagerImpl;
 import org.mainPackage.engine.events.api.EventType;
@@ -23,9 +24,10 @@ public abstract class PhysicsComponent extends SubjectImpl implements Component{
         tiles = tList;
         this.addObserver(EntityManagerImpl.getInstance());
     }
-    
+
     public void die(){ 
         GameEvent e = new GameEvent(EventType.ENTITY_DEAD, owner);
+        if(e.getSource().hasComponent(RingAnimator.class)){System.out.println("Anello cancellato");}
         this.removeObserver(EntityManagerImpl.getInstance());
         notifyObservers(e);
     }

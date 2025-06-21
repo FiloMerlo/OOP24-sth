@@ -1,6 +1,7 @@
 package org.mainPackage.renderer;
 
 import org.mainPackage.core.GamePanel;
+import org.mainPackage.engine.components.HUDComponent;
 import org.mainPackage.engine.components.TransformComponent;
 import org.mainPackage.engine.components.graphics.GenericAnimator;
 import org.mainPackage.engine.entities.api.Entity;
@@ -116,7 +117,13 @@ public class PlayingRenderer implements Renderer {
                 });
             }
         }
-        g.dispose(); 
+        g.dispose();
+        for (Entity e : entities) {
+            if (e.hasComponent(HUDComponent.class)) {
+                HUDComponent hud = e.getComponent(HUDComponent.class);
+                hud.render(g2d, width, height);
+            }
+        }
     }
     
  
