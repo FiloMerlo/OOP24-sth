@@ -16,12 +16,14 @@ public abstract class PhysicsComponent extends SubjectImpl implements Component{
     protected TransformComponent hitbox;
     protected EntityImpl owner;
     protected ArrayList<Rectangle2D.Float> tiles;
+
     public PhysicsComponent(EntityImpl o, ArrayList<Rectangle2D.Float>tList){
         owner = o;
         hitbox = owner.getComponent(TransformComponent.class);
         tiles = tList;
         this.addObserver(EntityManagerImpl.getInstance());
     }
+    
     public void die(){ 
         GameEvent e = new GameEvent(EventType.ENTITY_DEAD, owner);
         this.removeObserver(EntityManagerImpl.getInstance());
@@ -48,6 +50,7 @@ public abstract class PhysicsComponent extends SubjectImpl implements Component{
 
         return true;
     }
+    
     public void landing() {
         float yDist = Float.MAX_VALUE;
         TransformComponent transform = owner.getComponent(TransformComponent.class);
@@ -88,6 +91,7 @@ public abstract class PhysicsComponent extends SubjectImpl implements Component{
     public EntityImpl getOwner() {
         return owner;
     }
+
     public TransformComponent getHitbox(){
         return hitbox;
     }

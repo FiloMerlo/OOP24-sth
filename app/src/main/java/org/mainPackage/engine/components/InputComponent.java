@@ -17,16 +17,12 @@ import java.awt.event.KeyEvent;
  */
 
 public class InputComponent implements Component, Observer{
-
     private Entity owner;
     private boolean pause = false;
     private PlayerPhysics playerPhysics;
-
         public InputComponent(Entity owner){
         this.owner = owner;
-        
         this.playerPhysics = owner.getComponent(PlayerPhysics.class);
-        
         InputManager.getInstance().addObserver(this);
         System.out.println("DEBUG: InputComponent inizializzato per " + owner.getClass().getSimpleName() + ".");
         if (playerPhysics == null) {
@@ -36,16 +32,15 @@ public class InputComponent implements Component, Observer{
 
     @Override
     public void update(float deltaTime) {
-        
-        if(InputManager.getInstance().isKeyDown(KeyEvent.VK_RIGHT) || InputManager.getInstance().isKeyDown(KeyEvent.VK_LEFT)){
+        if (InputManager.getInstance().isKeyDown(KeyEvent.VK_RIGHT) || InputManager.getInstance().isKeyDown(KeyEvent.VK_LEFT)){
         }
-        if(InputManager.getInstance().isKeyDown(KeyEvent.VK_RIGHT)){
+        if (InputManager.getInstance().isKeyDown(KeyEvent.VK_RIGHT)){
             playerPhysics.setWill(direction.right, true);
             System.out.println("DEBUG: InputComponent - Update, Movimento.");
         } else {
             playerPhysics.setWill(direction.right, false);
         }
-        if(InputManager.getInstance().isKeyDown(KeyEvent.VK_LEFT)){
+        if (InputManager.getInstance().isKeyDown(KeyEvent.VK_LEFT)){
             playerPhysics.setWill(direction.left, true);
             System.out.println("DEBUG: InputComponent - Update, Movimento destra");
         } else {

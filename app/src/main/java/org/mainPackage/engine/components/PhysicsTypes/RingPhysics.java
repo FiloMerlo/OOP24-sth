@@ -38,7 +38,7 @@ public class RingPhysics extends PhysicsComponent {
             && tangible){
             pickUp();
         } else {
-            if(!checkIntersection(sonic.getComponent(TransformComponent.class))
+            if (!checkIntersection(sonic.getComponent(TransformComponent.class))
                 && !tangible){
                 changeTangibility();
             }
@@ -56,6 +56,7 @@ public class RingPhysics extends PhysicsComponent {
             }
         }
     }
+
     public void bounceOnVerticalSurface(){
         horizontalDir = horizontalDir.opposite();
         xSpeed *= -1;

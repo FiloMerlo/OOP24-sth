@@ -3,6 +3,7 @@ package org.mainPackage.engine.components;
 import java.util.ArrayList;
 
 import org.mainPackage.engine.components.PhysicsTypes.RingPhysics;
+import org.mainPackage.engine.components.graphics.RingAnimator;
 import org.mainPackage.engine.entities.api.Entity;
 import org.mainPackage.engine.entities.impl.EntityImpl;
 import org.mainPackage.engine.entities.impl.EntityManagerImpl;
@@ -17,6 +18,7 @@ public class WalletComponent implements Component, Observer{
     private Entity owner;
     private int ringAmount;
     private ArrayList<Rectangle2D.Float> tiles;
+
     public WalletComponent(ArrayList<Rectangle2D.Float> t, Entity owner) {
         ringAmount = 0;
         tiles = t;
@@ -29,6 +31,7 @@ public class WalletComponent implements Component, Observer{
     public int getAmount() {
         return ringAmount;
     }
+
     public void spawnRings(){
         TransformComponent playerTransform = owner.getComponent(TransformComponent.class);
         while(ringAmount > 0){
@@ -37,6 +40,7 @@ public class WalletComponent implements Component, Observer{
             newRing.addComponent(newTransform);
             RingPhysics  newPhysics = new RingPhysics(newRing, tiles, (EntityImpl)(EntityManagerImpl.getInstance().getEntities().getFirst()));
             newRing.addComponent(newPhysics);
+            newRing.addComponent(new RingAnimator());
             newRing.getComponent(RingPhysics.class).spreadOut();
             System.out.println("ANELLO AGGIUNTO!!!!!");
             EntityManagerImpl.getInstance().addEntity(newRing);

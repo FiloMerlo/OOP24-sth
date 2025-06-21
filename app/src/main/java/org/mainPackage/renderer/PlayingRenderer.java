@@ -30,7 +30,6 @@ public class PlayingRenderer implements Renderer {
         this.entityManager = entityManager;
         this.levelGrid = grid;
         this.tileWorldSize = tileSize;
-
         this.cameraX = 0;
         this.cameraY = 0;
         /* manca il caricamento dell'immagine delle tiles */
@@ -107,7 +106,6 @@ public class PlayingRenderer implements Renderer {
         for (Entity e : entities) {
             if (e.hasComponent(GenericAnimator.class)) {
                 GenericAnimator<?> animator = e.getComponent(GenericAnimator.class);
-
                 animator.getCurrentFrame().ifPresent(frame -> {
                     if (e.hasComponent(TransformComponent.class)) {
                         TransformComponent transform = e.getComponent(TransformComponent.class);
@@ -118,21 +116,17 @@ public class PlayingRenderer implements Renderer {
                 });
             }
         }
-       
         g.dispose(); 
-        
     }
     
  
     private void drawBackground(Graphics2D g, int width, int height) {
-        
         GradientPaint skyGradient = new GradientPaint(
             0, 0, SKY_COLOR_TOP,
             0, height * 0.7f, SKY_COLOR_BOTTOM
         );
         g.setPaint(skyGradient);
         g.fillRect(0, 0, width, height); 
-        
        drawClouds(g, width, height);
     }
     

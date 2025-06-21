@@ -10,7 +10,6 @@ import org.mainPackage.engine.components.WalletComponent;
 import org.mainPackage.engine.components.PhysicsTypes.PlayerPhysics;
 import org.mainPackage.engine.entities.api.Entity;
 import org.mainPackage.engine.entities.impl.EntityImpl;
-import org.mainPackage.engine.entities.impl.EntityManagerImpl;
 import org.mainPackage.engine.events.api.Event;
 import org.mainPackage.engine.events.api.Observer;
 import org.mainPackage.engine.events.impl.GameEvent;
@@ -62,7 +61,6 @@ public class GameStateManager implements Observer {
         this.sonicEntity = sonicEntity;
         this.levelGrid = levelGrid;
         this.tileWorldSize = tileWorldSize;
-
         this.playingState = new PlayingState(this, sizeView, sonicEntity, levelGrid, tileWorldSize, goal);
         this.pausedState = new PausedState(this, sizeView);
         this.goal = goal;
@@ -181,7 +179,7 @@ public class GameStateManager implements Observer {
 public void onNotify(Event e) {
     System.out.println("DEBUG: GameStateManager - onNotify ricevuto evento: " + e.getType());
     if (e instanceof GameEvent){
-        switch(e.getType()){
+        switch (e.getType()){
             case GAME_OVER:
                 System.out.println("SIAMO NEL MENU!!!");
                 setState(State.MENU);
