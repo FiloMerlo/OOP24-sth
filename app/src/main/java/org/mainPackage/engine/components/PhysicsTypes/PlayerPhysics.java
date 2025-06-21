@@ -28,7 +28,6 @@ public class PlayerPhysics extends PhysicsComponent {
         tryToMove.put(direction.up, false);
         tryToMove.put(direction.right, false);
         addObserver(o.getComponent(WalletComponent.class));
-        addObserver(GameStateManager.getInstance());
         /*tryToMove per direction.down è sempre opposto a tryToMove per direction.up*/
     }
 
