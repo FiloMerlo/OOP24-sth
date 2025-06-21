@@ -6,6 +6,8 @@ import java.awt.event.KeyEvent;
 import org.mainPackage.engine.entities.impl.EntityManagerImpl;
 import org.mainPackage.engine.components.GoalComponent;
 import org.mainPackage.engine.components.TransformComponent;
+import org.mainPackage.engine.components.PhysicsTypes.PlayerPhysics;
+import org.mainPackage.engine.components.graphics.SonicAnimator;
 import org.mainPackage.engine.entities.api.Entity;
 import org.mainPackage.renderer.PlayingRenderer;
 import org.mainPackage.util.SizeView;
@@ -46,6 +48,11 @@ public class PlayingState extends GameState {
         lastUpdateTime = currentTime;
 
         entityManager.updateEntities(deltaTime);
+    if (sonicPlayer.hasComponent(SonicAnimator.class) && sonicPlayer.hasComponent(PlayerPhysics.class)) {
+        SonicAnimator anim = sonicPlayer.getComponent(SonicAnimator.class);
+        PlayerPhysics physics = sonicPlayer.getComponent(PlayerPhysics.class);
+        anim.setState(physics.getAction());
+    }
 
         if (sonicPlayer != null && sonicPlayer.hasComponent(TransformComponent.class)) {
             TransformComponent sonicTransform = sonicPlayer.getComponent(TransformComponent.class);
@@ -67,30 +74,5 @@ public class PlayingState extends GameState {
         playingRenderer.render(g2d, currentWidth, currentHeight);
     }
     
-   @Override
-    public void keyPressed(KeyEvent e) {
-        
-           if (e.getKeyCode() == KeyEvent.VK_P) {
-            gameStateManager.setState(GameStateManager.State.PAUSED);
-        }
-
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-        
-        // switch (e.getKeyCode()) {
-        //     case KeyEvent.VK_A:
-        //         character.brake(); 
-        //         break;
-        //     case KeyEvent.VK_D:
-        //         character.brake(); 
-        //         break;
-        //     default:
-               
-        //     break;
-        // }
-    }
   
-
 }

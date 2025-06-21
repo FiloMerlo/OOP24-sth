@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 /**
-* {@link InputManager} which is a {@link SubjectImpl}
+* {@link InputManager} which is a {@link SubjectImpl}\n
 */
 public class InputManager extends SubjectImpl implements KeyListener{
     /** It uses a Singleton pattern
@@ -46,15 +46,14 @@ public class InputManager extends SubjectImpl implements KeyListener{
      * @param KeyEvent , it created a new {@link InputEvent}, adds the KeyCode to {@link keysDown} and {@link NotifyObsevers} of it
      * if checks if the command is already present in the polling
      */
-    @Override
+  @Override
     public void keyPressed(KeyEvent e) {
-        int key = e.getKeyCode();
-        System.out.println("DEBUG: InputManager - keyPressed: " + KeyEvent.getKeyText(key));
-        if (!keysDown.contains(key)) {
-            keysDown.add(key);
-            InputEvent i = new InputEvent(EventType.KEY_DOWN, e);
-            notifyObservers(i);
+        System.out.println("DEBUG: InputManager - keyPressed: " + KeyEvent.getKeyText(e.getKeyCode()));
+        InputEvent i = new InputEvent(EventType.KEY_DOWN, e);
+        if (!keysDown.contains(e.getKeyCode())) { // Evita duplicati se il tasto viene tenuto premuto a lungo
+            keysDown.add(e.getKeyCode());
         }
+        notifyObservers(i);
     }
     /**
      * @param KeyEvent , it created a new {@link InputEvent}, removes the KeyCode from {@link keysDown} and {@link NotifyObsevers} of it
@@ -63,7 +62,8 @@ public class InputManager extends SubjectImpl implements KeyListener{
     public void keyReleased(KeyEvent e) {
         System.out.println("DEBUG: InputManager - keyReleased: " + KeyEvent.getKeyText(e.getKeyCode()));
         InputEvent i = new InputEvent(EventType.KEY_RELEASED, e);
-        keysDown.remove(Integer.valueOf(e.getKeyCode()));
+        // Cast a Integer per rimuovere l'oggetto, non l'indice
+        keysDown.remove(Integer.valueOf(e.getKeyCode())); 
         notifyObservers(i);
     }
     /**
@@ -73,11 +73,11 @@ public class InputManager extends SubjectImpl implements KeyListener{
     public void keyTyped(KeyEvent e) {
     }
     /**
-     * 
-     * @param keyCode
-     * @return Boolean if a given key is down
+     * * @param keyCode
+     * @return true if the key is down
      */
-    public Boolean isKeyDown(int keyCode){
+    public boolean isKeyDown(int keyCode) {
         return keysDown.contains(keyCode);
     }
+    
 }
