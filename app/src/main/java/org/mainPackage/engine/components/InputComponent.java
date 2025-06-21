@@ -62,19 +62,21 @@ public class InputComponent implements Component, Observer{
         if (event instanceof InputEvent){
             InputEvent i = (InputEvent) event;
             System.out.println("DEBUG: InputComponent - InputEvent key: " + KeyEvent.getKeyText(i.getKeyEvent().getKeyCode()));
-            switch(i.getKeyEvent().getKeyCode()){
-                case(KeyEvent.VK_SPACE):
+            switch (i.getKeyEvent().getKeyCode()){
+                case (KeyEvent.VK_SPACE):
                     if (playerPhysics != null) {
                         playerPhysics.jump();
                         System.out.println("DEBUG: InputComponent - Jump attivato.");
                     }
                     break;
-                case(KeyEvent.VK_ESCAPE):
-                    pause = !pause;
-                    EventType pauseEvent = pause ? EventType.PAUSE : EventType.RESUME;
-                    GameEvent e = new GameEvent(pauseEvent, owner);
-                    ((EntityImpl) owner).notifyObservers(e);
-                    System.out.println("DEBUG: InputComponent - Evento PAUSE/RESUME notificato: " + pauseEvent);
+                case (KeyEvent.VK_ESCAPE):
+                    if (InputManager.getInstance().isKeyDown(KeyEvent.VK_ESCAPE)){
+                        pause = !pause;
+                        EventType pauseEvent = pause ? EventType.PAUSE : EventType.RESUME;
+                        GameEvent e = new GameEvent(pauseEvent, owner);
+                        ((EntityImpl) owner).notifyObservers(e);
+                        System.out.println("DEBUG: InputComponent - Evento PAUSE/RESUME notificato: " + pauseEvent);
+                    }
                     break;
                 default:
                     break;
