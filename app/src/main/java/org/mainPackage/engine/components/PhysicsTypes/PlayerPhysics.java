@@ -18,7 +18,7 @@ public class PlayerPhysics extends PhysicsComponent {
     private float accelMod = 0.01f, maxSpeed = 1.2f, minSpeed = 0.1f, initFallSpeed = 0.1f, fallMod = 0.1f, maxFallSpeed = 1;
     private int jumpFrames = 0, maxJumpFrames = 100, jSpeed = -1, brakeForce = 1, iFrames = 0;
     protected HashMap<direction, Boolean> tryToMove = new HashMap<>();
-    private boolean hit;
+    private boolean hit = false, grounded = true;
 
     public PlayerPhysics(EntityImpl o, ArrayList<Rectangle2D.Float> tList){
         super(o, tList);
@@ -83,31 +83,35 @@ public class PlayerPhysics extends PhysicsComponent {
         }
     }
     public void moveY(){
+        /*IS SONIC STILL GROUNDED??*/
+        if (canGoThere(direction.down, Float.MIN_VALUE)){
+            grounded = false;
+        }
         /*JUMPING*/
         if(jumpFrames > 0){
             if(canGoThere(direction.up, ySpeed)){
                 jumpFrames--;
+                owner.getComponent(TransformComponent.class).moveY(ySpeed);
             } else { 
                 /*hitting the ceiling causes him to start falling */
                 jumpFrames = 0;
                 ySpeed = initFallSpeed;
             }
         }
-        /*FALLING.   Sonic starts to fall only one update after he ran out of jumpingFrames*/
-        else if (canGoThere(direction.down, Math.max(initFallSpeed, ySpeed))){
-            if (ySpeed <= 0){
-                ySpeed = initFallSpeed;
-            } else if (ySpeed < maxFallSpeed){
-                ySpeed += fallMod;
-            }
-        } 
-        /*LANDING*/
-        else { 
-            if(ySpeed > 0){
-                landing();
+        else if (grounded == false){ /*FALLING.   Sonic starts to fall only one update after he ran out of jumpingFrames*/
+            ySpeed = Math.max(initFallSpeed, ySpeed);
+            if (canGoThere(direction.down, ySpeed)){
+                owner.getComponent(TransformComponent.class).moveY(ySpeed);
+                if (ySpeed < maxFallSpeed){
+                    ySpeed += fallMod;
+                }
+            } 
+            else { /*LANDING ON THE GROUND*/
+                if(ySpeed > 0){
+                    landing();
+                }
             }
         }
-        owner.getComponent(TransformComponent.class).moveY(ySpeed);
     }
 
     public void determineAction(){
@@ -130,6 +134,12 @@ public class PlayerPhysics extends PhysicsComponent {
                 }
             }
         } else {/*L'azione non cambia, rimane action.hurt*/}
+    }
+
+    @Override
+    public void landing() {
+        super.landing();
+        grounded = true;
     }
     
     public void brake() {
@@ -185,6 +195,7 @@ public class PlayerPhysics extends PhysicsComponent {
 
     public action getAction() { return playerAction; }
     public direction getDirection() { return playerDir; }
+    public boolean getWill(direction dir){ return tryToMove.get(dir); }
     public void setWill(direction dir, boolean bool){
         tryToMove.replace(dir, bool);
     }

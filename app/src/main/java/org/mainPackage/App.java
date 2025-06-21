@@ -46,24 +46,28 @@ public class App {
         };
 
         EntityImpl goal = null;
+        for (int r = 0; r < levelGrid.length; r++) {
+            for (int c = 0; c < levelGrid[r].length; c++) {
+                int xPos = c * tileSize;
+                int yPos = r * tileSize;
+                if (levelGrid[r][c] == 1) {
+                    Rectangle2D.Float tile = new Rectangle2D.Float(xPos, yPos, tileSize, tileSize);
+                    tileList.add(tile);
+                    System.out.println("Tile placed at: " + xPos + ", " + yPos);
+                }
+            }
+        }
 
-        for (int r = 0; r < 5; r++) {
-            for (int c = 0; c < 10; c++) {
+        for (int r = 0; r < levelGrid.length; r++) {
+            for (int c = 0; c < levelGrid[r].length; c++) {
                 int xPos = c * tileSize;
                 int yPos = r * tileSize;
 
                 switch (levelGrid[r][c]) {
-                    case 1 -> {
-                        Rectangle2D.Float tile = new Rectangle2D.Float(xPos, yPos, tileSize, tileSize);
-                        tileList.add(tile);
-                        System.out.println("Tile placed at: " + xPos + ", " + yPos);
-                    }
                     case 2 -> {
                         EntityImpl staticEnemy = new EntityImpl();
                         staticEnemy.addComponent(new TransformComponent(xPos, yPos + tileSize - enemySize, enemySize, enemySize));
-
                         staticEnemy.addComponent(new EnemyPhysics(0, staticEnemy, tileList, sonic));
-                        
                         staticEnemy.addComponent(new StaticEnemyAnimator());
                         entityManager.addEntity(staticEnemy);
                         System.out.println("Static enemy added");
@@ -72,7 +76,6 @@ public class App {
                         EntityImpl chasingEnemy = new EntityImpl();
                         chasingEnemy.addComponent(new TransformComponent(xPos, yPos + tileSize - enemySize, enemySize, enemySize));
                         chasingEnemy.addComponent(new EnemyPhysics(0.2f, chasingEnemy, tileList, sonic));                        
-                        
                         chasingEnemy.addComponent(new ChasingEnemyAnimator());
                         entityManager.addEntity(chasingEnemy);
                         System.out.println("Chasing enemy added");
@@ -84,12 +87,10 @@ public class App {
                         System.out.println("Sonic positioned at: " + xPos + ", " + (yPos + tileSize - sonicSize));
 
                     }
-
                     case 5 -> {
                         EntityImpl ring = new EntityImpl();
                         ring.addComponent(new TransformComponent(xPos + tileSize - ringSize, yPos + tileSize - ringSize, ringSize, ringSize));
                         ring.addComponent(new RingPhysics(ring, tileList, sonic));
-                        
                         ring.addComponent(new RingAnimator());
                         ring.getComponent(RingPhysics.class).changeTangibility();
                         entityManager.addEntity(ring); 
@@ -111,7 +112,7 @@ public class App {
         if (gameStateManager != null && goal != null) {
             GoalComponent goalComponent = goal.getComponent(GoalComponent.class);
             if (goalComponent != null) {
-                gameStateManager.initState(sonic, levelGrid, sonicSize, goalComponent);
+                gameStateManager.initState(sonic, levelGrid, tileSize, goalComponent);
                 System.out.println("GameStateManager initialized successfully.");
             } else {
                 System.err.println("GoalComponent missing!");
