@@ -42,13 +42,11 @@ public class PlayerPhysics extends PhysicsComponent {
         determineAction();
     }
     public void moveX(){
-
         if (playerAction == action.hurt){
             if (canGoThere(playerDir.opposite(), xSpeed)){
                 owner.getComponent(TransformComponent.class).moveX(xSpeed);
             }
-        } else 
-        if (tryToMove.get(direction.left) ^ tryToMove.get(direction.right)) {
+        } else if (tryToMove.get(direction.left) ^ tryToMove.get(direction.right)) {
             /*DETERMINE WHICH DIRECTION THE PLAYER IS TRYING TO MOVE TOWARDS*/
             direction newDir = direction.right;
             if (tryToMove.get(direction.left)) {
@@ -78,8 +76,8 @@ public class PlayerPhysics extends PhysicsComponent {
                     playerDir = newDir;
                 }
             }
-        } else {
-            brake();           
+        } else if (!tryToMove.get(direction.left) && !tryToMove.get(direction.right)){
+            brake();
         }
     }
     public void moveY(){
