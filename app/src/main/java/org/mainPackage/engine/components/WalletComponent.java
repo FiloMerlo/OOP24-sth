@@ -38,6 +38,7 @@ public class WalletComponent implements Component, Observer{
             RingPhysics  newPhysics = new RingPhysics(newRing, tiles, (EntityImpl)(EntityManagerImpl.getInstance().getEntities().getFirst()));
             newRing.addComponent(newPhysics);
             newRing.getComponent(RingPhysics.class).spreadOut();
+            System.out.println("ANELLO AGGIUNTO!!!!!");
             EntityManagerImpl.getInstance().addEntity(newRing);
             ringAmount--;
         }

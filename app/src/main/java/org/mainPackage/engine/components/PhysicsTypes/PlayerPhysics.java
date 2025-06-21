@@ -6,6 +6,7 @@ import org.mainPackage.engine.entities.impl.EntityImpl;
 import org.mainPackage.engine.events.impl.GameEvent;
 import org.mainPackage.enums.action;
 import org.mainPackage.enums.direction;
+import org.mainPackage.state_management.GameStateManager;
 import org.mainPackage.engine.events.api.EventType;
 import org.mainPackage.engine.components.WalletComponent;
 
@@ -27,6 +28,7 @@ public class PlayerPhysics extends PhysicsComponent {
         tryToMove.put(direction.up, false);
         tryToMove.put(direction.right, false);
         addObserver(o.getComponent(WalletComponent.class));
+        addObserver(GameStateManager.getInstance());
         /*tryToMove per direction.down è sempre opposto a tryToMove per direction.up*/
     }
 
@@ -171,6 +173,7 @@ public class PlayerPhysics extends PhysicsComponent {
             e = new GameEvent(EventType.PLAYER_HIT, owner);
         }
         else {
+            System.out.println("GAME OVER!!!!!");
             e = new GameEvent(EventType.GAME_OVER, owner);
         }
         notifyObservers(e);

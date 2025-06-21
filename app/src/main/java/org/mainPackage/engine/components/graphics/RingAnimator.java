@@ -9,7 +9,7 @@ public class RingAnimator extends GenericAnimator<RingAnimator.State> {
     public RingAnimator() {
         try {
             SpriteLoader loader = new SpriteLoader("/rings2.png");
-            addAnimation(State.SPINNING, loader.getFramesByPixels(0, 0, 8, 64, 64), 5);
+            addAnimation(State.SPINNING, loader.getFramesByPixels(0, 0, 8, 16, 16), 5);
         } catch (Exception e) {
             e.printStackTrace();
         }

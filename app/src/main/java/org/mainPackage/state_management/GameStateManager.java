@@ -52,7 +52,6 @@ public class GameStateManager implements Observer {
     public void setGameState(SizeView sizeView, Runnable shutdownGame){
         this.sizeView = sizeView;
         this.shutdownGame = shutdownGame;
-
         setState(State.MENU);
     }
 
@@ -77,7 +76,7 @@ public class GameStateManager implements Observer {
         
         switch (state) {
             case MENU:
-                currentState = new MenuState(this,sizeView); 
+                currentState = new MenuState(this, sizeView); 
                 break;
             case PLAYING:
                 currentState = playingState; 
@@ -184,6 +183,7 @@ public void onNotify(Event e) {
     if (e instanceof GameEvent){
         switch(e.getType()){
             case GAME_OVER:
+                System.out.println("SIAMO NEL MENU!!!");
                 setState(State.MENU);
                 System.out.println("DEBUG: GameStateManager - Stato cambiato a MENU (GAME_OVER).");
                 EntityImpl entityImpl = (EntityImpl) sonicEntity;
@@ -209,13 +209,17 @@ public void onNotify(Event e) {
                 break;
         }
     }
-}
+}   
+    /**
+     * 
+     * @param entityImpl Removal of all {@link Observer}s from {@link Subject}s but {@link PlayerPhysics}
+     */
     private void removeObservers(EntityImpl entityImpl) {
+        System.out.println("RIMOZIONE DEGLI OBSERVERS");
         entityImpl.removeObserver(entityImpl.getComponent(WalletComponent.class));
         entityImpl.removeObserver(entityImpl.getComponent(InputComponent.class));
         this.goal.removeObserver(this);
         InputManager.getInstance().removeObserver(this);
-        entityImpl.removeObserver(this);
-        entityImpl.getComponent(PlayerPhysics.class).removeObserver(EntityManagerImpl.getInstance());
+        entityImpl.removeObserver(this);    
     }
 }
