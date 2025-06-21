@@ -55,7 +55,7 @@ public class InputComponent implements Component, Observer{
      * {@link InputManager} fired the {@link InputEvent} , the key is pressed and released within a certain fraction of time
      */
     
-     @Override
+    @Override
     public void onNotify(Event event) {
         if (event instanceof InputEvent){
             InputEvent i = (InputEvent) event;
@@ -72,17 +72,14 @@ public class InputComponent implements Component, Observer{
                     break;
                 
                 case(KeyEvent.VK_P): 
-                    if (i.getType() == EventType.KEY_DOWN) {
-                        System.out.println("DEBUG: InputComponent - Pausa/Resume KEY_DOWN. Stato attuale pausa: " + pause);
-                        
-                        pause = !pause; // Toggle lo stato di pausa solo sulla pressione
-                        
+                    
+                    if (InputManager.getInstance().isKeyDown(KeyEvent.VK_P)){
+                        pause = !pause;
+                        System.out.println("PEPINO  - Tasto P premuto, stato pausa: " + pause);
                         EventType pauseEvent = pause ? EventType.PAUSE : EventType.RESUME;
                         GameEvent e = new GameEvent(pauseEvent, owner);
                         ((EntityImpl) owner).notifyObservers(e);
-                        pause = false; // Reset pausa dopo l'invio dell'evento
-                        
-                        System.out.println("DEBUG: InputComponent - Pausa/Resume KEY_DOWN. Nuovo stato pausa: " + pause + ", Evento inviato: " + pauseEvent);
+                        System.out.println("DEBUG: InputComponent - Evento PAUSE/RESUME notificato: " + pauseEvent);
                     }
                     break;
                 

@@ -74,12 +74,6 @@ public class PausedState extends GameState {
 
 
     /* Metodi per gli input  */
-    @Override
-    public void keyPressed(KeyEvent e) { 
-        if (e.getKeyCode() == KeyEvent.VK_P) 
-        gameStateManager.setState(GameStateManager.State.PLAYING);
-        //gameStateManager.getGameLoop().resumeLoop();
-    }
 
     @Override
     public void mouseMoved(MouseEvent e){

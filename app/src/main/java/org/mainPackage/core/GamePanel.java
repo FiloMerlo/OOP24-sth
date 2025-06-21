@@ -28,11 +28,11 @@ public class GamePanel extends JPanel implements SizeView {
         //this.requestFocusInWindow();
         this.setDoubleBuffered(true); // migliora la qualità del rendering 
         
-
+        /* Gestione degli input delegata in maniera tale che dal menu non posso passare direttamente allo stato di pausa */
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if (gameStateManager.getEnumState() != GameStateManager.State.PLAYING) {
+                if (gameStateManager.getEnumState() == GameStateManager.State.MENU) {
                     gameStateManager.keyPressed(e); // Passa l'evento a GameStateManager
                 } else {
                     InputManager.getInstance().keyPressed(e); // Passa l'evento a InputManager
