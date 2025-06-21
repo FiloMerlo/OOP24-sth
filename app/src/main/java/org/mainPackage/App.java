@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class App {
     public static void main(String[] args) {
-        int tileSize = 64, enemySize = 64, ringSize = 64, sonicSize = 54;
+        float tileSize = 64, chaseEnemyWidth = 40, chaseEnemyHeight = 52, ringSize = 64, sonicHeight = 36, sonicWidth = 26.7f, staticEnemyWidth = 38, staticEnemyHeight = 32;
         ArrayList<Rectangle2D.Float> tileList = new ArrayList<>();
         EntityManagerImpl entityManager = EntityManagerImpl.getInstance();
 
@@ -22,7 +22,7 @@ public class App {
         // WalletComponent va aggiunto prima di PlayerPhysics
         sonic.addComponent(new SonicAnimator());
         sonic.addComponent(new WalletComponent(tileList));
-        TransformComponent sonicTransform = new TransformComponent(0, 0, sonicSize, sonicSize);
+        TransformComponent sonicTransform = new TransformComponent(0, 0, sonicWidth, sonicHeight);
         sonic.addComponent(sonicTransform);
         sonic.addComponent(new PlayerPhysics(sonic, tileList));
         sonic.addComponent(new InputComponent(sonic));
@@ -48,8 +48,8 @@ public class App {
         EntityImpl goal = null;
         for (int r = 0; r < levelGrid.length; r++) {
             for (int c = 0; c < levelGrid[r].length; c++) {
-                int xPos = c * tileSize;
-                int yPos = r * tileSize;
+                float xPos = c * tileSize;
+                float yPos = r * tileSize;
                 if (levelGrid[r][c] == 1) {
                     Rectangle2D.Float tile = new Rectangle2D.Float(xPos, yPos, tileSize, tileSize);
                     tileList.add(tile);
@@ -60,13 +60,13 @@ public class App {
 
         for (int r = 0; r < levelGrid.length; r++) {
             for (int c = 0; c < levelGrid[r].length; c++) {
-                int xPos = c * tileSize;
-                int yPos = r * tileSize;
+                float xPos = c * tileSize;
+                float yPos = r * tileSize;
 
                 switch (levelGrid[r][c]) {
                     case 2 -> {
                         EntityImpl staticEnemy = new EntityImpl();
-                        staticEnemy.addComponent(new TransformComponent(xPos, yPos + tileSize - enemySize, enemySize, enemySize));
+                        staticEnemy.addComponent(new TransformComponent(xPos, yPos + tileSize - staticEnemyHeight, staticEnemyWidth, staticEnemyHeight));
                         staticEnemy.addComponent(new EnemyPhysics(0, staticEnemy, tileList, sonic));
                         staticEnemy.addComponent(new StaticEnemyAnimator());
                         entityManager.addEntity(staticEnemy);
@@ -74,17 +74,18 @@ public class App {
                     }
                     case 3 -> {
                         EntityImpl chasingEnemy = new EntityImpl();
-                        chasingEnemy.addComponent(new TransformComponent(xPos, yPos + tileSize - enemySize, enemySize, enemySize));
+                        chasingEnemy.addComponent(new TransformComponent(xPos, yPos + tileSize - chaseEnemyHeight, chaseEnemyWidth, chaseEnemyHeight));
                         chasingEnemy.addComponent(new EnemyPhysics(0.2f, chasingEnemy, tileList, sonic));                        
                         chasingEnemy.addComponent(new ChasingEnemyAnimator());
                         entityManager.addEntity(chasingEnemy);
                         System.out.println("Chasing enemy added");
                     }
                     case 4 -> {
+                        /*TODO non dovremmo rimpiazzarlo, ma aggiungerglielo per la prima volta */
                         /* Replace Sonic's TransformComponent with a new one derived from map */
                         sonicTransform.setX(xPos);
-                        sonicTransform.setY(yPos + tileSize - sonicSize);
-                        System.out.println("Sonic positioned at: " + xPos + ", " + (yPos + tileSize - sonicSize));
+                        sonicTransform.setY(yPos + tileSize - sonicHeight);
+                        System.out.println("Sonic positioned at: " + xPos + ", " + (yPos + tileSize - sonicHeight));
 
                     }
                     case 5 -> {
@@ -112,7 +113,7 @@ public class App {
         if (gameStateManager != null && goal != null) {
             GoalComponent goalComponent = goal.getComponent(GoalComponent.class);
             if (goalComponent != null) {
-                gameStateManager.initState(sonic, levelGrid, tileSize, goalComponent);
+                gameStateManager.initState(sonic, levelGrid, (int)tileSize, goalComponent);
                 System.out.println("GameStateManager initialized successfully.");
             } else {
                 System.err.println("GoalComponent missing!");
