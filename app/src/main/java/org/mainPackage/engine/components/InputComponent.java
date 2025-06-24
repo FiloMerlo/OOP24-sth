@@ -36,13 +36,13 @@ public class InputComponent implements Component, Observer{
         }
         if (InputManager.getInstance().isKeyDown(KeyEvent.VK_RIGHT)){
             playerPhysics.setWill(direction.right, true);
-            System.out.println("DEBUG: InputComponent - Update, Movimento.");
+            System.out.println("DEBUG: InputComponent - Update, Movimento destra.");
         } else {
             playerPhysics.setWill(direction.right, false);
         }
         if (InputManager.getInstance().isKeyDown(KeyEvent.VK_LEFT)){
             playerPhysics.setWill(direction.left, true);
-            System.out.println("DEBUG: InputComponent - Update, Movimento destra");
+            System.out.println("DEBUG: InputComponent - Update, Movimento sinistra.");
         } else {
             playerPhysics.setWill(direction.left, false);
         }
