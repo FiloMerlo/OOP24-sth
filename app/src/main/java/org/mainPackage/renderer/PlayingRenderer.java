@@ -1,7 +1,7 @@
 package org.mainPackage.renderer;
 
 import org.mainPackage.core.GamePanel;
-import org.mainPackage.engine.components.HUDComponent;
+//import org.mainPackage.engine.components.HUDComponent;
 import org.mainPackage.engine.components.TransformComponent;
 import org.mainPackage.engine.components.graphics.GenericAnimator;
 import org.mainPackage.engine.entities.api.Entity;
@@ -68,12 +68,12 @@ public class PlayingRenderer implements Renderer {
         
         // Disegna lo sfondo fisso
         drawBackground(g, width, height);
-
+        
         g.translate(-cameraX, -cameraY);
 
         drawTiles(g);
         drawEntities(g);
-        
+
         g.dispose();
     }
 
@@ -84,11 +84,11 @@ public class PlayingRenderer implements Renderer {
         );
         g.setPaint(skyGradient);
         g.fillRect(0, 0, width, height); 
-        drawClouds(g, width, height);
+       
         g.fillRect(0, 0, width, height);
 
         drawClouds(g, width, height);
-
+    }
 
     private void drawClouds(Graphics2D g, int width, int height) {
         g.setColor(Color.WHITE);
@@ -141,11 +141,6 @@ public class PlayingRenderer implements Renderer {
                 });
             }
         }
-       for (Entity e : entities) {
-            if (e.hasComponent(HUDComponent.class)) {
-                HUDComponent hud = e.getComponent(HUDComponent.class);
-                hud.render(g2d, width, height);
-            }
-        }
+       
     }
 }
