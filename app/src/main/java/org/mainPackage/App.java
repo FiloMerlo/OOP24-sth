@@ -24,9 +24,7 @@ public class App {
         sonic.addComponent(new WalletComponent(tileList, sonic));
         TransformComponent sonicTransform = new TransformComponent(0, 0, sonicSize, sonicSize);
         sonic.addComponent(sonicTransform);
-        PlayerPhysics physics = new PlayerPhysics(sonic, tileList);
-        physics.addObserver(GameStateManager.getInstance());
-        sonic.addComponent(physics);
+        sonic.addComponent(new PlayerPhysics(sonic, tileList));
         sonic.addComponent(new InputComponent(sonic));
         HUDComponent hudRing = new HUDComponent(sonic);
         EntityImpl hud = new EntityImpl();
