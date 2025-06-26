@@ -33,11 +33,14 @@ public class PlayerPhysics extends PhysicsComponent {
 
     private EnumMap<direction, Boolean> input = new EnumMap<>(direction.class);
 
-    public PlayerPhysics(EntityImpl owner, ArrayList<Rectangle2D.Float> tiles) {
-        super(owner, tiles);
-        for (direction dir : direction.values()) input.put(dir, false);
-        ySpeed = 0.01f;
-        addObserver(owner.getComponent(WalletComponent.class));
+    public PlayerPhysics(EntityImpl o, ArrayList<Rectangle2D.Float> tList){
+        super(o, tList);
+        ySpeed = initFallSpeed;
+        tryToMove.put(direction.left, false);
+        tryToMove.put(direction.up, false);
+        tryToMove.put(direction.right, false);
+        addObserver(o.getComponent(WalletComponent.class));
+        /*tryToMove per direction.down è sempre opposto a tryToMove per direction.up*/
     }
 
     public void update(float deltaTime) {

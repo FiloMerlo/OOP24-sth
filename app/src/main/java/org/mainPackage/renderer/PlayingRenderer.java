@@ -69,11 +69,28 @@ public class PlayingRenderer implements Renderer {
         // Disegna lo sfondo fisso
         drawBackground(g, width, height);
         
-        g.translate(-cameraX, -cameraY);
-
-        drawTiles(g);
-        drawEntities(g);
-
+        g.translate(-cameraX, -cameraY); //effetto della camera
+        
+        drawTiles(g); 
+        /* disegno delle entità */
+        List<Entity> entities = entityManager.getEntities(); 
+        for (Entity e : entities) {
+            if (e.hasComponent(GenericAnimator.class)) {
+                GenericAnimator<?> animator = e.getComponent(GenericAnimator.class);
+                animator.getCurrentFrame().ifPresent(frame -> {
+                    if (e.hasComponent(TransformComponent.class)) {
+                        TransformComponent transform = e.getComponent(TransformComponent.class);
+                        int x = (int) transform.getX();
+                        int y = (int) transform.getY();
+                        g.drawImage(frame, x, y, frame.getWidth(), frame.getHeight(), null);
+                    }
+                });
+            }
+            if (e.hasComponent(HUDComponent.class)) {
+                HUDComponent hud = e.getComponent(HUDComponent.class);
+                hud.render(g2d, width, height);
+            }
+        }
         g.dispose();
     }
 
