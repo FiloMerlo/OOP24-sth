@@ -1,7 +1,7 @@
 package org.mainPackage.renderer;
 
 import org.mainPackage.core.GamePanel;
-//import org.mainPackage.engine.components.HUDComponent;
+import org.mainPackage.engine.components.HUDComponent;
 import org.mainPackage.engine.components.TransformComponent;
 import org.mainPackage.engine.components.graphics.GenericAnimator;
 import org.mainPackage.engine.entities.api.Entity;
