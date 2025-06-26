@@ -4,7 +4,6 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import org.mainPackage.util.SizeView;
-import org.mainPackage.core.Game;
 import org.mainPackage.engine.components.GoalComponent;
 import org.mainPackage.engine.components.InputComponent;
 import org.mainPackage.engine.components.WalletComponent;

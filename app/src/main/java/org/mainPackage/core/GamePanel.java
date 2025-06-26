@@ -34,6 +34,7 @@ public class GamePanel extends JPanel implements SizeView {
             public void keyPressed(KeyEvent e) {
                 if (gameStateManager.getEnumState() == GameStateManager.State.MENU) {
                     gameStateManager.keyPressed(e); // Passa l'evento a GameStateManager
+                    
                 } else {
                     InputManager.getInstance().keyPressed(e); // Passa l'evento a InputManager
                 }
