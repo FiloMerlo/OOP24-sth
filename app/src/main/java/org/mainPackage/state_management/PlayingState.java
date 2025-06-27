@@ -43,24 +43,25 @@ public class PlayingState extends GameState {
     
     @Override
     public void update() {
-        long currentTime = System.currentTimeMillis();
-        float deltaTime = (currentTime - lastUpdateTime) / 1000.0f; 
-        lastUpdateTime = currentTime;
+    
+    long currentTime = System.currentTimeMillis();
+    float deltaTime = (currentTime - lastUpdateTime) / 1000.0f;
+    lastUpdateTime = currentTime;
 
-        entityManager.updateEntities(deltaTime);
-    if (sonicPlayer.hasComponent(SonicAnimator.class) && sonicPlayer.hasComponent(PlayerPhysics.class)) {
-        SonicAnimator anim = sonicPlayer.getComponent(SonicAnimator.class);
-        PlayerPhysics physics = sonicPlayer.getComponent(PlayerPhysics.class);
-        anim.setState(physics.getAction());
-    }
+    entityManager.updateEntities(deltaTime);
 
-        if (sonicPlayer != null && sonicPlayer.hasComponent(TransformComponent.class)) {
-            TransformComponent sonicTransform = sonicPlayer.getComponent(TransformComponent.class);
-            if (sonicTransform != null) {
-               playingRenderer.updateCamera((int) sonicTransform.getX(), (int) sonicTransform.getY());
-            } else if (sonicPlayer == null) {
-                    System.err.println("Errore: sonicPlayer è null durante l'update del PlayingState.");
+        if (sonicPlayer != null) { 
+            if (sonicPlayer.hasComponent(SonicAnimator.class) && sonicPlayer.hasComponent(PlayerPhysics.class)) {
+                SonicAnimator anim = sonicPlayer.getComponent(SonicAnimator.class);
+                PlayerPhysics physics = sonicPlayer.getComponent(PlayerPhysics.class);
+                anim.setState(physics.getAction()); 
             }
+            if (sonicPlayer.hasComponent(TransformComponent.class)) {
+                TransformComponent sonicTransform = sonicPlayer.getComponent(TransformComponent.class);
+                playingRenderer.updateCamera((int) sonicTransform.getX(), (int) sonicTransform.getY());
+            }
+        } else {
+        System.err.println("Errore: sonicPlayer è null durante l'update del PlayingState. Impossibile aggiornare animazione o camera.");
         }
     }
     
@@ -74,5 +75,18 @@ public class PlayingState extends GameState {
         playingRenderer.render(g2d, currentWidth, currentHeight);
     }
     
+    /* Delegati gli input all'InputManager 
+     * mantengo questi medoti anche se non sono utilizzati in questo stato
+     * per coerenza con gli altri stati e per eventuali estensioni future.
+     */
+     
+    @Override
+    public void keyPressed(KeyEvent e) {
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+    }
   
+
 }

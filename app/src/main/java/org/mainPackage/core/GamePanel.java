@@ -28,24 +28,28 @@ public class GamePanel extends JPanel implements SizeView {
         //this.requestFocusInWindow();
         this.setDoubleBuffered(true); // migliora la qualità del rendering 
         
-        /* Gestione degli input delegata in maniera tale che dal menu non posso passare direttamente allo stato di pausa */
+        /* Gli input vengono gestiti tramite l'input manager e il gamestatemanager, quest' ultimo si occupa del Menu mentre il resto viene delegato direttamente 
+         * all' InputManager. Questo permette di avere un sistema di input centralizzato e facilmente estendibile per i vari stati.
+         */
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (gameStateManager.getEnumState() == GameStateManager.State.MENU) {
                     gameStateManager.keyPressed(e); // Passa l'evento a GameStateManager
-                    
+                    System.out.println("DEBUG GAME PANEL : Key Pressed in GamePanel (Menu): " + KeyEvent.getKeyText(e.getKeyCode()));
                 } else {
+                    System.out.println("DEBUG GAME PANEL : Key Pressed in GamePanel (Playing o Paused): " + KeyEvent.getKeyText(e.getKeyCode()));
                     InputManager.getInstance().keyPressed(e); // Passa l'evento a InputManager
                 }
             }
 
             @Override
             public void keyReleased(KeyEvent e) {
-                if (gameStateManager.getEnumState() != GameStateManager.State.PLAYING) {
-                    
+                if (gameStateManager.getEnumState() == GameStateManager.State.MENU) {
                     gameStateManager.keyReleased(e); // Passa l'evento a GameStateManager
+                    System.out.println("DEBUG GAME PANEL : Key Released in GamePanel (Menu): " + KeyEvent.getKeyText(e.getKeyCode()));
                 } else {
+                    System.out.println("DEBUG GAME PANEL : Key Released in GamePanel (Playing o Paused): " + KeyEvent.getKeyText(e.getKeyCode()));
                     InputManager.getInstance().keyReleased(e); // Passa l'evento a InputManager
                 }
             }

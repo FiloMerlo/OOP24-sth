@@ -69,11 +69,14 @@ public class PlayingRenderer implements Renderer {
         // Disegna lo sfondo fisso
         drawBackground(g, width, height);
         
-        g.translate(-cameraX, -cameraY);
+        g.translate(-cameraX, -cameraY); //effetto della camera
+        
+        drawTiles(g); 
+        /* disegno delle entità */
+        drawGameEntities(g);
 
-        drawTiles(g);
-        drawEntities(g);
-
+        drawHUB(g2d, width, height); //sitemare la posizione dell'HUB
+        
         g.dispose();
     }
 
@@ -113,34 +116,47 @@ public class PlayingRenderer implements Renderer {
                 if (levelGrid[r][c] == 1) {
                     int x = c * tileWorldSize;
                     int y = r * tileWorldSize;
+                    
+                    //if (tileImage != null) {
+                      //  g2d.drawImage(tileImage, x, y, tileWorldSize, tileWorldSize, null);
+                    //} else {
+                        g2d.setColor(Color.LIGHT_GRAY);
+                        g2d.fillRect(x, y, tileWorldSize, tileWorldSize);
+                        g2d.setColor(Color.DARK_GRAY);
+                        g2d.drawRect(x, y, tileWorldSize, tileWorldSize);
+                    }
+                }
+            }
+        }
+    
+    private void drawGameEntities(Graphics2D g) {
+        List<Entity> entities = entityManager.getEntities();
+        for (Entity e : entities) {
+           
+            if (e.hasComponent(GenericAnimator.class) && e.hasComponent(TransformComponent.class)) {
+                GenericAnimator<?> animator = e.getComponent(GenericAnimator.class);
+                TransformComponent transform = e.getComponent(TransformComponent.class);
+                
+                animator.getCurrentFrame().ifPresent(frame -> {
+                    int x = (int) (transform.getX());
+                    int y = (int) (transform.getY());
+                    g.drawImage(frame, x, y, frame.getWidth(), frame.getHeight(), null);
+                });
+            }
+        }
+    }
 
-                    g2d.setColor(Color.LIGHT_GRAY);
-                    g2d.fillRect(x, y, tileWorldSize, tileWorldSize);
-                    g2d.setColor(Color.DARK_GRAY);
-                    g2d.drawRect(x, y, tileWorldSize, tileWorldSize);
+    private void drawHUB(Graphics2D g, int width, int height) {
+        List<Entity> entities = entityManager.getEntities();
+        for (Entity e : entities) {
+            if (e.hasComponent(HUDComponent.class)) {
+                HUDComponent hud = e.getComponent(HUDComponent.class);
+                if (hud != null) {
+                    hud.render(g, width, height);
                 }
             }
         }
     }
 
-    private void drawEntities(Graphics2D g) {
-        List<Entity> entities = entityManager.getEntities();
-
-        for (Entity e : entities) {
-            if (e.hasComponent(GenericAnimator.class) && e.hasComponent(TransformComponent.class)) {
-                GenericAnimator<?> animator = e.getComponent(GenericAnimator.class);
-                TransformComponent transform = e.getComponent(TransformComponent.class);
-
-                animator.getCurrentFrame().ifPresent(frame -> {
-                    int x = (int) transform.getX();
-                    int y = (int) transform.getY();
-
-                    // Optionally flip sprite when facing left (if direction available)
-                    // For now, draw as-is
-                    g.drawImage(frame, x, y, frame.getWidth(), frame.getHeight(), null);
-                });
-            }
-        }
-       
-    }
-}
+}   
+   

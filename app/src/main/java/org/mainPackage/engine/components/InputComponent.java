@@ -51,25 +51,23 @@ public class InputComponent implements Component, Observer{
      * {@link InputManager} fired the {@link InputEvent} , the key is pressed and released within a certain fraction of time
      */
     
-  /* L'input del salto rimane alla versione vecchia, riadattamenti per il tasto pausa */        
+
+    /* L'opizione di accedere alla pausa tramite esc è stata rimossa, adesso solo tramite il pulsante p */
     @Override
     public void onNotify(Event event) {
         if (event instanceof InputEvent){
             InputEvent i = (InputEvent) event;
-            
-            switch(i.getKeyEvent().getKeyCode()){
-                
-                case(KeyEvent.VK_SPACE):
-                    if (i.getType() == EventType.KEY_DOWN) {
-                        System.out.println("DEBUG: InputComponent - Salto KEY_DOWN");
-                        playerPhysics.jump();
-                    } else {
-                        System.out.println("DEBUG: InputComponent - Salto " + i.getType());
+            System.out.println("DEBUG: InputComponent - InputEvent key: " + KeyEvent.getKeyText(i.getKeyEvent().getKeyCode()));
+            switch (i.getKeyEvent().getKeyCode()){
+                case (KeyEvent.VK_SPACE):
+                    if (playerPhysics != null) {
+                        if (i.getType() == EventType.KEY_DOWN) {
+                            System.out.println("DEBUG: InputComponent - Salto KEY_DOWN");
+                            playerPhysics.jump();
+                        }
                     }
                     break;
-                
-                case(KeyEvent.VK_P): 
-                    
+                case (KeyEvent.VK_P):
                     if (InputManager.getInstance().isKeyDown(KeyEvent.VK_P)){
                         pause = !pause;
                         System.out.println("PEPINO  - Tasto P premuto, stato pausa: " + pause);

@@ -67,27 +67,30 @@ public class PausedState extends GameState {
     }   
     
     
-
-
-
-
-
-    /* Metodi per gli input  */
+    /* Metodi per gli input
+     * Questi metodi sono delegati all'InputManager, ma li mantengo qui per coerenza con gli altri stati.
+      */
+    
+    @Override
+    public void keyPressed(KeyEvent e) { 
+    }
 
     @Override
+    public void keyReleased(KeyEvent e) {
+    }
+
+    /* Metodi per il funzionamento del pulsante EXIT */
+    @Override
     public void mouseMoved(MouseEvent e){
-        
         if (exitButtonBounds != null) {
             hoveringExit = exitButtonBounds.contains(e.getPoint());
-            
-            System.out.println(hoveringExit);
         }
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
         if (exitButtonBounds != null && exitButtonBounds.contains(e.getPoint())) {
-            System.out.println("si");
+            System.out.println("Dentro il bottone EXIT");
             gameStateManager.gameShutdown();
         }
     } 

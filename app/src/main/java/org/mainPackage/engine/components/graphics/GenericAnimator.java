@@ -46,4 +46,19 @@ public abstract class GenericAnimator<T> implements Component {
             tick = 0;
         }
     }
+
+    /**
+     * Sets the current animation state to a new state.
+     * Resets the frame index and tick counter.
+     * 
+     * @param newState the new animation state to set
+     */
+
+      public void setState(T newState) {
+        if (newState != currentState) {
+            currentState = newState;
+            frameIndex = 0;
+            tick = 0;
+        }
+    }
 }
