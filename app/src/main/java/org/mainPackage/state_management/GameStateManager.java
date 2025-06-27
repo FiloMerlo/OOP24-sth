@@ -37,7 +37,7 @@ public class GameStateManager implements Observer {
     private int tileWorldSize;
     private GoalComponent goal;
 
-    private State currentEnumState;
+
   
     public enum State {
         MENU,
@@ -95,11 +95,7 @@ public class GameStateManager implements Observer {
         System.out.println("Stato cambiato in: " + state);
     }
 
-    public State getEnumState(){
-        return currentEnumState;
-    }
 
-    
     public GameState getCurrentState() {
         return currentState;
     }
