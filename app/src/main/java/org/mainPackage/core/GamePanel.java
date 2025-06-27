@@ -46,6 +46,7 @@ public class GamePanel extends JPanel implements SizeView {
             @Override
             public void keyReleased(KeyEvent e) {
                 if (gameStateManager.getEnumState() == GameStateManager.State.MENU) {
+                    
                     gameStateManager.keyReleased(e); // Passa l'evento a GameStateManager
                     System.out.println("DEBUG GAME PANEL : Key Released in GamePanel (Menu): " + KeyEvent.getKeyText(e.getKeyCode()));
                 } else {

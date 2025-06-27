@@ -46,14 +46,15 @@ public class InputManager extends SubjectImpl implements KeyListener{
      * @param KeyEvent , it created a new {@link InputEvent}, adds the KeyCode to {@link keysDown} and {@link NotifyObsevers} of it
      * if checks if the command is already present in the polling
      */
-  @Override
+     @Override
     public void keyPressed(KeyEvent e) {
-        System.out.println("DEBUG: InputManager - keyPressed: " + KeyEvent.getKeyText(e.getKeyCode()));
-        InputEvent i = new InputEvent(EventType.KEY_DOWN, e);
-        if (!keysDown.contains(e.getKeyCode())) { // Evita duplicati se il tasto viene tenuto premuto a lungo
-            keysDown.add(e.getKeyCode());
+        int key = e.getKeyCode();
+        System.out.println("DEBUG: InputManager - keyPressed: " + KeyEvent.getKeyText(key));
+        if (!keysDown.contains(key)) {
+            keysDown.add(key);
+            InputEvent i = new InputEvent(EventType.KEY_DOWN, e);
+            notifyObservers(i);
         }
-        notifyObservers(i);
     }
     /**
      * @param KeyEvent , it created a new {@link InputEvent}, removes the KeyCode from {@link keysDown} and {@link NotifyObsevers} of it
