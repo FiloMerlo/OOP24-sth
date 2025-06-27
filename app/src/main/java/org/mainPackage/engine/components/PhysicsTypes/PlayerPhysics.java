@@ -95,7 +95,7 @@ public class PlayerPhysics extends PhysicsComponent {
         else if (Math.abs(xSpeed) > 0.5f) playerAction = action.running;
         else if (xSpeed != 0) playerAction = action.walking;
         else playerAction = action.idle;
-        System.out.println(playerAction);
+        //System.out.println(playerAction);
     }
 
     public void jump() {

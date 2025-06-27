@@ -42,7 +42,7 @@ public class GamePanel extends JPanel implements SizeView {
 
             @Override
             public void keyReleased(KeyEvent e) {
-                if (gameStateManager.getEnumState() != GameStateManager.State.PLAYING) {
+                if (gameStateManager.getEnumState() == GameStateManager.State.MENU) {
                     
                     gameStateManager.keyReleased(e); // Passa l'evento a GameStateManager
                 } else {

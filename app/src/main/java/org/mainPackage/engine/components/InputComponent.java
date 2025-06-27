@@ -58,7 +58,7 @@ public class InputComponent implements Component, Observer{
             InputEvent i = (InputEvent) event;
             
             switch(i.getKeyEvent().getKeyCode()){
-                
+                /* Valutare questo metodo per il jump */
                 case(KeyEvent.VK_SPACE):
                     if (i.getType() == EventType.KEY_DOWN) {
                         System.out.println("DEBUG: InputComponent - Salto KEY_DOWN");

@@ -23,9 +23,10 @@ public abstract class GameState extends SubjectImpl {
     /* Metodi che possono essere implementati oppure no */
     public void keyPressed(KeyEvent e) {} // Implementazione vuota di default
     
-    public void keyReleased(KeyEvent e) {} // Implementazione vuota di default
+    public void keyReleased(KeyEvent e) {} // Implementazione vuota di default non necessaria 
     
-    public void mousePressed(MouseEvent e) {} // Implementazione vuota di default
+    
+    public void mousePressed(MouseEvent e) {}
     
 
     public void mouseMoved(MouseEvent e) {}
