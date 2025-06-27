@@ -103,24 +103,10 @@ public class PlayingRenderer implements Renderer {
         
         drawTiles(g); 
         /* disegno delle entità */
-        List<Entity> entities = entityManager.getEntities(); 
-        for (Entity e : entities) {
-            if (e.hasComponent(GenericAnimator.class)) {
-                GenericAnimator<?> animator = e.getComponent(GenericAnimator.class);
-                animator.getCurrentFrame().ifPresent(frame -> {
-                    if (e.hasComponent(TransformComponent.class)) {
-                        TransformComponent transform = e.getComponent(TransformComponent.class);
-                        int x = (int) transform.getX();
-                        int y = (int) transform.getY();
-                        g.drawImage(frame, x, y, frame.getWidth(), frame.getHeight(), null);
-                    }
-                });
-            }
-            if (e.hasComponent(HUDComponent.class)) {
-                HUDComponent hud = e.getComponent(HUDComponent.class);
-                hud.render(g2d, width, height);
-            }
-        }
+        drawGameEntities(g);
+
+        drawHUB(g2d, width, height); //sitemare la posizione dell'HUB
+        
         g.dispose();
     }
     
@@ -174,5 +160,35 @@ public class PlayingRenderer implements Renderer {
                 }
             }
         }
-    }   
+    
+    private void drawGameEntities(Graphics2D g) {
+        List<Entity> entities = entityManager.getEntities();
+        for (Entity e : entities) {
+           
+            if (e.hasComponent(GenericAnimator.class) && e.hasComponent(TransformComponent.class)) {
+                GenericAnimator<?> animator = e.getComponent(GenericAnimator.class);
+                TransformComponent transform = e.getComponent(TransformComponent.class);
+                
+                animator.getCurrentFrame().ifPresent(frame -> {
+                    int x = (int) (transform.getX());
+                    int y = (int) (transform.getY());
+                    g.drawImage(frame, x, y, frame.getWidth(), frame.getHeight(), null);
+                });
+            }
+        }
+    }
+
+    private void drawHUB(Graphics2D g, int width, int height) {
+        List<Entity> entities = entityManager.getEntities();
+        for (Entity e : entities) {
+            if (e.hasComponent(HUDComponent.class)) {
+                HUDComponent hud = e.getComponent(HUDComponent.class);
+                if (hud != null) {
+                    hud.render(g, width, height);
+                }
+            }
+        }
+    }
+
+}   
    

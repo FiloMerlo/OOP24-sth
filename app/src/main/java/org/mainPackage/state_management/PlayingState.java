@@ -6,6 +6,8 @@ import java.awt.event.KeyEvent;
 import org.mainPackage.engine.entities.impl.EntityManagerImpl;
 import org.mainPackage.engine.components.GoalComponent;
 import org.mainPackage.engine.components.TransformComponent;
+import org.mainPackage.engine.components.PhysicsTypes.PlayerPhysics;
+import org.mainPackage.engine.components.graphics.SonicAnimator;
 import org.mainPackage.engine.entities.api.Entity;
 import org.mainPackage.renderer.PlayingRenderer;
 import org.mainPackage.util.SizeView;
@@ -41,19 +43,25 @@ public class PlayingState extends GameState {
     
     @Override
     public void update() {
-        long currentTime = System.currentTimeMillis();
-        float deltaTime = (currentTime - lastUpdateTime) / 1000.0f; 
-        lastUpdateTime = currentTime;
+    
+    long currentTime = System.currentTimeMillis();
+    float deltaTime = (currentTime - lastUpdateTime) / 1000.0f;
+    lastUpdateTime = currentTime;
 
-        entityManager.updateEntities(deltaTime);
+    entityManager.updateEntities(deltaTime);
 
-        if (sonicPlayer != null && sonicPlayer.hasComponent(TransformComponent.class)) {
-            TransformComponent sonicTransform = sonicPlayer.getComponent(TransformComponent.class);
-            if (sonicTransform != null) {
-               playingRenderer.updateCamera((int) sonicTransform.getX(), (int) sonicTransform.getY());
-            } else if (sonicPlayer == null) {
-                    System.err.println("Errore: sonicPlayer è null durante l'update del PlayingState.");
+        if (sonicPlayer != null) { 
+            if (sonicPlayer.hasComponent(SonicAnimator.class) && sonicPlayer.hasComponent(PlayerPhysics.class)) {
+                SonicAnimator anim = sonicPlayer.getComponent(SonicAnimator.class);
+                PlayerPhysics physics = sonicPlayer.getComponent(PlayerPhysics.class);
+                anim.setState(physics.getAction()); 
             }
+            if (sonicPlayer.hasComponent(TransformComponent.class)) {
+                TransformComponent sonicTransform = sonicPlayer.getComponent(TransformComponent.class);
+                playingRenderer.updateCamera((int) sonicTransform.getX(), (int) sonicTransform.getY());
+            }
+        } else {
+        System.err.println("Errore: sonicPlayer è null durante l'update del PlayingState. Impossibile aggiornare animazione o camera.");
         }
     }
     

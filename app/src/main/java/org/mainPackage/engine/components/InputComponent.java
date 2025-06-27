@@ -51,7 +51,9 @@ public class InputComponent implements Component, Observer{
      * {@link InputManager} fired the {@link InputEvent} , the key is pressed and released within a certain fraction of time
      */
     
-     @Override
+
+    /* L'opizione di accedere alla pausa tramite esc è stata rimossa, adesso solo tramite il pulsante p */
+    @Override
     public void onNotify(Event event) {
         System.out.println("DEBUG: InputComponent - onNotify ricevuto evento di tipo: " + event.getType());
         if (event instanceof InputEvent){
@@ -60,8 +62,10 @@ public class InputComponent implements Component, Observer{
             switch (i.getKeyEvent().getKeyCode()){
                 case (KeyEvent.VK_SPACE):
                     if (playerPhysics != null) {
-                        playerPhysics.jump();
-                        System.out.println("DEBUG: InputComponent - Jump attivato.");
+                        if (i.getType() == EventType.KEY_DOWN) {
+                            System.out.println("DEBUG: InputComponent - Salto KEY_DOWN");
+                            playerPhysics.jump();
+                        }
                     }
                     break;
                 case (KeyEvent.VK_P):
