@@ -24,7 +24,6 @@ public class GameStateManager implements Observer {
     private static GameStateManager instance = null;
     private GameState currentState; 
 
-    //private GameLoop gameLoop /* funzione di pausa gameLoop inutile */
     private PlayingState playingState;
     private PausedState pausedState;
     private SizeView sizeView;
@@ -35,19 +34,22 @@ public class GameStateManager implements Observer {
     private int[][] levelGrid;
     private int tileWorldSize;
     private GoalComponent goal;
+
+    private State currentEnumState;
   
     public enum State {
         MENU,
         PLAYING,
         PAUSED
-        
     }
+    
     public static GameStateManager getInstance() {
         if (instance == null){
             instance = new GameStateManager();
         }
         return instance;
     }
+    
     public void setGameState(SizeView sizeView, Runnable shutdownGame){
         this.sizeView = sizeView;
         this.shutdownGame = shutdownGame;
@@ -71,6 +73,7 @@ public class GameStateManager implements Observer {
 
     
     public void setState(State state) {
+        this.currentEnumState = state;
         
         switch (state) {
             case MENU:
@@ -84,6 +87,10 @@ public class GameStateManager implements Observer {
                 break;
         }
         System.out.println("Stato cambiato in: " + state);
+    }
+
+    public State getEnumState(){
+        return currentEnumState;
     }
 
     

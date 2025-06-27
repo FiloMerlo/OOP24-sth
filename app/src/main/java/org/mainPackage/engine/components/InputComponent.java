@@ -64,8 +64,8 @@ public class InputComponent implements Component, Observer{
                         System.out.println("DEBUG: InputComponent - Jump attivato.");
                     }
                     break;
-                case (KeyEvent.VK_ESCAPE):
-                    if (InputManager.getInstance().isKeyDown(KeyEvent.VK_ESCAPE)){
+                case (KeyEvent.VK_P):
+                    if (InputManager.getInstance().isKeyDown(KeyEvent.VK_P)){
                         pause = !pause;
                         EventType pauseEvent = pause ? EventType.PAUSE : EventType.RESUME;
                         GameEvent e = new GameEvent(pauseEvent, owner);
