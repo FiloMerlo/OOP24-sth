@@ -9,6 +9,7 @@ import org.mainPackage.engine.events.api.Observer;
 import org.mainPackage.engine.events.impl.GameEvent;
 import org.mainPackage.engine.events.impl.InputEvent;
 import org.mainPackage.engine.systems.InputManager;
+import org.mainPackage.enums.action;
 import org.mainPackage.enums.direction;
 import java.awt.event.KeyEvent;
 
@@ -23,7 +24,6 @@ public class InputComponent implements Component, Observer{
         public InputComponent(Entity owner){
         this.owner = owner;
         this.playerPhysics = owner.getComponent(PlayerPhysics.class);
-        InputManager.getInstance().addObserver(this);
         System.out.println("DEBUG: InputComponent inizializzato per " + owner.getClass().getSimpleName() + ".");
         if (playerPhysics == null) {
             System.err.println("ERRORE: PlayerPhysics non trovato per InputComponent di " + owner.getClass().getSimpleName());
@@ -60,8 +60,10 @@ public class InputComponent implements Component, Observer{
             switch (i.getKeyEvent().getKeyCode()){
                 case (KeyEvent.VK_SPACE):
                     if (playerPhysics != null) {
-                        playerPhysics.jump();
-                        System.out.println("DEBUG: InputComponent - Jump attivato.");
+                        if (playerPhysics.getAction() != action.jumping){ // This if fixes a previous bug which let player 'double' jumping if they pressed multiple space multiple times
+                            playerPhysics.jump();
+                            System.out.println("DEBUG: InputComponent - Jump attivato.");
+                        }
                     }
                     break;
                 case (KeyEvent.VK_ESCAPE):

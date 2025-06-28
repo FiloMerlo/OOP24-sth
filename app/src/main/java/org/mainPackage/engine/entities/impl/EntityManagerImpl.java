@@ -80,8 +80,8 @@ public class EntityManagerImpl implements EntityManager, Observer {
 
     @Override
     public void killAllEntities() {
+        entitiesToAdd.clear();
         entitiesToRemove.clear();
-        entitiesToUpdate.clear();
     }
 
     @Override

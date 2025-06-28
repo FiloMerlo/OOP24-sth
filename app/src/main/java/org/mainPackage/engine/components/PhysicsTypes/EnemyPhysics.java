@@ -1,7 +1,6 @@
 package org.mainPackage.engine.components.PhysicsTypes;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.awt.geom.Rectangle2D;
 
 

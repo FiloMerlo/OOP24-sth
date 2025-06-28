@@ -10,10 +10,10 @@ import org.mainPackage.engine.components.WalletComponent;
 import org.mainPackage.engine.components.PhysicsTypes.PlayerPhysics;
 import org.mainPackage.engine.entities.api.Entity;
 import org.mainPackage.engine.entities.impl.EntityImpl;
+import org.mainPackage.engine.entities.impl.EntityManagerImpl;
 import org.mainPackage.engine.events.api.Event;
 import org.mainPackage.engine.events.api.Observer;
 import org.mainPackage.engine.events.impl.GameEvent;
-import org.mainPackage.engine.systems.InputManager;
 
 /**
  * Gestisce i diversi stati del gioco (es. menu, gioco, pausa).
@@ -64,9 +64,7 @@ public class GameStateManager implements Observer {
         this.playingState = new PlayingState(this, sizeView, sonicEntity, levelGrid, tileWorldSize, goal);
         this.pausedState = new PausedState(this, sizeView);
         this.goal = goal;
-        ((EntityImpl) sonicEntity).addObserver(this);
         this.goal.addObserver(this);
-        InputManager.getInstance().addObserver(this);
     }
 
     
@@ -179,17 +177,20 @@ public class GameStateManager implements Observer {
 public void onNotify(Event e) {
     System.out.println("DEBUG: GameStateManager - onNotify ricevuto evento: " + e.getType());
     if (e instanceof GameEvent){
+        EntityImpl entityImpl = (EntityImpl) sonicEntity;
         switch (e.getType()){
             case GAME_OVER:
                 System.out.println("SIAMO NEL MENU!!!");
                 setState(State.MENU);
                 System.out.println("DEBUG: GameStateManager - Stato cambiato a MENU (GAME_OVER).");
-                EntityImpl entityImpl = (EntityImpl) sonicEntity;
+                EntityManagerImpl.getInstance().killAllEntities();
                 removeObservers(entityImpl);
                 break;
-            case LEVEL_COMPLETED:
+            case STAGE_CLEARED:
                 setState(State.MENU);
                 System.out.println("DEBUG: GameStateManager - Stato cambiato a MENU (LEVEL_COMPLETED).");
+                EntityManagerImpl.getInstance().killAllEntities();
+                removeObservers(entityImpl);
                 break;
             case LEVEL_STARTED:
                 setState(State.PLAYING);
@@ -217,7 +218,6 @@ public void onNotify(Event e) {
         entityImpl.removeObserver(entityImpl.getComponent(WalletComponent.class));
         entityImpl.removeObserver(entityImpl.getComponent(InputComponent.class));
         this.goal.removeObserver(this);
-        InputManager.getInstance().removeObserver(this);
         entityImpl.removeObserver(this);    
     }
 }

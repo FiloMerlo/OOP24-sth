@@ -22,7 +22,6 @@ public abstract class PhysicsComponent extends SubjectImpl implements Component{
         owner = o;
         hitbox = owner.getComponent(TransformComponent.class);
         tiles = tList;
-        this.addObserver(EntityManagerImpl.getInstance());
     }
 
     public void die(){ 
