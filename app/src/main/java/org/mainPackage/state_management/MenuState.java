@@ -40,6 +40,10 @@ public class MenuState extends GameState {
         if (e.getKeyCode() == KeyEvent.VK_ENTER) 
         gameStateManager.setState(GameStateManager.State.PLAYING);
     }
+    /* Nel menu non è necessario gestire questi input */
+    @Override
+    public void keyReleased(KeyEvent e) {
+        System.out.println("DEBUG: MenuState - keyReleased: " + KeyEvent.getKeyText(e.getKeyCode()));
+    }
 
-    
 }

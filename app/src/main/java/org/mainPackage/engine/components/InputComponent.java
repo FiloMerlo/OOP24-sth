@@ -36,13 +36,13 @@ public class InputComponent implements Component, Observer{
         }
         if (InputManager.getInstance().isKeyDown(KeyEvent.VK_RIGHT)){
             playerPhysics.setWill(direction.right, true);
-            System.out.println("DEBUG: InputComponent - Update, Movimento.");
+            System.out.println("DEBUG: InputComponent - Update, Movimento destra.");
         } else {
             playerPhysics.setWill(direction.right, false);
         }
         if (InputManager.getInstance().isKeyDown(KeyEvent.VK_LEFT)){
             playerPhysics.setWill(direction.left, true);
-            System.out.println("DEBUG: InputComponent - Update, Movimento destra");
+            System.out.println("DEBUG: InputComponent - Update, Movimento sinistra.");
         } else {
             playerPhysics.setWill(direction.left, false);
         }
@@ -51,7 +51,9 @@ public class InputComponent implements Component, Observer{
      * {@link InputManager} fired the {@link InputEvent} , the key is pressed and released within a certain fraction of time
      */
     
-     @Override
+
+    /* L'opizione di accedere alla pausa tramite esc è stata rimossa, adesso solo tramite il pulsante p */
+    @Override
     public void onNotify(Event event) {
         System.out.println("DEBUG: InputComponent - onNotify ricevuto evento di tipo: " + event.getType());
         if (event instanceof InputEvent){
@@ -60,14 +62,16 @@ public class InputComponent implements Component, Observer{
             switch (i.getKeyEvent().getKeyCode()){
                 case (KeyEvent.VK_SPACE):
                     if (playerPhysics != null) {
-                        if (playerPhysics.getAction() != action.jumping){ // This if fixes a previous bug which let player 'double' jumping if they pressed multiple space multiple times
+                        if (i.getType() == EventType.KEY_DOWN) {
+                            System.out.println("DEBUG: InputComponent - Salto KEY_DOWN");
+                            if (playerPhysics.getAction() != action.jumping){ // This if fixes a previous bug which let player 'double' jumping if they pressed multiple space multiple times
                             playerPhysics.jump();
-                            System.out.println("DEBUG: InputComponent - Jump attivato.");
+                            }
                         }
                     }
                     break;
-                case (KeyEvent.VK_ESCAPE):
-                    if (InputManager.getInstance().isKeyDown(KeyEvent.VK_ESCAPE)){
+                case (KeyEvent.VK_P):
+                    if (InputManager.getInstance().isKeyDown(KeyEvent.VK_P)){
                         pause = !pause;
                         EventType pauseEvent = pause ? EventType.PAUSE : EventType.RESUME;
                         GameEvent e = new GameEvent(pauseEvent, owner);

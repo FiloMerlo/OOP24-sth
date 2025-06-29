@@ -16,12 +16,10 @@ public class SonicAnimator extends GenericAnimator<action> {
             addAnimation(action.jumping, loader.getFramesByPixels(7*54, 54*4, 2, 54, 54), 3);
             addAnimation(action.hurt, loader.getFramesByPixels(0, 54*5, 5, 54, 54), 2);
             addAnimation(action.skidding, loader.getFramesByPixels(54*8, 54*2, 1, 54, 54), 12);
-            
             addAnimation(action.falling, loader.getFramesByPixels(0, 54*6, 4, 54, 54), 20);
+        
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
-     
 }
