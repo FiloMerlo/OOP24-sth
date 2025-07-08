@@ -1,6 +1,7 @@
 package org.mainPackage.renderer;
 
 import org.mainPackage.core.GamePanel;
+import org.mainPackage.engine.components.HUDComponent;
 import org.mainPackage.engine.components.TransformComponent;
 import org.mainPackage.engine.components.graphics.GenericAnimator;
 import org.mainPackage.engine.entities.api.Entity;
@@ -30,7 +31,6 @@ public class PlayingRenderer implements Renderer {
         this.entityManager = entityManager;
         this.levelGrid = grid;
         this.tileWorldSize = tileSize;
-
         this.cameraX = 0;
         this.cameraY = 0;
         /* manca il caricamento dell'immagine delle tiles */
@@ -103,37 +103,21 @@ public class PlayingRenderer implements Renderer {
         
         drawTiles(g); 
         /* disegno delle entità */
-        List<Entity> entities = entityManager.getEntities(); 
-        for (Entity e : entities) {
-            if (e.hasComponent(GenericAnimator.class)) {
-                GenericAnimator<?> animator = e.getComponent(GenericAnimator.class);
+        drawGameEntities(g);
 
-                animator.getCurrentFrame().ifPresent(frame -> {
-                    if (e.hasComponent(TransformComponent.class)) {
-                        TransformComponent transform = e.getComponent(TransformComponent.class);
-                        int x = (int) transform.getX();
-                        int y = (int) transform.getY();
-                        g.drawImage(frame, x, y, frame.getWidth(), frame.getHeight(), null);
-                        g.drawRect(x, y, (int)transform.getWidth(), (int)transform.getHeight());
-                    }
-                });
-            }
-        }
-       
-        g.dispose(); 
+        drawHUB(g2d, width, height); //sitemare la posizione dell'HUB
         
+        g.dispose();
     }
     
  
     private void drawBackground(Graphics2D g, int width, int height) {
-        
         GradientPaint skyGradient = new GradientPaint(
             0, 0, SKY_COLOR_TOP,
             0, height * 0.7f, SKY_COLOR_BOTTOM
         );
         g.setPaint(skyGradient);
         g.fillRect(0, 0, width, height); 
-        
        drawClouds(g, width, height);
     }
     
@@ -176,5 +160,35 @@ public class PlayingRenderer implements Renderer {
                 }
             }
         }
-    }   
+    
+    private void drawGameEntities(Graphics2D g) {
+        List<Entity> entities = entityManager.getEntities();
+        for (Entity e : entities) {
+           
+            if (e.hasComponent(GenericAnimator.class) && e.hasComponent(TransformComponent.class)) {
+                GenericAnimator<?> animator = e.getComponent(GenericAnimator.class);
+                TransformComponent transform = e.getComponent(TransformComponent.class);
+                
+                animator.getCurrentFrame().ifPresent(frame -> {
+                    int x = (int) (transform.getX());
+                    int y = (int) (transform.getY());
+                    g.drawImage(frame, x, y, frame.getWidth(), frame.getHeight(), null);
+                });
+            }
+        }
+    }
+
+    private void drawHUB(Graphics2D g, int width, int height) {
+        List<Entity> entities = entityManager.getEntities();
+        for (Entity e : entities) {
+            if (e.hasComponent(HUDComponent.class)) {
+                HUDComponent hud = e.getComponent(HUDComponent.class);
+                if (hud != null) {
+                    hud.render(g, width, height);
+                }
+            }
+        }
+    }
+
+}   
    

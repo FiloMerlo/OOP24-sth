@@ -9,9 +9,7 @@ import java.util.ArrayList;
 import org.junit.jupiter.api.Test;
 import org.mainPackage.engine.components.TransformComponent;
 import org.mainPackage.engine.components.WalletComponent;
-import org.mainPackage.engine.components.PhysicsTypes.PlayerPhysics;
 import org.mainPackage.engine.entities.impl.EntityImpl;
-import org.mainPackage.engine.entities.impl.EntityManagerImpl;
 import org.mainPackage.engine.events.api.EventType;
 import org.mainPackage.enums.action;
 import org.mainPackage.enums.direction;
@@ -93,7 +91,7 @@ public class PlayerPhysicsTest {
         world.add(new Rectangle2D.Float(10, 14, 4, 4)); // piattaforma sotto Sonic
 
         sonic.addComponent(new TransformComponent(10, 10, 4, 4));
-        sonic.addComponent(new WalletComponent(world));
+        sonic.addComponent(new WalletComponent(world, sonic));
         sonic.addComponent(new PlayerPhysics(sonic, world));
         
         

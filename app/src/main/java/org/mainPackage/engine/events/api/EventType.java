@@ -18,5 +18,5 @@ public enum EventType {
     KEY_RELEASED, 
     LEVEL_STARTED, 
     ENTITY_DEAD,
-    SPREADED_RINGS,
+    SPREADED_RINGS, STAGE_CLEARED,
 }
