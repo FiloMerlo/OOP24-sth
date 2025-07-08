@@ -13,13 +13,13 @@ import org.mainPackage.engine.components.PhysicsComponent;
 import org.mainPackage.engine.components.TransformComponent;
 
 public class EnemyPhysics extends PhysicsComponent{
-        private EntityImpl sonic;
+        private EntityImpl sonic; /*a reference to the player the Enemies need to chase*/
         private float maxChaseDistance = 320, spawnX, fallSpeed = 0.2f;
         private action enemyAction = action.idle;
         private direction enemyDirection = direction.left;
 
         public EnemyPhysics(float xS, EntityImpl o, ArrayList<Rectangle2D.Float>tList, EntityImpl s){
-        super(o, tList); /*the falling speed is always 3 by default, the horizontal speed determines if its a chasingEnemy or staticEnemy*/
+        super(o, tList); /*the falling speed is always 0.2 by default, the horizontal speed determines if its a chasingEnemy or staticEnemy*/
         xSpeed = -xS;
         ySpeed = fallSpeed;
         sonic = s;
@@ -28,6 +28,7 @@ public class EnemyPhysics extends PhysicsComponent{
 
     @Override
     public void update(float deltaTime){
+        /*Checking if the Enemy is touching the player has the priority over the collisions with the surroundings*/
         if (checkIntersection(sonic.getComponent(TransformComponent.class))){
             if (sonic.getComponent(PlayerPhysics.class).getAction() == action.jumping){
                 notifyObservers(new GameEvent(EventType.ENTITY_DEAD, this.owner));   
@@ -45,7 +46,8 @@ public class EnemyPhysics extends PhysicsComponent{
     public void chase(){
         TransformComponent playerTransform = sonic.getComponent(TransformComponent.class);
         TransformComponent ownTransform = owner.getComponent(TransformComponent.class);
-        /*If sonic is in range, the enemy chases him with all his speed. If not, it tries to return to his spawn point*/
+        /*If sonic is in range, the enemy chases him with all his speed. 
+        If not, it tries to return to his spawn point*/
         if (Math.abs(playerTransform.getX() - ownTransform.getX()) <= maxChaseDistance) {
             moveX(playerTransform.getX());
         } else {
@@ -56,7 +58,7 @@ public class EnemyPhysics extends PhysicsComponent{
     }
 
     public void moveX(double goTo){
-        /*determine enemy direction and speed needed to get to goTo*/
+        /*Determine enemy direction and speed needed to get to goTo*/
         if (goTo > owner.getComponent(TransformComponent.class).getX()){
             if (enemyDirection != direction.right){
                 enemyDirection = direction.right;
@@ -71,19 +73,20 @@ public class EnemyPhysics extends PhysicsComponent{
             }
         }
 
-        /*check for collisions before moving*/
+        /*Check for collisions before moving*/
         if (canGoThere(enemyDirection, xSpeed)){
             enemyAction = action.walking;
             owner.getComponent(TransformComponent.class).moveX(xSpeed);
         }
     }
+    
     private void moveY() {
-        if (canGoThere(direction.down, fallSpeed) && ySpeed == 0){
-            ySpeed = fallSpeed;
-        } 
         if(canGoThere(direction.down, ySpeed)){
             owner.getComponent(TransformComponent.class).moveY(ySpeed);
-        } else {
+        } 
+        /*Sure, if the enemy can't fall anymore he has to land, but only if he is not already
+        touching the ground*/
+        else if (canGoThere(direction.down, Float.MIN_VALUE)){
             landing();
         }
     }

@@ -100,8 +100,8 @@ public class PlayerPhysics extends PhysicsComponent {
                 ySpeed += fallMod;
             }
         } 
-        /*LANDING*/
-        else { 
+        /*LANDING.    if Sonic is't already on the ground, he lands*/
+        else if (canGoThere(direction.down, Float.MIN_VALUE)){ 
             if(ySpeed > 0){
                 landing();
             }
@@ -110,6 +110,7 @@ public class PlayerPhysics extends PhysicsComponent {
     }
 
     public void determineAction(){
+        /*Determines what action the player is doing.*/
         if (iFrames < 210){
             if (ySpeed > 0 && playerAction != action.jumping){
                 playerAction = action.falling;
@@ -128,12 +129,11 @@ public class PlayerPhysics extends PhysicsComponent {
                     }
                 }
             }
-        } else {/*L'azione non cambia, rimane action.hurt*/}
+        } else {/*action stays unchanged*/}
     }
     
     public void brake() {
         for (int i = 0; i < brakeForce && xSpeed != 0; i++){
-            /*Contingency*/
             if (xSpeed > -0.1f && xSpeed < 0.1f){
                 xSpeed = 0;
             } else if (xSpeed != 0){
