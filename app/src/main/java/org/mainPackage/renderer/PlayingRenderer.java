@@ -173,6 +173,9 @@ public class PlayingRenderer implements Renderer {
                     int x = (int) (transform.getX());
                     int y = (int) (transform.getY());
                     g.drawImage(frame, x, y, frame.getWidth(), frame.getHeight(), null);
+
+                    //TODO temporaneo
+                    g.drawRect(x, y, (int)transform.getWidth(), (int)transform.getHeight());
                 });
             }
         }

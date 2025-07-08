@@ -12,7 +12,7 @@ import org.mainPackage.engine.events.impl.GameEvent;
 import org.mainPackage.enums.direction;
 
 public class RingPhysics extends PhysicsComponent {
-    private float maxDistance = 200, spawnX, spawnY, maxSpeed = 0.6f;
+    private float maxDistance = 40, spawnX, spawnY, maxSpeed = 0.6f;
     private EntityImpl sonic;
     private direction verticalDir, horizontalDir;
     private boolean tangible = false; /*although this parametrer is false by default,
@@ -88,10 +88,9 @@ public class RingPhysics extends PhysicsComponent {
     }
 
     public void pickUp(){
-        changeTangibility();
         notifyObservers(new GameEvent(EventType.ENTITY_DEAD, this.owner));
         sonic.getComponent(WalletComponent.class).increaseAmount();
-        System.out.println("Ring picked up!");
+        System.out.println("Ring picked up!" + tangible);
     }
 
     public void spreadOut(){

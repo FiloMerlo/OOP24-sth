@@ -20,7 +20,7 @@ public class App {
         EntityManagerImpl entityManager = EntityManagerImpl.getInstance();
 
         /* Sonic */
-        EntityImpl sonic = PlayerFactory.createPlayer(tileList, sonicSize);
+        EntityImpl sonic = PlayerFactory.createPlayer(tileList, sonicSize, ringSize);
         HUDComponent hudRing = new HUDComponent(sonic);
         EntityImpl hud = new EntityImpl();
         hud.addComponent(hudRing);
