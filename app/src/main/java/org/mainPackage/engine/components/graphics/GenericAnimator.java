@@ -39,13 +39,7 @@ public abstract class GenericAnimator<T> implements Component {
         if (currentState == null) currentState = state;
     }
 
-    public void setState(T newState) {
-        if (newState != currentState) {
-            currentState = newState;
-            frameIndex = 0;
-            tick = 0;
-        }
-    }
+    
 
     /**
      * Sets the current animation state to a new state.
