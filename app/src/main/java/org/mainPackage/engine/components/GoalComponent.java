@@ -26,7 +26,7 @@ public class GoalComponent extends SubjectImpl implements Component {
         TransformComponent transform = player.getComponent(TransformComponent.class);
         if (finishLine.intersects(new Rectangle2D.Float(transform.getX(), transform.getY(), transform.getWidth(), transform.getHeight()))) {
             System.out.println("Goal reached!");
-            GameEvent e = new GameEvent(EventType.LEVEL_COMPLETED, player);
+            GameEvent e = new GameEvent(EventType.STAGE_CLEARED, player);
             notifyObservers(e);
         }
     }

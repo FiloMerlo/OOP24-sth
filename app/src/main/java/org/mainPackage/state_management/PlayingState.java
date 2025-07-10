@@ -3,9 +3,7 @@ package org.mainPackage.state_management;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
-import org.mainPackage.engine.entities.impl.EntityImpl;
 import org.mainPackage.engine.entities.impl.EntityManagerImpl;
-import org.mainPackage.engine.events.impl.SubjectImpl;
 import org.mainPackage.engine.components.GoalComponent;
 import org.mainPackage.engine.components.TransformComponent;
 import org.mainPackage.engine.components.PhysicsTypes.PlayerPhysics;
@@ -25,7 +23,6 @@ public class PlayingState extends GameState {
     private final Entity sonicPlayer;
     private final int[][] levelGrid;
     private final int tileWorldSize;
-    private GoalComponent goal;
     private long lastUpdateTime = System.currentTimeMillis();
     
     
@@ -36,37 +33,35 @@ public class PlayingState extends GameState {
         this.sonicPlayer = sonic;
         this.levelGrid = grid;
         this.tileWorldSize = tileSize;
-        this.goal = goal;
         this.playingRenderer = new PlayingRenderer(entityManager, levelGrid, tileWorldSize);
 
         if (this.sonicPlayer == null) {
             System.err.println("Sonic non è stato trovato");
         }
-        ((EntityImpl) sonicPlayer).addObserver(this.gameStateManager);
-        ((GoalComponent) goal).addObserver(this.gameStateManager);
     }
     
     
     @Override
     public void update() {
-        long currentTime = System.currentTimeMillis();
-        float deltaTime = (currentTime - lastUpdateTime) / 1000.0f; 
-        lastUpdateTime = currentTime;
+    
+    long currentTime = System.currentTimeMillis();
+    float deltaTime = (currentTime - lastUpdateTime) / 1000.0f;
+    lastUpdateTime = currentTime;
 
-        entityManager.updateEntities(deltaTime);
-    if (sonicPlayer.hasComponent(SonicAnimator.class) && sonicPlayer.hasComponent(PlayerPhysics.class)) {
-        SonicAnimator anim = sonicPlayer.getComponent(SonicAnimator.class);
-        PlayerPhysics physics = sonicPlayer.getComponent(PlayerPhysics.class);
-        anim.setState(physics.getAction());
-    }
+    entityManager.updateEntities(deltaTime);
 
-        if (sonicPlayer != null && sonicPlayer.hasComponent(TransformComponent.class)) {
-            TransformComponent sonicTransform = sonicPlayer.getComponent(TransformComponent.class);
-            if (sonicTransform != null) {
-               playingRenderer.updateCamera((int) sonicTransform.getX(), (int) sonicTransform.getY());
-            } else if (sonicPlayer == null) {
-                    System.err.println("Errore: sonicPlayer è null durante l'update del PlayingState.");
+        if (sonicPlayer != null) { 
+            if (sonicPlayer.hasComponent(SonicAnimator.class) && sonicPlayer.hasComponent(PlayerPhysics.class)) {
+                SonicAnimator anim = sonicPlayer.getComponent(SonicAnimator.class);
+                PlayerPhysics physics = sonicPlayer.getComponent(PlayerPhysics.class);
+                anim.setState(physics.getAction()); 
             }
+            if (sonicPlayer.hasComponent(TransformComponent.class)) {
+                TransformComponent sonicTransform = sonicPlayer.getComponent(TransformComponent.class);
+                playingRenderer.updateCamera((int) sonicTransform.getX(), (int) sonicTransform.getY());
+            }
+        } else {
+        System.err.println("Errore: sonicPlayer è null durante l'update del PlayingState. Impossibile aggiornare animazione o camera.");
         }
     }
     
@@ -80,29 +75,17 @@ public class PlayingState extends GameState {
         playingRenderer.render(g2d, currentWidth, currentHeight);
     }
     
-   @Override
+    /* Delegati gli input all'InputManager 
+     * mantengo questi medoti anche se non sono utilizzati in questo stato
+     * per coerenza con gli altri stati e per eventuali estensioni future.
+     */
+     
+    @Override
     public void keyPressed(KeyEvent e) {
-        
-           if (e.getKeyCode() == KeyEvent.VK_P) {
-            gameStateManager.setState(GameStateManager.State.PAUSED);
-        }
-
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        
-        // switch (e.getKeyCode()) {
-        //     case KeyEvent.VK_A:
-        //         character.brake(); 
-        //         break;
-        //     case KeyEvent.VK_D:
-        //         character.brake(); 
-        //         break;
-        //     default:
-               
-        //     break;
-        // }
     }
   
 

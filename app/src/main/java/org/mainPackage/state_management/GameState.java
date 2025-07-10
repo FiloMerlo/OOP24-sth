@@ -20,12 +20,13 @@ public abstract class GameState extends SubjectImpl {
     public abstract void update();
     public abstract void draw(Graphics g);
 
-    /* Metodi che possono essere implementati oppure no */
-    public void keyPressed(KeyEvent e) {} // Implementazione vuota di default
+    /* Metodi mantenuti per leggibilità e utili per possibili aggiornamenti*/
+    public void keyPressed(KeyEvent e) {} 
     
-    public void keyReleased(KeyEvent e) {} // Implementazione vuota di default
+    public void keyReleased(KeyEvent e) {} 
     
-    public void mousePressed(MouseEvent e) {} // Implementazione vuota di default
+    /* Metodi implementati dal Paused State per il bottone EXIT */
+    public void mousePressed(MouseEvent e) {}
     
 
     public void mouseMoved(MouseEvent e) {}
