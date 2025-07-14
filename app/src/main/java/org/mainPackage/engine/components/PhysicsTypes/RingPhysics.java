@@ -82,7 +82,8 @@ public class RingPhysics extends PhysicsComponent {
         changeTangibility();
         notifyObservers(new GameEvent(EventType.ENTITY_DEAD, this.owner));
         sonic.getComponent(WalletComponent.class).increaseAmount();
-        System.out.println("Ring picked up!");
+        System.out.println("RingPhysics : Ring picked up!");
+
     }
 
     public void spreadOut(){

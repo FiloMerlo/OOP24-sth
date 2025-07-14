@@ -16,7 +16,7 @@ public class MenuState extends GameState {
    
     public MenuState(GameStateManager gameStateManager, SizeView sizeView) {
         super(gameStateManager,sizeView);
-        System.out.println("MenuState inizializzato.");
+        System.out.println("MENU STATE: MenuState inizializzato.");
         menuRenderer = new MenuRenderer();
 
     }

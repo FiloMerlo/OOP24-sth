@@ -44,7 +44,7 @@ public class WalletComponent extends SubjectImpl implements Component, Observer{
             newRing.addComponent(newPhysics);
             newRing.addComponent(new RingAnimator());
             newRing.getComponent(RingPhysics.class).spreadOut();
-            System.out.println("ANELLO AGGIUNTO!!!!!");
+            System.out.println("Wallet Component : ANELLO AGGIUNTO");
             EntityManagerImpl.getInstance().addEntity(newRing);
             ringAmount--;
         }
@@ -58,7 +58,8 @@ public class WalletComponent extends SubjectImpl implements Component, Observer{
             }
         }
     }   
-        @Override
+    
+    @Override
     public void update(float deltaTime) {
         /*this component doesn't need to be updated */
     } 
