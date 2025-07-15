@@ -76,7 +76,6 @@ public class App {
                     case 5 -> {
                         EntityImpl ring = RingFactory.createRing(xPos, yPos, ringSize, tileSize, tileList, sonic);
                         entityManager.addEntity(ring); 
-                        ring.getComponent(RingPhysics.class).spreadOut();
                     }
                     case 6 -> {
                         goal = new EntityImpl();
