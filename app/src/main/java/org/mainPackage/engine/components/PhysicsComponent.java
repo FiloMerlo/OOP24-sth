@@ -92,7 +92,7 @@ public abstract class PhysicsComponent extends SubjectImpl implements Component{
         other.getWidth(),
         other.getHeight()
         );
-        if (ownHitbox.intersects(playerHitbox)){
+        if (ownHitbox.intersects(playerHitbox)){          
             return true;
         } 
         return false;

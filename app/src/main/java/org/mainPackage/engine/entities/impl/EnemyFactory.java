@@ -4,10 +4,9 @@ import org.mainPackage.engine.components.TransformComponent;
 import org.mainPackage.engine.components.PhysicsTypes.EnemyPhysics;
 import org.mainPackage.engine.components.graphics.StaticEnemyAnimator;
 import org.mainPackage.engine.components.graphics.ChasingEnemyAnimator;
-import org.mainPackage.enums.EnemyType;
-
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import org.mainPackage.enums.EnemyType;
 
 public class EnemyFactory {    
     public static EntityImpl createEnemy(EnemyType type, int x, int y, int enemySize, int sonicSize, int tileSize, ArrayList<Rectangle2D.Float> tileList, EntityImpl sonic) {
