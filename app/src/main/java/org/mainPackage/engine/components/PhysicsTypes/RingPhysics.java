@@ -12,7 +12,7 @@ import org.mainPackage.engine.events.impl.GameEvent;
 import org.mainPackage.enums.direction;
 
 public class RingPhysics extends PhysicsComponent {
-    private float maxDistance = 10, spawnX, spawnY, maxSpeed = 0.6f;
+    private float maxDistance = 1, spawnX, spawnY, maxSpeed = 0.6f;
     private EntityImpl sonic;
     private direction verticalDir, horizontalDir;
     private boolean tangible = false; /*although this parametrer is false by default,
@@ -50,7 +50,7 @@ public class RingPhysics extends PhysicsComponent {
     }
 
     public void moveX() {
-        if (xSpeed != 0){
+        if (xSpeed != 0 && Math.abs(owner.getComponent(TransformComponent.class).getX() - spawnX) <= maxDistance){
             if (canGoThere(horizontalDir, xSpeed)){
                 owner.getComponent(TransformComponent.class).moveX(xSpeed);
             } else {
@@ -65,7 +65,7 @@ public class RingPhysics extends PhysicsComponent {
     }
 
     public void moveY() {
-        if (ySpeed != 0){
+        if (ySpeed != 0 && Math.abs(owner.getComponent(TransformComponent.class).getY() - spawnY) <= maxDistance){
             if (canGoThere(verticalDir, ySpeed)){
                 owner.getComponent(TransformComponent.class).moveY(ySpeed);
             } else {
