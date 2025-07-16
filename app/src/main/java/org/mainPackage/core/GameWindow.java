@@ -10,8 +10,9 @@ public class GameWindow extends JFrame {
     private Game game;
 
 public GameWindow(String title, GamePanel gamePanel, Game game) {
-        
         super(title);
+        System.out.println("GameWindow: Inizializzazione della finestra di gioco con titolo: " + title);
+
         this.gamePanel = gamePanel;
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // oppure DO_NOTHING_ON_CLOSE
         setResizable(true);

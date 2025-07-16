@@ -80,4 +80,11 @@ public class InputManager extends SubjectImpl implements KeyListener{
     public Boolean isKeyDown(int keyCode){
         return keysDown.contains(keyCode);
     }
+
+        public void resetInputState() {
+        System.out.println("DEBUG: InputManager - Resetting input state (clearing keysDown).");
+        keysDown.clear();
+    }
 }
+
+

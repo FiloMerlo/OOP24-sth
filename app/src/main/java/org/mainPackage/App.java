@@ -8,6 +8,10 @@ import org.mainPackage.engine.entities.impl.*;
 import org.mainPackage.engine.events.api.EventType;
 import org.mainPackage.enums.EnemyType;
 import org.mainPackage.state_management.GameStateManager;
+import org.mainPackage.level.LevelManager; // Importa la nuova classe LevelManager
+import org.mainPackage.level.LevelGenerator;
+import org.mainPackage.engine.systems.InputManager; // Importa InputManager
+
 
 
 import java.awt.geom.Rectangle2D;
@@ -15,92 +19,54 @@ import java.util.ArrayList;
 
 public class App {
     public static void main(String[] args) {
-        int tileSize = 64, enemySize = 64, ringSize = 16, sonicSize = 54;
-        ArrayList<Rectangle2D.Float> tileList = new ArrayList<>();
-        EntityManagerImpl entityManager = EntityManagerImpl.getInstance();
+        
+        
+        
+        int tileSize = 64, enemySize = 32, ringSize = 16, sonicSize = 54;
 
-        /* Sonic */
-        EntityImpl sonic = PlayerFactory.createPlayer(tileList, sonicSize);
-        HUDComponent hudRing = new HUDComponent(sonic);
-        EntityImpl hud = new EntityImpl();
-        hud.addComponent(hudRing);
-        entityManager.addEntity(sonic);
-        entityManager.addEntity(hud);
+        int levelRows = 5; 
+        int levelCols = 250; 
+        LevelGenerator levelGenerator = new LevelGenerator(levelRows, levelCols);
+        
+        
+        int[][] levelGrid = levelGenerator.getLevelGrid();
+
+        LevelManager levelManager = new LevelManager(tileSize, enemySize, ringSize, sonicSize, levelGrid);
+        
+        Game game = new Game();
+        
+        GameStateManager gameStateManager = GameStateManager.getInstance();
+
+       
+        gameStateManager.setLevelManager(levelManager);
+        gameStateManager.setLevelParameters(tileSize, enemySize, ringSize, sonicSize, levelGrid);
+
+        LevelManager.LevelLoadResult initialLoadResult = levelManager.loadLevel();
+        EntityImpl sonic = initialLoadResult.sonic;
+        
+        ArrayList<Rectangle2D.Float> tileList = initialLoadResult.tileList;
+        GoalComponent goalComponent = initialLoadResult.goalComponent;
        
         /* Debug */
         System.out.println("Transform: " + sonic.getComponent(TransformComponent.class));
         System.out.println("Physics: " + sonic.getComponent(PhysicsComponent.class));
         System.out.println("Animator: " + sonic.getComponent(SonicAnimator.class));
 
-        Game game = new Game();
+        
+       
 
-        /* Level */
-        int[][] levelGrid = {
-            {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-            {1, 4, 0, 0, 0, 0, 0, 0, 0, 1},
-            {1, 0, 0, 5, 5, 5, 0, 2, 6, 1},
-            {1, 0, 0, 0, 0, 0, 0, 3, 1, 1},
-            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
-        };
-
-        EntityImpl goal = null;
-        for (int r = 0; r < 5; r++) {
-            for (int c = 0; c < 10; c++) {
-                int xPos = c * tileSize;
-                int yPos = r * tileSize;
-
-                switch (levelGrid[r][c]) {
-                    case 1 -> {
-                        Rectangle2D.Float tile = new Rectangle2D.Float(xPos, yPos, tileSize, tileSize);
-                        tileList.add(tile);
-                        System.out.println("Tile placed at: " + xPos + ", " + yPos);
-                    }
-                    case 2 -> {
-                        EntityImpl staticEnemy = EnemyFactory.createEnemy(EnemyType.STATIC, xPos, yPos, enemySize, sonicSize, tileSize, tileList, sonic);
-                        entityManager.addEntity(staticEnemy);
-                        System.out.println("Static enemy added");
-                    }
-                    case 3 -> {
-                        EntityImpl chasingEnemy = EnemyFactory.createEnemy(EnemyType.CHASING, xPos, yPos, enemySize, sonicSize, tileSize, tileList, sonic);
-                        entityManager.addEntity(chasingEnemy);
-                        System.out.println("Chasing enemy added");
-                    }
-                    case 4 -> {
-                        /* Replace Sonic's TransformComponent with a new one derived from map */
-                        sonic.getComponent(TransformComponent.class).setX(xPos);
-                        sonic.getComponent(TransformComponent.class).setY(yPos + tileSize - sonicSize);
-                        System.out.println("Sonic positioned at: " + xPos + ", " + (yPos + tileSize - sonicSize));
-
-                    }
-
-                    case 5 -> {
-                        EntityImpl ring = RingFactory.createRing(xPos, yPos, ringSize, tileSize, tileList, sonic);
-                        entityManager.addEntity(ring); 
-                    }
-                    case 6 -> {
-                        goal = new EntityImpl();
-                        goal.addComponent(new TransformComponent(xPos, yPos, 1, 3200));
-                        goal.addComponent(new GoalComponent(goal));
-                        System.out.println("Goal entity created");
-                    }
-                }
-            }
+        if (gameStateManager != null && goalComponent != null) {
+            gameStateManager.initGame(sonic, levelGrid, tileSize, goalComponent);
+            System.out.println("GameStateManager inizializzato con successo.");
+        } else {
+            System.err.println("GameStateManager o GoalComponent non inizializzati!");
         }
         
-        GameStateManager gameStateManager = GameStateManager.getInstance();
-
-        if (gameStateManager != null && goal != null) {
-            GoalComponent goalComponent = goal.getComponent(GoalComponent.class);
-            if (goalComponent != null) {
-                gameStateManager.initState(sonic, levelGrid, sonicSize, goalComponent);
-                System.out.println("GameStateManager initialized successfully.");
-            } else {
-                System.err.println("GoalComponent missing!");
-            }
-        } else {
-            System.err.println("GameStateManager or goal not initialized!");
-        }
-
-        game.start();
+       
     }
 }
+
+
+/* note
+/* TODO: sistemare il bug per cui sonic si blocca dopo una collisione con anelli
+sistemare l'archittetura del levelManager e gsm */  

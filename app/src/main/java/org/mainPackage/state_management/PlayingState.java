@@ -18,37 +18,55 @@ import org.mainPackage.util.SizeView;
 
 public class PlayingState extends GameState {
 
-    private final PlayingRenderer playingRenderer;
-    private final EntityManagerImpl entityManager; 
-    private final Entity sonicPlayer;
-    private final int[][] levelGrid;
-    private final int tileWorldSize;
+    private PlayingRenderer playingRenderer;
+    private EntityManagerImpl entityManager; 
+    private Entity sonicPlayer;
+    private int[][] levelGrid;
+    private int tileWorldSize;
+    private GoalComponent goal;
     private long lastUpdateTime = System.currentTimeMillis();
     
     
     public PlayingState(GameStateManager gameStateManager, SizeView sizeView, Entity sonic, int[][] grid, int tileSize, GoalComponent goal) {
         super(gameStateManager, sizeView);
-        System.out.println("PlayingState inizializzato.");
+        System.out.println("PlayingState : inizializzato.");
         this.entityManager = EntityManagerImpl.getInstance();
         this.sonicPlayer = sonic;
         this.levelGrid = grid;
         this.tileWorldSize = tileSize;
+        this.goal = goal;
         this.playingRenderer = new PlayingRenderer(entityManager, levelGrid, tileWorldSize);
 
         if (this.sonicPlayer == null) {
             System.err.println("Sonic non è stato trovato");
         }
     }
-    
+
+    /**
+     * Aggiorna gli elementi di gioco e ricrea il PlayingRenderer per garantire 
+     * che sia sincronizzato con il nuovo stato del gioco.
+     */
+    public void updateGameElements(Entity sonic, int[][] grid, int tileSize, GoalComponent goal) {
+        this.sonicPlayer = sonic;
+        this.levelGrid = grid;
+        this.tileWorldSize = tileSize;
+        this.goal = goal;
+        
+        
+        this.playingRenderer = new PlayingRenderer(entityManager, levelGrid, tileWorldSize);
+        
+        System.out.println("PlayingState - Elementi di gioco aggiornati e PlayingRenderer ricreato.");
+    }
+
     
     @Override
     public void update() {
     
-    long currentTime = System.currentTimeMillis();
-    float deltaTime = (currentTime - lastUpdateTime) / 1000.0f;
-    lastUpdateTime = currentTime;
+        long currentTime = System.currentTimeMillis();
+        float deltaTime = (currentTime - lastUpdateTime) / 1000.0f;
+        lastUpdateTime = currentTime;
 
-    entityManager.updateEntities(deltaTime);
+        entityManager.updateEntities(deltaTime);
 
         if (sonicPlayer != null) { 
             if (sonicPlayer.hasComponent(SonicAnimator.class) && sonicPlayer.hasComponent(PlayerPhysics.class)) {
@@ -61,7 +79,7 @@ public class PlayingState extends GameState {
                 playingRenderer.updateCamera((int) sonicTransform.getX(), (int) sonicTransform.getY());
             }
         } else {
-        System.err.println("Errore: sonicPlayer è null durante l'update del PlayingState. Impossibile aggiornare animazione o camera.");
+            System.err.println("Errore: sonicPlayer è null durante l'update del PlayingState. Impossibile aggiornare animazione o camera.");
         }
     }
     
@@ -71,7 +89,7 @@ public class PlayingState extends GameState {
         int currentWidth = sizeView.getSizeWidth();
         int currentHeight = sizeView.getSizeHeight();
 
-        playingRenderer.updateViewPort(currentWidth,currentHeight);
+        playingRenderer.updateViewPort(currentWidth, currentHeight);
         playingRenderer.render(g2d, currentWidth, currentHeight);
     }
     
@@ -87,6 +105,4 @@ public class PlayingState extends GameState {
     @Override
     public void keyReleased(KeyEvent e) {
     }
-  
-
 }
