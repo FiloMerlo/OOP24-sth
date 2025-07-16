@@ -14,7 +14,7 @@ import org.mainPackage.engine.components.TransformComponent;
 
 public class EnemyPhysics extends PhysicsComponent{
         private EntityImpl sonic; /*a reference to the player the Enemies need to chase*/
-        private float maxChaseDistance = 320, spawnX, fallSpeed = 0.2f;
+        private float maxChaseDistance = 50000, spawnX, fallSpeed = 0.4f;
         private action enemyAction = action.idle;
         private direction enemyDirection = direction.left;
 
@@ -81,14 +81,19 @@ public class EnemyPhysics extends PhysicsComponent{
     }
     
     private void moveY() {
-        if(canGoThere(direction.down, ySpeed)){
-            owner.getComponent(TransformComponent.class).moveY(ySpeed);
+        if (canGoThere(direction.down, fallSpeed)){
+            if (ySpeed < fallSpeed){
+                ySpeed = fallSpeed;
+            }
         } 
-        /*Sure, if the enemy can't fall anymore he has to land, but only if he is not already
-        touching the ground*/
+        /*LANDING.    if Sonic is't already on the ground, he lands*/
         else if (canGoThere(direction.down, Float.MIN_VALUE)){
             landing();
         }
+        else{
+            ySpeed = fallSpeed;
+        }
+        owner.getComponent(TransformComponent.class).moveY(ySpeed);
     }
     
     public action getAction(){ return enemyAction; }

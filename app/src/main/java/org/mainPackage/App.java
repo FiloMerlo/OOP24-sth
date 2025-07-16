@@ -9,9 +9,9 @@ import org.mainPackage.engine.entities.impl.*;
 import org.mainPackage.engine.events.api.EventType;
 import org.mainPackage.enums.EnemyType;
 import org.mainPackage.state_management.GameStateManager;
-import org.mainPackage.level.LevelManager; // Importa la nuova classe LevelManager
+import org.mainPackage.level.LevelManager;
 import org.mainPackage.level.LevelGenerator;
-import org.mainPackage.engine.systems.InputManager; // Importa InputManager
+import org.mainPackage.engine.systems.InputManager; 
 
 
 
