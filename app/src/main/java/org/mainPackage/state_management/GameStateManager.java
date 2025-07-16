@@ -7,13 +7,14 @@ import org.mainPackage.util.SizeView;
 import org.mainPackage.engine.components.GoalComponent;
 import org.mainPackage.engine.components.InputComponent;
 import org.mainPackage.engine.components.WalletComponent;
-import org.mainPackage.engine.components.PhysicsTypes.PlayerPhysics;
 import org.mainPackage.engine.entities.api.Entity;
 import org.mainPackage.engine.entities.impl.EntityImpl;
-import org.mainPackage.engine.entities.impl.EntityManagerImpl;
 import org.mainPackage.engine.events.api.Event;
 import org.mainPackage.engine.events.api.Observer;
 import org.mainPackage.engine.events.impl.GameEvent;
+import org.mainPackage.level.LevelManager;
+
+
 
 /**
  * Gestisce i diversi stati del gioco (es. menu, gioco, pausa).
@@ -22,10 +23,11 @@ import org.mainPackage.engine.events.impl.GameEvent;
 public class GameStateManager implements Observer {
 
     private static GameStateManager instance = null;
+    
     private GameState currentState; 
-
     private PlayingState playingState;
     private PausedState pausedState;
+    
     private SizeView sizeView;
     private Runnable shutdownGame;
 
@@ -36,6 +38,11 @@ public class GameStateManager implements Observer {
     private GoalComponent goal;
 
     private State currentEnumState;
+
+    
+    private LevelManager levelManager;
+    private int storedTileSize, storedEnemySize, storedRingSize, storedSonicSize;
+    private int[][] storedLevelGrid;
   
     public enum State {
         MENU,
@@ -46,27 +53,65 @@ public class GameStateManager implements Observer {
     public static GameStateManager getInstance() {
         if (instance == null){
             instance = new GameStateManager();
+            System.out.println("GameStateManager: istanza creata.");
         }
+        System.out.println("GameStateManager: istanza già esistente, restituita.");
         return instance;
     }
     
-    public void setGameState(SizeView sizeView, Runnable shutdownGame){
+
+    private GameStateManager() {
+        System.out.println("GameStateManager: costruttore chiamato.");
+    }
+    
+    
+    public void initState(SizeView sizeView, Runnable shutdownGame) {
         this.sizeView = sizeView;
         this.shutdownGame = shutdownGame;
         setState(State.MENU);
+        System.out.println("GameStateManager: inizializzazione con SizeView e shutdownGame e MENU.");
     }
 
-    private GameStateManager() {
-    }
-
-    public void initState(Entity sonicEntity, int[][] levelGrid, int tileWorldSize, GoalComponent goal) {
+   
+    public void initGame(Entity sonicEntity, int[][] levelGrid, int tileWorldSize, GoalComponent goal) {
         this.sonicEntity = sonicEntity;
         this.levelGrid = levelGrid;
         this.tileWorldSize = tileWorldSize;
-        this.playingState = new PlayingState(this, sizeView, sonicEntity, levelGrid, tileWorldSize, goal);
-        this.pausedState = new PausedState(this, sizeView);
         this.goal = goal;
-        this.goal.addObserver(this);
+        
+        
+        if (this.playingState == null) {
+            
+            this.playingState = new PlayingState(this, sizeView, sonicEntity, levelGrid, tileWorldSize, goal);
+        } else {
+            this.playingState.updateGameElements(sonicEntity, levelGrid, tileWorldSize, goal);
+        }
+
+        if (this.pausedState == null) {
+            this.pausedState = new PausedState(this, sizeView);
+        }
+        
+        if (this.goal != null) { 
+            this.goal.removeObserver(this); 
+        }
+        this.goal = goal; 
+        if (this.goal != null) { 
+            this.goal.addObserver(this); 
+        }
+    }
+
+ 
+    public void setLevelManager(LevelManager levelManager) {
+        this.levelManager = levelManager;
+    }
+
+  
+    public void setLevelParameters(int tileSize, int enemySize, int ringSize, int sonicSize, int[][] levelGrid) {
+        this.storedTileSize = tileSize;
+        this.storedEnemySize = enemySize;
+        this.storedRingSize = ringSize;
+        this.storedSonicSize = sonicSize;
+        this.storedLevelGrid = levelGrid;
     }
 
     
@@ -75,7 +120,8 @@ public class GameStateManager implements Observer {
         
         switch (state) {
             case MENU:
-                currentState = new MenuState(this, sizeView); 
+                currentState = new MenuState(this, sizeView);
+                System.out.println("GameStateManager: creato nuovo menu."); 
                 break;
             case PLAYING:
                 currentState = playingState; 
@@ -84,19 +130,17 @@ public class GameStateManager implements Observer {
                 currentState = pausedState;
                 break;
         }
-        System.out.println("Stato cambiato in: " + state);
+        System.out.println("GameStateManager: stato cambiato in: " + state);
     }
 
     public State getEnumState(){
         return currentEnumState;
     }
 
-    
     public GameState getCurrentState() {
         return currentState;
     }
 
-    
     /* Metodi per playing state */
     public void setSonicEntity(Entity Sonic) {
         this.sonicEntity = Sonic;
@@ -147,7 +191,7 @@ public class GameStateManager implements Observer {
 
 
     public void keyPressed(KeyEvent e) {
-            System.out.println("DEBUG: GameStateManager - keyPressed delegato allo stato corrente. Key: " + KeyEvent.getKeyText(e.getKeyCode()));
+            System.out.println("GameStateManager - keyPressed delegato allo stato corrente. Key: " + KeyEvent.getKeyText(e.getKeyCode()));
 
         if (currentState != null) {
             currentState.keyPressed(e);
@@ -156,7 +200,7 @@ public class GameStateManager implements Observer {
 
 
     public void keyReleased(KeyEvent e) {
-            System.out.println("DEBUG: GameStateManager - keyReleased delegato allo stato corrente. Key: " + KeyEvent.getKeyText(e.getKeyCode()));
+            System.out.println("GameStateManager - keyReleased delegato allo stato corrente. Key: " + KeyEvent.getKeyText(e.getKeyCode()));
 
         if (currentState != null) {
             currentState.keyReleased(e);
@@ -176,55 +220,65 @@ public class GameStateManager implements Observer {
         }
     }
 
-    /**
-     * Given a @param Event , it detects the {@link EventType} 
-     * and set the {@link GameState} according to it
-     */
+  
    @Override
-public void onNotify(Event e) {
-    System.out.println("DEBUG: GameStateManager - onNotify ricevuto evento: " + e.getType());
-    if (e instanceof GameEvent){
-        EntityImpl entityImpl = (EntityImpl) sonicEntity;
-        switch (e.getType()){
-            case GAME_OVER:
-                System.out.println("SIAMO NEL MENU!!!");
-                setState(State.MENU);
-                System.out.println("DEBUG: GameStateManager - Stato cambiato a MENU (GAME_OVER).");
-                EntityManagerImpl.getInstance().killAllEntities();
-                removeObservers(entityImpl);
-                break;
-            case STAGE_CLEARED:
-                setState(State.MENU);
-                System.out.println("DEBUG: GameStateManager - Stato cambiato a MENU (LEVEL_COMPLETED).");
-                EntityManagerImpl.getInstance().killAllEntities();
-                removeObservers(entityImpl);
-                break;
-            case LEVEL_STARTED:
-                setState(State.PLAYING);
-                System.out.println("DEBUG: GameStateManager - Stato cambiato a PLAYING (LEVEL_STARTED).");
-                break;
-            case PAUSE:
-                setState(State.PAUSED);
-                System.out.println("DEBUG: GameStateManager - Stato cambiato a PAUSED.");
-                break;
-            case RESUME:
-                setState(State.PLAYING);
-                System.out.println("DEBUG: GameStateManager - Stato cambiato a PLAYING (RESUME).");
-                break;
-            default:
-                break;
+    public void onNotify(Event e) {
+        System.out.println("GameStateManager - onNotify ricevuto evento: " + e.getType());
+        if (e instanceof GameEvent){
+            
+            EntityImpl currentSonic = (EntityImpl) this.sonicEntity; 
+
+            switch (e.getType()){
+                case GAME_OVER:
+                case STAGE_CLEARED:
+                    System.out.println("GameStateManager - Evento GAME_OVER o STAGE_CLEARED rilevato. Reset del gioco.");
+                    resetGame();
+                    setState(State.MENU);
+                    removeObservers(currentSonic);
+                    System.out.println("GameStateManager - Stato cambiato a MENU da evento.");
+                    break;
+                case LEVEL_STARTED:
+                    setState(State.PLAYING);
+                    System.out.println("GameStateManager - Stato cambiato a PLAYING (LEVEL_STARTED) da evento.");
+                    break;
+                case PAUSE:
+                    setState(State.PAUSED);
+                    System.out.println("GameStateManager - Stato cambiato a PAUSED da evento.");
+                    break;
+                case RESUME:
+                    setState(State.PLAYING);
+                    System.out.println("GameStateManager - Stato cambiato a PLAYING (RESUME) da evento.");
+                    break;
+                default:
+                    break;
+            }
         }
-    }
-}   
+    }   
+
     /**
-     * 
-     * @param entityImpl Removal of all {@link Observer}s from {@link Subject}s but {@link PlayerPhysics}
+     * Resetta lo stato del gioco, ricreando il livello e gli elementi di gioco.
      */
+    private void resetGame() {
+        System.out.println("GameStateManager - Esecuzione del reset del gioco.\n");
+    
+        levelManager.resetLevel();
+        initGame(levelManager.getSonicEntity(), storedLevelGrid, storedTileSize, levelManager.getGoal());
+        System.out.println("GameStateManager - Livello resettato e GameStateManager re-inizializzato.");
+    
+    }
+   
     private void removeObservers(EntityImpl entityImpl) {
         System.out.println("RIMOZIONE DEGLI OBSERVERS");
-        entityImpl.removeObserver(entityImpl.getComponent(WalletComponent.class));
-        entityImpl.removeObserver(entityImpl.getComponent(InputComponent.class));
-        this.goal.removeObserver(this);
+        if (entityImpl.getComponent(WalletComponent.class) != null) {
+            entityImpl.removeObserver(entityImpl.getComponent(WalletComponent.class));
+        }
+        if (entityImpl.getComponent(InputComponent.class) != null) {
+            entityImpl.removeObserver(entityImpl.getComponent(InputComponent.class));
+        }
+        
+        if (this.goal != null) {
+            this.goal.removeObserver(this);
+        }
         entityImpl.removeObserver(this);    
     }
 }
