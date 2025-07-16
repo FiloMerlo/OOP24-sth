@@ -18,6 +18,7 @@ public class GameLoop implements Runnable {
     public GameLoop(GameStateManager gameStateManager, GamePanel gamePanel) {
         this.gameStateManager = gameStateManager;
         this.gamePanel = gamePanel;
+        System.out.println("GameLoop: Inizializzazione del GameLoop con FPS: " + FPS_SET + " e UPS: " + UPS_SET + ".\n");
     }
 
 

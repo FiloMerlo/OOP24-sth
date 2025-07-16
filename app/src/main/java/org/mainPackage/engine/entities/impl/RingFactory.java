@@ -13,6 +13,7 @@ public class RingFactory {
         ring.addComponent(new TransformComponent(x + tileSize - ringSize, y + tileSize - ringSize, ringSize, ringSize));
         ring.addComponent(new RingAnimator());
         RingPhysics physics = new RingPhysics(ring, tiles, sonic);
+        physics.changeTangibility();
         ring.addComponent(physics);
         physics.addObserver(EntityManagerImpl.getInstance());
         ring.addObserver(EntityManagerImpl.getInstance());

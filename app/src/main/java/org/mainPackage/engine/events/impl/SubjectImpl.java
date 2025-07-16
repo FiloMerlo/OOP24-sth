@@ -13,8 +13,10 @@ public class SubjectImpl implements Subject {
 
     @Override
     public void addObserver(Observer o) {
-        observers.add(o);
-    }
+        if (!observers.contains(o)) { // Prevent duplicates
+            observers.add(o);
+        }
+    }   
 
     @Override
     public void removeObserver(Observer o) {

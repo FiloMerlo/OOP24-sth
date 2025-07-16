@@ -17,9 +17,10 @@ public class GoalComponent extends SubjectImpl implements Component {
     private  Rectangle2D.Float finishLine;
     private EntityImpl player;
 
-    public GoalComponent(EntityImpl owner) {
+    public GoalComponent(EntityImpl owner, EntityImpl player) {
         TransformComponent transform = owner.getComponent(TransformComponent.class);
         finishLine = new Rectangle2D.Float (transform.getX(), transform.getY(), transform.getWidth(), transform.getHeight());
+        this.player = player;
     }
 
     public void update(float deltaTime){

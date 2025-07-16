@@ -20,12 +20,10 @@ public class WalletComponent extends SubjectImpl implements Component, Observer{
     private int ringAmount;
     private float ringSize;
     private ArrayList<Rectangle2D.Float> tiles;
-/* This component Manages the Rings of the player */
-    public WalletComponent(ArrayList<Rectangle2D.Float> t, Entity owner, float size) {
+    public WalletComponent(ArrayList<Rectangle2D.Float> t, Entity owner) {
         ringAmount = 0;
         tiles = t;
         this.owner = owner;
-        ringSize = size;
     }
 
     public void increaseAmount(){
@@ -40,13 +38,13 @@ public class WalletComponent extends SubjectImpl implements Component, Observer{
         TransformComponent playerTransform = owner.getComponent(TransformComponent.class);
         while (ringAmount > 0){
             EntityImpl newRing = new EntityImpl();            
-            TransformComponent newTransform = new TransformComponent(playerTransform.getX(), playerTransform.getY(), ringSize, ringSize);
+            TransformComponent newTransform = new TransformComponent(playerTransform.getX(), playerTransform.getY(), playerTransform.getWidth(), playerTransform.getHeight());
             newRing.addComponent(newTransform);
             RingPhysics newPhysics = new RingPhysics(newRing, tiles, (EntityImpl)(EntityManagerImpl.getInstance().getEntities().getFirst()));
             newRing.addComponent(newPhysics);
             newRing.addComponent(new RingAnimator());
-            newRing.getComponent(RingPhysics.class).spreadOut(); /*spread the rings around the player*/
-            System.out.println("ANELLO AGGIUNTO!!!!!");
+            newRing.getComponent(RingPhysics.class).spreadOut();
+            System.out.println("Wallet Component : ANELLO AGGIUNTO");
             EntityManagerImpl.getInstance().addEntity(newRing);
             ringAmount--;
         }
@@ -60,7 +58,8 @@ public class WalletComponent extends SubjectImpl implements Component, Observer{
             }
         }
     }   
-        @Override
+    
+    @Override
     public void update(float deltaTime) {
         /*this component doesn't need to be updated */
     } 

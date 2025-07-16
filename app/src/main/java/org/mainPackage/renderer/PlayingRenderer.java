@@ -105,6 +105,12 @@ public class PlayingRenderer implements Renderer {
         /* disegno delle entità */
         drawGameEntities(g);
 
+
+        drawHitboxes(g);
+
+        //drawTileHitboxes(g);
+
+
         drawHUB(g2d, width, height); //sitemare la posizione dell'HUB
         
         g.dispose();
@@ -173,9 +179,6 @@ public class PlayingRenderer implements Renderer {
                     int x = (int) (transform.getX());
                     int y = (int) (transform.getY());
                     g.drawImage(frame, x, y, frame.getWidth(), frame.getHeight(), null);
-
-                    //TODO temporaneo
-                    g.drawRect(x, y, (int)transform.getWidth(), (int)transform.getHeight());
                 });
             }
         }
@@ -193,5 +196,45 @@ public class PlayingRenderer implements Renderer {
         }
     }
 
+
+    private void drawHitboxes(Graphics2D g) {
+    List<Entity> entities = entityManager.getEntities();
+    g.setColor(Color.RED);
+
+    for (Entity e : entities) {
+        if (e.hasComponent(TransformComponent.class)) {
+            TransformComponent transform = e.getComponent(TransformComponent.class);
+
+            int x = (int) transform.getX();
+            int y = (int) transform.getY();
+            int w = (int) transform.getWidth();
+            int h = (int) transform.getHeight();
+
+            g.drawRect(x, y, w, h); 
+        }
+    }
+}
+
+private void drawTileHitboxes(Graphics2D g2d) {
+    g2d.setColor(new Color(0, 255, 0, 100));
+
+    int startCol = Math.max(0, cameraX / tileWorldSize);
+    int endCol = Math.min(levelGrid[0].length, (cameraX + currentScreenWidth) / tileWorldSize + 1);
+    int startRow = Math.max(0, cameraY / tileWorldSize);
+    int endRow = Math.min(levelGrid.length, (cameraY + currentScreenHeight) / tileWorldSize + 1);
+
+    for (int r = startRow; r < endRow; r++) {
+        for (int c = startCol; c < endCol; c++) {
+            if (levelGrid[r][c] == 1) {
+                int x = c * tileWorldSize;
+                int y = r * tileWorldSize;
+                g2d.fillRect(x, y, tileWorldSize, tileWorldSize);
+                g2d.setColor(Color.GREEN);
+                g2d.drawRect(x, y, tileWorldSize, tileWorldSize);
+                g2d.setColor(new Color(0, 255, 0, 100)); 
+            }
+        }
+    }
+}
 }   
    
