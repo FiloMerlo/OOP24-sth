@@ -12,7 +12,7 @@ import org.mainPackage.engine.events.impl.GameEvent;
 import org.mainPackage.enums.direction;
 
 public class RingPhysics extends PhysicsComponent {
-    private float maxDistance = 4000, spawnX, spawnY, maxSpeed = 0.6f;
+    private float maxDistance = 100, spawnX, spawnY, maxSpeed = 0.6f;
     private EntityImpl sonic;
     private direction verticalDir, horizontalDir;
     private boolean tangible = false; /*although this parametrer is false by default,
