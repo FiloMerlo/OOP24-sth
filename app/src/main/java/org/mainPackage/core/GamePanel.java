@@ -22,7 +22,8 @@ public class GamePanel extends JPanel implements SizeView {
     private GameStateManager gameStateManager;
     
 
-    public GamePanel() {
+    public GamePanel(GameStateManager gameStateManager) {
+        this.gameStateManager = gameStateManager;
         this.setPreferredSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT)); 
         this.setFocusable(true);
         //this.requestFocusInWindow();

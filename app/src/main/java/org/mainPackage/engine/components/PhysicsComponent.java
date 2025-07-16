@@ -33,25 +33,25 @@ public abstract class PhysicsComponent extends SubjectImpl implements Component{
 
     public abstract void update(float deltaTime);
     
-    public boolean canGoThere(direction dir, float distance){
-        /*This method is to be used for both movemnt of X axis and Y axis. It simply determines if the entity which own 
-         * this physics instance can move in a certain way without colliding with any tile.
-        */
+    public boolean canGoThere(direction dir, float distance) {
         Rectangle2D.Float wannaBeThere = new Rectangle2D.Float();
-        if (dir == direction.right || dir == direction.left){
-            wannaBeThere.setRect(hitbox.getX() + distance, hitbox.getY(), hitbox.getWidth(), hitbox.getHeight());
-        } else if (dir == direction.up || dir == direction.down){
-            wannaBeThere.setRect(hitbox.getX(), hitbox.getY() + distance, hitbox.getWidth(), hitbox.getHeight());
-        }
-    
-        /*check if moving as the entity wants to would cause it to compenetrate in any tile*/
-        for (Rectangle2D.Float tile : tiles) {
-            if (wannaBeThere.intersects(tile)){
-                return false;
+        float currentY = hitbox.getY();
+        float height = hitbox.getHeight();
+
+            if (dir == direction.right || dir == direction.left) {
+                wannaBeThere.setRect(hitbox.getX() + distance, currentY, hitbox.getWidth(), height);
+            
+            } else if (dir == direction.up || dir == direction.down) {
+                wannaBeThere.setRect(hitbox.getX(), currentY + distance, hitbox.getWidth(), height);
             }
+
+    for (Rectangle2D.Float tile : tiles) {
+        if (wannaBeThere.intersects(tile)) {
+            return false;
         }
-        return true;
     }
+    return true;
+}
     
     public void landing() {
         /*If the falling speed don't connect precisely the Entity and the ground under it, the Entity will just
