@@ -3,9 +3,11 @@ package org.mainPackage.renderer;
 import org.mainPackage.core.GamePanel;
 import org.mainPackage.engine.components.HUDComponent;
 import org.mainPackage.engine.components.TransformComponent;
+import org.mainPackage.engine.components.PhysicsTypes.PlayerPhysics;
 import org.mainPackage.engine.components.graphics.GenericAnimator;
 import org.mainPackage.engine.entities.api.Entity;
 import org.mainPackage.engine.entities.impl.EntityManagerImpl;
+import org.mainPackage.enums.direction;
 
 import java.awt.*;
 import java.util.List;
@@ -24,7 +26,7 @@ public class PlayingRenderer implements Renderer {
 
     private static final Color SKY_COLOR_TOP = new Color(135, 206, 250); 
     private static final Color SKY_COLOR_BOTTOM = new Color(255, 218, 185); 
-
+    private direction d = direction.right;
     
     
     public PlayingRenderer(EntityManagerImpl entityManager, int[][] grid, int tileSize) {
@@ -66,9 +68,6 @@ public class PlayingRenderer implements Renderer {
             cameraY = worldHeight - currentScreenHeight;
         }
     }
-
-
-    
     
     public void updateViewPort(int screenWidth, int screenHeight) {
         // Se le dimensioni dello schermo sono cambiate, aggiorna e ricalcola le dimensioni delle tiles.
@@ -168,21 +167,37 @@ public class PlayingRenderer implements Renderer {
         }
     
     private void drawGameEntities(Graphics2D g) {
-        List<Entity> entities = entityManager.getEntities();
-        for (Entity e : entities) {
-           
-            if (e.hasComponent(GenericAnimator.class) && e.hasComponent(TransformComponent.class)) {
-                GenericAnimator<?> animator = e.getComponent(GenericAnimator.class);
-                TransformComponent transform = e.getComponent(TransformComponent.class);
-                
-                animator.getCurrentFrame().ifPresent(frame -> {
-                    int x = (int) (transform.getX());
-                    int y = (int) (transform.getY());
-                    g.drawImage(frame, x, y, frame.getWidth(), frame.getHeight(), null);
-                });
+    List<Entity> entities = entityManager.getEntities();
+    for (Entity e : entities) {
+
+        if (e.hasComponent(GenericAnimator.class) && e.hasComponent(TransformComponent.class)) {
+            GenericAnimator<?> animator = e.getComponent(GenericAnimator.class);
+            TransformComponent transform = e.getComponent(TransformComponent.class);
+
+            /*Default to facing right if no PlayerPhysics component found*/
+
+            if (e.hasComponent(PlayerPhysics.class)) {
+                PlayerPhysics physics = e.getComponent(PlayerPhysics.class);
+                d = physics.getDirection();
             }
+
+            animator.getCurrentFrame().ifPresent(frame -> {
+                int x = (int) (transform.getX());
+                int y = (int) (transform.getY());
+                int w = frame.getWidth();
+                int h = frame.getHeight();
+
+                if (d==direction.left) {
+                    /*Draw flipped horizontally*/
+                    g.drawImage(frame, x + w, y, -w, h, null);
+                } else {
+                    /*Normal draw*/
+                    g.drawImage(frame, x, y, w, h, null);
+                }
+            });
         }
     }
+}
 
     private void drawHUB(Graphics2D g, int width, int height) {
         List<Entity> entities = entityManager.getEntities();

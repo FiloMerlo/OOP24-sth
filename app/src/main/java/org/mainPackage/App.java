@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class App {
     public static void main(String[] args) {
         
-        int tileSize = 64, enemySize = 32, ringSize = 16, sonicSize = 54;
+        int tileSize = 64, staticEnemySize = 32, chasingEnemySize = 48, ringSize = 16, sonicSize = 48;
 
         int levelRows = 5; 
         int levelCols = 250; 
@@ -30,7 +30,7 @@ public class App {
         
         int[][] levelGrid = levelGenerator.getLevelGrid();
 
-        LevelManager levelManager = new LevelManager(tileSize, enemySize, ringSize, sonicSize, levelGrid);
+        LevelManager levelManager = new LevelManager(tileSize, staticEnemySize, chasingEnemySize, ringSize, sonicSize, levelGrid);
         
         Game game = new Game();
         
@@ -38,7 +38,7 @@ public class App {
 
        
         gameStateManager.setLevelManager(levelManager);
-        gameStateManager.setLevelParameters(tileSize, enemySize, ringSize, sonicSize, levelGrid);
+        gameStateManager.setLevelParameters(tileSize, staticEnemySize, chasingEnemySize, ringSize, sonicSize, levelGrid);
 
         LevelManager.LevelLoadResult initialLoadResult = levelManager.loadLevel();
         EntityImpl sonic = initialLoadResult.sonic;

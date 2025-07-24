@@ -15,8 +15,8 @@ import java.util.*;
 public class PlayerPhysics extends PhysicsComponent {
     private direction playerDir = direction.right;
     private action playerAction = action.idle;
-    private float accelMod = 0.01f, maxSpeed = 2.1f, minSpeed = 0.1f, initFallSpeed = 0.1f, fallMod = 0.1f, maxFallSpeed = 1, jSpeed = -1.5f;
-    private int jumpFrames = 0, maxJumpFrames = 100, brakeForce = 10, iFrames = 0;
+    private float accelMod = 0.01f, maxSpeed = 3.1f, minSpeed = 0.1f, initFallSpeed = 0.1f, fallMod = 0.1f, maxFallSpeed = 1, jSpeed = -1.5f;
+    private int jumpFrames = 0, maxJumpFrames = 100, brakeForce = 1, iFrames = 0;
     protected HashMap<direction, Boolean> tryToMove = new HashMap<>();
     private boolean hit;
 
@@ -123,9 +123,9 @@ public class PlayerPhysics extends PhysicsComponent {
                 playerAction = action.jumping;
             } else {
                 if (ySpeed <= 0){
-                    if (xSpeed > 1 || xSpeed < -1){
+                    if (xSpeed > 2.5f || xSpeed < -2.5f){
                         playerAction = action.dashing;
-                    } else if (xSpeed > 0.5 || xSpeed < -0.5){
+                    } else if (xSpeed > 1 || xSpeed < -1){
                         playerAction = action.running;
                     } else if(xSpeed != 0){
                         playerAction = action.walking;
@@ -139,7 +139,7 @@ public class PlayerPhysics extends PhysicsComponent {
     
     public void brake() {
         for (int i = 0; i < brakeForce && xSpeed != 0; i++){
-            if (xSpeed > -0.1f && xSpeed < 0.1f){
+            if (xSpeed > -0.01f && xSpeed < 0.1f){
                 xSpeed = 0;
             } else if (xSpeed != 0){
                 if (xSpeed < 0){
@@ -147,9 +147,11 @@ public class PlayerPhysics extends PhysicsComponent {
                 } else {
                     xSpeed -= 0.1f;
                 }
-                
             }
         }  
+        if (canGoThere(playerDir, xSpeed)){
+            owner.getComponent(TransformComponent.class).moveX(xSpeed);
+        }
     }
 
     public void jump(){
@@ -169,7 +171,7 @@ public class PlayerPhysics extends PhysicsComponent {
     public void smallJump(){
         jumpFrames += 10;
     }
-
+//TODO l'animazione di danno dovrebbe durare meno
     public void takeDamage(){
         System.out.println("Sonic took damage!");
         playerAction = action.hurt;

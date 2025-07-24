@@ -14,7 +14,7 @@ import org.mainPackage.engine.components.TransformComponent;
 
 public class EnemyPhysics extends PhysicsComponent{
         private EntityImpl sonic; /*a reference to the player the Enemies need to chase*/
-        private float maxChaseDistance = 50000, spawnX, fallSpeed = 0.4f;
+        private float maxChaseDistance = 300, spawnX, fallSpeed = 0.4f;
         private action enemyAction = action.idle;
         private direction enemyDirection = direction.left;
 

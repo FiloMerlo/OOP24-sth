@@ -25,7 +25,8 @@ import java.util.ArrayList;
 public class LevelManager {
 
     private final int tileSize;
-    private final int enemySize;
+    private final int staticEnemySize;
+    private final int chasingEnemySize;
     private final int ringSize;
     private final int sonicSize;
     private final int[][] levelGrid;
@@ -33,9 +34,10 @@ public class LevelManager {
     private Entity sonicEntity;
     private GoalComponent goal;
 
-    public LevelManager(int tileSize, int enemySize, int ringSize, int sonicSize, int[][] levelGrid) {
+    public LevelManager(int tileSize, int staticEnemySize, int chasingEnemySize, int ringSize, int sonicSize, int[][] levelGrid) {
         this.tileSize = tileSize;
-        this.enemySize = enemySize;
+        this.staticEnemySize = staticEnemySize;
+        this.chasingEnemySize = chasingEnemySize;
         this.ringSize = ringSize;
         this.sonicSize = sonicSize;
         this.levelGrid = levelGrid;
@@ -73,12 +75,12 @@ public class LevelManager {
                         //System.out.println("Tile posizionato a: " + xPos + ", " + yPos);
                     }
                     case 2 -> { // Nemico statico
-                        EntityImpl staticEnemy = EnemyFactory.createEnemy(EnemyType.STATIC, xPos, yPos, enemySize, sonicSize, tileSize, tileList, sonic);
+                        EntityImpl staticEnemy = EnemyFactory.createEnemy(EnemyType.STATIC, xPos, yPos, staticEnemySize, sonicSize, tileSize, tileList, sonic);
                         entityManager.addEntity(staticEnemy);
                         //System.out.println("Nemico statico aggiunto");
                     }
                     case 3 -> { // Nemico inseguitore
-                        EntityImpl chasingEnemy = EnemyFactory.createEnemy(EnemyType.CHASING, xPos, yPos, enemySize, sonicSize, tileSize, tileList, sonic);
+                        EntityImpl chasingEnemy = EnemyFactory.createEnemy(EnemyType.CHASING, xPos, yPos, chasingEnemySize, sonicSize, tileSize, tileList, sonic);
                         entityManager.addEntity(chasingEnemy);
                         //System.out.println("Nemico inseguitore aggiunto");
                     }

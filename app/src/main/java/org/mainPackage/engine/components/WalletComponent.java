@@ -45,7 +45,8 @@ public class WalletComponent extends SubjectImpl implements Component, Observer{
             newRing.addComponent(newPhysics);
             newRing.addComponent(new RingAnimator());
             newRing.getComponent(RingPhysics.class).spreadOut();
-            System.out.println("Wallet Component : ANELLO AGGIUNTO");
+            newPhysics.addObserver(EntityManagerImpl.getInstance());
+            newRing.addObserver(EntityManagerImpl.getInstance());
             EntityManagerImpl.getInstance().addEntity(newRing);
             ringAmount--;
         }
