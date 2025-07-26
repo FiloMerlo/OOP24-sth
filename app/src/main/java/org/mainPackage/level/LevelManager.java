@@ -53,7 +53,7 @@ public class LevelManager {
 
         entityManager.killAllEntities(); 
         
-       EntityImpl sonic = PlayerFactory.createPlayer(tileList, sonicSize, ringSize);
+       EntityImpl sonic = PlayerFactory.createPlayer(tileList, sonicSize);
         HUDComponent hudRing = new HUDComponent(sonic);
         EntityImpl hud = new EntityImpl();
         hud.addComponent(hudRing);

@@ -13,10 +13,10 @@ import org.mainPackage.state_management.GameStateManager;
 
 public class PlayerFactory {
 
-    public static EntityImpl createPlayer(ArrayList<Float> tileList, float sonicSize, float ringSize) {
+    public static EntityImpl createPlayer(ArrayList<Float> tileList, float sonicSize){
         EntityImpl player = new EntityImpl();
         player.addComponent(new SonicAnimator());
-        player.addComponent(new WalletComponent(tileList, player, ringSize));
+        player.addComponent(new WalletComponent(tileList, player));
         TransformComponent sonicTransform = new TransformComponent(0, 0, sonicSize, sonicSize);
         player.addComponent(sonicTransform);
         PlayerPhysics physics = new PlayerPhysics(player, tileList);

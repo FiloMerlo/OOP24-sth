@@ -39,7 +39,8 @@ public class GamePanel extends JPanel implements SizeView {
                     gameStateManager.keyPressed(e); // Passa l'evento a GameStateManager
                     System.out.println("GAME PANEL : Key Pressed in GamePanel (Menu): " + KeyEvent.getKeyText(e.getKeyCode()));
                 } else {
-                    System.out.println("GAME PANEL : Key Pressed in GamePanel (Playing o Paused): " + KeyEvent.getKeyText(e.getKeyCode()));                    InputManager.getInstance().keyPressed(e); // Passa l'evento a InputManager
+                    System.out.println("GAME PANEL : Key Pressed in GamePanel (Playing o Paused): " + KeyEvent.getKeyText(e.getKeyCode()));
+                    InputManager.getInstance().keyPressed(e); // Passa l'evento a InputManager
                 }
             }
 

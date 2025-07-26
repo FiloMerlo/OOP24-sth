@@ -91,8 +91,9 @@ public class PlayerPhysicsTest {
         world.add(new Rectangle2D.Float(10, 14, 4, 4)); // piattaforma sotto Sonic
 
         sonic.addComponent(new TransformComponent(10, 10, 4, 4));
-        sonic.addComponent(new WalletComponent(world, sonic, 2));
+        sonic.addComponent(new WalletComponent(world, sonic));
         sonic.addComponent(new PlayerPhysics(sonic, world));
+        
         
         enemy.addComponent(new TransformComponent(10, 10, 3, 3));
         enemy.addComponent(new EnemyPhysics(0, enemy, world, sonic));

@@ -9,11 +9,12 @@ import org.mainPackage.engine.components.InputComponent;
 import org.mainPackage.engine.components.WalletComponent;
 import org.mainPackage.engine.entities.api.Entity;
 import org.mainPackage.engine.entities.impl.EntityImpl;
-import org.mainPackage.engine.entities.impl.EntityManagerImpl;
 import org.mainPackage.engine.events.api.Event;
 import org.mainPackage.engine.events.api.Observer;
 import org.mainPackage.engine.events.impl.GameEvent;
 import org.mainPackage.level.LevelManager;
+
+
 
 /**
  * Gestisce i diversi stati del gioco (es. menu, gioco, pausa).
@@ -37,6 +38,8 @@ public class GameStateManager implements Observer {
     private GoalComponent goal;
 
     private State currentEnumState;
+
+    
     private LevelManager levelManager;
     private int storedTileSize, storedEnemyStaticSize, storedEnemyChasingSize, storedRingSize, storedSonicSize;
     private int[][] storedLevelGrid;
@@ -56,6 +59,7 @@ public class GameStateManager implements Observer {
         return instance;
     }
     
+
     private GameStateManager() {
         System.out.println("GameStateManager: costruttore chiamato.");
     }
@@ -133,6 +137,7 @@ public class GameStateManager implements Observer {
     public State getEnumState(){
         return currentEnumState;
     }
+
     public GameState getCurrentState() {
         return currentState;
     }

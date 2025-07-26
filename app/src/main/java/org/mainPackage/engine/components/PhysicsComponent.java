@@ -33,26 +33,7 @@ public abstract class PhysicsComponent extends SubjectImpl implements Component{
 
     public abstract void update(float deltaTime);
     
-    public boolean canGoThere(direction dir, float distance){
-        /*This method is to be used for both movemnt of X axis and Y axis. It simply determines if the entity that owns 
-         * this physics instance can move in a certain way without colliding with any tile.
-        */
-        Rectangle2D.Float wannaBeThere = new Rectangle2D.Float();
-        if (dir == direction.right || dir == direction.left){
-            wannaBeThere.setRect(hitbox.getX() + distance, hitbox.getY(), hitbox.getWidth(), hitbox.getHeight());
-        } else if (dir == direction.up || dir == direction.down){
-            wannaBeThere.setRect(hitbox.getX(), hitbox.getY() + distance, hitbox.getWidth(), hitbox.getHeight());
-        }
-    
-        /*check if moving as the entity wants to would cause it to compenetrate in any tile*/
-        for (Rectangle2D.Float tile : tiles) {
-            if (wannaBeThere.intersects(tile)){
-                return false;
-            }
-        }
-        return true;
-    }
-/*  TODO  public boolean canGoThere(direction dir, float distance) {
+    public boolean canGoThere(direction dir, float distance) {
         Rectangle2D.Float wannaBeThere = new Rectangle2D.Float();
         float currentY = hitbox.getY();
         float height = hitbox.getHeight();
@@ -71,7 +52,7 @@ public abstract class PhysicsComponent extends SubjectImpl implements Component{
     }
     return true;
 }
-*/    
+    
     public void landing() {
         /*If the falling speed don't connect precisely the Entity and the ground under it, the Entity will just
          * keep floating and falling endlessly, or compenetrate in the ground. 
@@ -111,7 +92,7 @@ public abstract class PhysicsComponent extends SubjectImpl implements Component{
         other.getWidth(),
         other.getHeight()
         );
-        if (ownHitbox.intersects(playerHitbox)){          
+        if (ownHitbox.intersects(playerHitbox)){
             return true;
         } 
         return false;

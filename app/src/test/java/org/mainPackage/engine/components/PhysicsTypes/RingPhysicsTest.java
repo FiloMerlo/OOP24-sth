@@ -1,4 +1,8 @@
 package org.mainPackage.engine.components.PhysicsTypes;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
