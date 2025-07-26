@@ -22,16 +22,17 @@ public class App {
         
         
         
-        int tileSize = 64, enemySize = 32, ringSize = 16, sonicSize = 54;
+        int tileSize = 64, enemyStaticSize = 32, enemyChasingSize = 46, ringSize = 16, sonicSize = 48;
 
         int levelRows = 5; 
         int levelCols = 250; 
+        
         LevelGenerator levelGenerator = new LevelGenerator(levelRows, levelCols);
         
         
         int[][] levelGrid = levelGenerator.getLevelGrid();
 
-        LevelManager levelManager = new LevelManager(tileSize, enemySize, ringSize, sonicSize, levelGrid);
+        LevelManager levelManager = new LevelManager(tileSize, enemyStaticSize, enemyChasingSize, ringSize, sonicSize, levelGrid);
         
         Game game = new Game();
         
@@ -39,7 +40,7 @@ public class App {
 
        
         gameStateManager.setLevelManager(levelManager);
-        gameStateManager.setLevelParameters(tileSize, enemySize, ringSize, sonicSize, levelGrid);
+        gameStateManager.setLevelParameters(tileSize, enemyStaticSize, enemyChasingSize, ringSize, sonicSize, levelGrid);
 
         LevelManager.LevelLoadResult initialLoadResult = levelManager.loadLevel();
         EntityImpl sonic = initialLoadResult.sonic;

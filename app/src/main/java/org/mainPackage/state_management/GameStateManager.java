@@ -41,7 +41,7 @@ public class GameStateManager implements Observer {
 
     
     private LevelManager levelManager;
-    private int storedTileSize, storedEnemySize, storedRingSize, storedSonicSize;
+    private int storedTileSize, storedEnemyStaticSize, storedEnemyChasingSize, storedRingSize, storedSonicSize;
     private int[][] storedLevelGrid;
   
     public enum State {
@@ -106,9 +106,10 @@ public class GameStateManager implements Observer {
     }
 
   
-    public void setLevelParameters(int tileSize, int enemySize, int ringSize, int sonicSize, int[][] levelGrid) {
+    public void setLevelParameters(int tileSize, int enemyStaticSize, int enemyChasingcSize, int ringSize, int sonicSize, int[][] levelGrid) {
         this.storedTileSize = tileSize;
-        this.storedEnemySize = enemySize;
+        this.storedEnemyStaticSize = enemyStaticSize;
+        this.storedEnemyChasingSize = enemyChasingcSize;
         this.storedRingSize = ringSize;
         this.storedSonicSize = sonicSize;
         this.storedLevelGrid = levelGrid;

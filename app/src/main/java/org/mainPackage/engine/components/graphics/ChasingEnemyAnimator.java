@@ -8,9 +8,10 @@ public class ChasingEnemyAnimator extends GenericAnimator<ChasingEnemyState> {
    public ChasingEnemyAnimator() {
         try {
             SpriteLoader loader = new SpriteLoader("/goblin.png");
+            addAnimation(ChasingEnemyState.IDLE, loader.getFramesByPixels(0, 0, 4, 50, 50), 10);
+            addAnimation(ChasingEnemyState.WALK, loader.getFramesByPixels(0, 50, 6, 50, 50), 8);
 
-            addAnimation(ChasingEnemyState.IDLE, loader.getFramesByPixels(0, 0, 4, 64, 64), 10);
-            addAnimation(ChasingEnemyState.WALK, loader.getFramesByPixels(0, 64, 6, 64, 64), 8);
+
         } catch (Exception e) {
             e.printStackTrace();
         }

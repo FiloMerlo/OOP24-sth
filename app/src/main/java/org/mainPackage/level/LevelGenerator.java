@@ -42,7 +42,7 @@ public class LevelGenerator {
         for (int c = 60; c <= numCols - 60; c += 40) {
             levelGrid[numRows - 3][c] = 3;
         }
-
+        levelGrid[2][8]= 3;
        
         for (int c = 30; c < numCols - 10; c += 60) {
             levelGrid[numRows - 1][c] = 0;           
