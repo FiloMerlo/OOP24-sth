@@ -21,6 +21,7 @@ public class InputComponent implements Component, Observer{
     private Entity owner;
     private boolean pause = false;
     private PlayerPhysics playerPhysics;
+
        
     public InputComponent(Entity owner){
         this.owner = owner;

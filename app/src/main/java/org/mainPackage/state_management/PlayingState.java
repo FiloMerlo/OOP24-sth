@@ -34,7 +34,6 @@ public class PlayingState extends GameState {
         this.sonicPlayer = sonic;
         this.levelGrid = grid;
         this.tileWorldSize = tileSize;
-        this.goal = goal;
         this.playingRenderer = new PlayingRenderer(entityManager, levelGrid, tileWorldSize);
 
         if (this.sonicPlayer == null) {
@@ -66,7 +65,7 @@ public class PlayingState extends GameState {
         float deltaTime = (currentTime - lastUpdateTime) / 1000.0f;
         lastUpdateTime = currentTime;
 
-        entityManager.updateEntities(deltaTime);
+    entityManager.updateEntities(deltaTime);
 
         if (sonicPlayer != null) { 
             if (sonicPlayer.hasComponent(SonicAnimator.class) && sonicPlayer.hasComponent(PlayerPhysics.class)) {

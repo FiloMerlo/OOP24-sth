@@ -4,13 +4,14 @@ import org.mainPackage.core.Game;
 import org.mainPackage.engine.components.*;
 import org.mainPackage.engine.components.PhysicsTypes.PlayerPhysics;
 import org.mainPackage.engine.components.graphics.*;
+import org.mainPackage.engine.components.HUDComponent;
 import org.mainPackage.engine.entities.impl.*;
 import org.mainPackage.engine.events.api.EventType;
 import org.mainPackage.enums.EnemyType;
 import org.mainPackage.state_management.GameStateManager;
-import org.mainPackage.level.LevelManager; // Importa la nuova classe LevelManager
+import org.mainPackage.level.LevelManager;
 import org.mainPackage.level.LevelGenerator;
-import org.mainPackage.engine.systems.InputManager; // Importa InputManager
+import org.mainPackage.engine.systems.InputManager; 
 
 
 
@@ -51,10 +52,7 @@ public class App {
         /* Debug */
         System.out.println("Transform: " + sonic.getComponent(TransformComponent.class));
         System.out.println("Physics: " + sonic.getComponent(PhysicsComponent.class));
-        System.out.println("Animator: " + sonic.getComponent(SonicAnimator.class));
-
-        
-       
+        System.out.println("Animator: " + sonic.getComponent(SonicAnimator.class));           
 
         if (gameStateManager != null && goalComponent != null) {
             gameStateManager.initGame(sonic, levelGrid, tileSize, goalComponent);
@@ -62,8 +60,6 @@ public class App {
         } else {
             System.err.println("GameStateManager o GoalComponent non inizializzati!");
         }
-        
-       
     }
 }
 

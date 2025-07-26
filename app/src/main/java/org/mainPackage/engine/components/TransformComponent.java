@@ -2,7 +2,7 @@ package org.mainPackage.engine.components;
 
 public class TransformComponent implements Component{
     private float x, y, width, height;
-    
+    /*This component is the physical body of an Entity*/
     public TransformComponent(float x, float y, float width, float height){
         this.x = x; 
         this.y = y;   
