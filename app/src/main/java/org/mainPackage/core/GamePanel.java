@@ -22,7 +22,8 @@ public class GamePanel extends JPanel implements SizeView {
     private GameStateManager gameStateManager;
     
 
-    public GamePanel() {
+    public GamePanel(GameStateManager gameStateManager) {
+        this.gameStateManager = gameStateManager;
         this.setPreferredSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT)); 
         this.setFocusable(true);
         //this.requestFocusInWindow();
@@ -36,10 +37,9 @@ public class GamePanel extends JPanel implements SizeView {
             public void keyPressed(KeyEvent e) {
                 if (gameStateManager.getEnumState() == GameStateManager.State.MENU) {
                     gameStateManager.keyPressed(e); // Passa l'evento a GameStateManager
-                    System.out.println("DEBUG GAME PANEL : Key Pressed in GamePanel (Menu): " + KeyEvent.getKeyText(e.getKeyCode()));
+                    System.out.println("GAME PANEL : Key Pressed in GamePanel (Menu): " + KeyEvent.getKeyText(e.getKeyCode()));
                 } else {
-                    System.out.println("DEBUG GAME PANEL : Key Pressed in GamePanel (Playing o Paused): " + KeyEvent.getKeyText(e.getKeyCode()));
-                    InputManager.getInstance().keyPressed(e); // Passa l'evento a InputManager
+                    System.out.println("GAME PANEL : Key Pressed in GamePanel (Playing o Paused): " + KeyEvent.getKeyText(e.getKeyCode()));                    InputManager.getInstance().keyPressed(e); // Passa l'evento a InputManager
                 }
             }
 
@@ -47,9 +47,9 @@ public class GamePanel extends JPanel implements SizeView {
             public void keyReleased(KeyEvent e) {
                 if (gameStateManager.getEnumState() == GameStateManager.State.MENU) {
                     gameStateManager.keyReleased(e); // Passa l'evento a GameStateManager
-                    System.out.println("DEBUG GAME PANEL : Key Released in GamePanel (Menu): " + KeyEvent.getKeyText(e.getKeyCode()));
+                    System.out.println("GAME PANEL : Key Released in GamePanel (Menu): " + KeyEvent.getKeyText(e.getKeyCode()));
                 } else {
-                    System.out.println("DEBUG GAME PANEL : Key Released in GamePanel (Playing o Paused): " + KeyEvent.getKeyText(e.getKeyCode()));
+                    System.out.println("GAME PANEL : Key Released in GamePanel (Playing o Paused): " + KeyEvent.getKeyText(e.getKeyCode()));
                     InputManager.getInstance().keyReleased(e); // Passa l'evento a InputManager
                 }
             }
@@ -72,6 +72,7 @@ public class GamePanel extends JPanel implements SizeView {
 
     /* Setting del GameStateMangaer dopo aver inizializzato il gamePanel */
     public void setGameStateManager(GameStateManager gameStateManager){
+        System.out.println("GamePanel - setGameStateManager chiamato.");
         this.gameStateManager = gameStateManager;
     }
 

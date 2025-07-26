@@ -18,12 +18,13 @@ import java.awt.geom.Rectangle2D;
 public class WalletComponent extends SubjectImpl implements Component, Observer{
     private Entity owner;
     private int ringAmount;
+    private float ringSize;
     private ArrayList<Rectangle2D.Float> tiles;
-
-    public WalletComponent(ArrayList<Rectangle2D.Float> t, Entity owner) {
+    public WalletComponent(ArrayList<Rectangle2D.Float> t, Entity owner, float size) {
         ringAmount = 0;
         tiles = t;
         this.owner = owner;
+        ringSize = size;
     }
 
     public void increaseAmount(){
@@ -38,13 +39,14 @@ public class WalletComponent extends SubjectImpl implements Component, Observer{
         TransformComponent playerTransform = owner.getComponent(TransformComponent.class);
         while (ringAmount > 0){
             EntityImpl newRing = new EntityImpl();            
-            TransformComponent newTransform = new TransformComponent(playerTransform.getX(), playerTransform.getY(), playerTransform.getWidth(), playerTransform.getHeight());
+            TransformComponent newTransform = new TransformComponent(playerTransform.getX(), playerTransform.getY(), ringSize, ringSize);
             newRing.addComponent(newTransform);
             RingPhysics newPhysics = new RingPhysics(newRing, tiles, (EntityImpl)(EntityManagerImpl.getInstance().getEntities().getFirst()));
             newRing.addComponent(newPhysics);
             newRing.addComponent(new RingAnimator());
             newRing.getComponent(RingPhysics.class).spreadOut();
-            System.out.println("ANELLO AGGIUNTO!!!!!");
+            newPhysics.addObserver(EntityManagerImpl.getInstance());
+            newRing.addObserver(EntityManagerImpl.getInstance());
             EntityManagerImpl.getInstance().addEntity(newRing);
             ringAmount--;
         }
@@ -58,7 +60,8 @@ public class WalletComponent extends SubjectImpl implements Component, Observer{
             }
         }
     }   
-        @Override
+    
+    @Override
     public void update(float deltaTime) {
         /*this component doesn't need to be updated */
     } 

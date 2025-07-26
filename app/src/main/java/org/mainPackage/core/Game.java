@@ -8,22 +8,26 @@ public class Game {
 
     private GameWindow gameWindow;
     private GamePanel gamePanel;
+    private GameStateManager gamestatemanager;
     private GameLoop gameLoop;
     
     private SizeView sizeView;
 
     public Game() {
-        
-        gamePanel = new GamePanel();
+
+        this.gamestatemanager = GameStateManager.getInstance();
+        this.gamePanel = new GamePanel(GameStateManager.getInstance());
         this.sizeView = gamePanel;
-        GameStateManager.getInstance().setGameState(sizeView, this ::stop); /* game panel vuole state manager */
-
-        gamePanel.setGameStateManager(GameStateManager.getInstance());
-        gameWindow = new GameWindow("Sonic Game", gamePanel, this);
+        this.gamestatemanager.initState(sizeView, this ::stop); // Inizializza lo stato di gioco con SizeView e shutdownGame
+        this.gameWindow = new GameWindow("Sonic Game", gamePanel, this);
+        System.out.println("Game: Inizializzazione del Game con GamePanel e GameWindow.");
+        this.gameLoop = new GameLoop(GameStateManager.getInstance(), gamePanel);
         
-        gameLoop = new GameLoop(GameStateManager.getInstance(), gamePanel);
-    }
+        gameLoop.startLoop();
 
+    }
+    //questo non servirebbe a nulla, ma lo metto per completezza
+    
     public void start() {
         gameLoop.startLoop();
     }

@@ -15,10 +15,12 @@ import java.util.*;
 public class PlayerPhysics extends PhysicsComponent {
     private direction playerDir = direction.right;
     private action playerAction = action.idle;
-    private float accelMod = 0.01f, maxSpeed = 1.2f, minSpeed = 0.1f, initFallSpeed = 0.1f, fallMod = 0.1f, maxFallSpeed = 1;
-    private int jumpFrames = 0, maxJumpFrames = 100, jSpeed = -1, brakeForce = 1, iFrames = 0;
+    private float accelMod = 0.01f, maxSpeed = 3.1f, minSpeed = 0.1f, initFallSpeed = 0.1f, fallMod = 0.1f, maxFallSpeed = 1, jSpeed = -1.5f;
+    private int jumpFrames = 0, maxJumpFrames = 100, brakeForce = 1, iFrames = 0;
     protected HashMap<direction, Boolean> tryToMove = new HashMap<>();
     private boolean hit;
+
+    private boolean debug = false;
 
     public PlayerPhysics(EntityImpl o, ArrayList<Rectangle2D.Float> tList){
         super(o, tList);
@@ -36,31 +38,35 @@ public class PlayerPhysics extends PhysicsComponent {
         if (iFrames > 0) {
             iFrames--;
         }
-        moveX(deltaTime);
+        if (tryToMove.get(direction.left) ^ tryToMove.get(direction.right)) {
+            moveX(deltaTime);
+        } else {
+            brake();           
+        }
         moveY(deltaTime);
         determineAction();
     }
     public void moveX(float deltaTime){
-
         if (playerAction == action.hurt){
             if (canGoThere(playerDir.opposite(), xSpeed)){
                 owner.getComponent(TransformComponent.class).moveX(xSpeed);
             }
-        } else 
-        if (tryToMove.get(direction.left) ^ tryToMove.get(direction.right)) {
+        } else {
             /*DETERMINE WHICH DIRECTION THE PLAYER IS TRYING TO MOVE TOWARDS*/
             direction newDir = direction.right;
             if (tryToMove.get(direction.left)) {
                 newDir = direction.left;
             }
-
             if (newDir == playerDir) {
+                /*JUMPING HAS ITS OWN MINIMl HORIZONTAL SPEED*/
+                if (playerAction == action.jumping && Math.abs(xSpeed) < Math.abs(jSpeed)) {
+                    xSpeed = jSpeed * playerDir.opposite().getValue();
+                } else
                 /*MAKE SURE THE PLAYER ISN'T TOO SLOW*/
-                if (newDir == direction.right && xSpeed < minSpeed){
-                    xSpeed = minSpeed;
-                } else if (newDir == direction.left && xSpeed > -minSpeed) {
-                    xSpeed = -minSpeed;
+                if (Math.abs(xSpeed) < minSpeed){
+                    xSpeed = minSpeed * playerDir.getValue();
                 }
+
                 /*CHECK FOR COLLISIONS AND MOVE IF POSSIBLE*/
                 if (canGoThere(newDir, xSpeed)){
                     owner.getComponent(TransformComponent.class).moveX(xSpeed);
@@ -70,6 +76,7 @@ public class PlayerPhysics extends PhysicsComponent {
                             xSpeed += accelMod * playerDir.getValue();
                         }
                     }
+                    
                 }
             } else {
                 brake();
@@ -77,8 +84,6 @@ public class PlayerPhysics extends PhysicsComponent {
                     playerDir = newDir;
                 }
             }
-        } else {
-            brake();           
         }
     }
     public void moveY(float deltaTime){
@@ -118,9 +123,9 @@ public class PlayerPhysics extends PhysicsComponent {
                 playerAction = action.jumping;
             } else {
                 if (ySpeed <= 0){
-                    if (xSpeed > 1 || xSpeed < -1){
+                    if (xSpeed > 2.5f || xSpeed < -2.5f){
                         playerAction = action.dashing;
-                    } else if (xSpeed > 0.5 || xSpeed < -0.5){
+                    } else if (xSpeed > 1 || xSpeed < -1){
                         playerAction = action.running;
                     } else if(xSpeed != 0){
                         playerAction = action.walking;
@@ -134,12 +139,19 @@ public class PlayerPhysics extends PhysicsComponent {
     
     public void brake() {
         for (int i = 0; i < brakeForce && xSpeed != 0; i++){
-            if (xSpeed > -0.1f && xSpeed < 0.1f){
+            if (xSpeed > -0.01f && xSpeed < 0.1f){
                 xSpeed = 0;
             } else if (xSpeed != 0){
-                xSpeed += (-1) * playerDir.getValue() * 0.1f;
+                if (xSpeed < 0){
+                    xSpeed += 0.1f;
+                } else {
+                    xSpeed -= 0.1f;
+                }
             }
         }  
+        if (canGoThere(playerDir, xSpeed)){
+            owner.getComponent(TransformComponent.class).moveX(xSpeed);
+        }
     }
 
     public void jump(){
@@ -159,12 +171,12 @@ public class PlayerPhysics extends PhysicsComponent {
     public void smallJump(){
         jumpFrames += 10;
     }
-
+//TODO l'animazione di danno dovrebbe durare meno
     public void takeDamage(){
         System.out.println("Sonic took damage!");
         playerAction = action.hurt;
         hit = false;
-        iFrames = 240;
+        iFrames = 480;
         GameEvent e;
         if (owner.getComponent(WalletComponent.class).getAmount() > 0){
             e = new GameEvent(EventType.PLAYER_HIT, owner);

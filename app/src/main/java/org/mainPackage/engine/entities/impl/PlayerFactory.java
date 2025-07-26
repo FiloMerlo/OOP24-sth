@@ -13,10 +13,10 @@ import org.mainPackage.state_management.GameStateManager;
 
 public class PlayerFactory {
 
-    public static EntityImpl createPlayer(ArrayList<Float> tileList, float sonicSize){
+    public static EntityImpl createPlayer(ArrayList<Float> tileList, float sonicSize, float ringSize) {
         EntityImpl player = new EntityImpl();
         player.addComponent(new SonicAnimator());
-        player.addComponent(new WalletComponent(tileList, player));
+        player.addComponent(new WalletComponent(tileList, player, ringSize));
         TransformComponent sonicTransform = new TransformComponent(0, 0, sonicSize, sonicSize);
         player.addComponent(sonicTransform);
         PlayerPhysics physics = new PlayerPhysics(player, tileList);
@@ -28,6 +28,7 @@ public class PlayerFactory {
         player.addObserver(EntityManagerImpl.getInstance());
         player.addObserver(GameStateManager.getInstance());
         InputManager.getInstance().addObserver(player.getComponent(InputComponent.class));
+        System.out.println("PlayerFactory: Player creato con successo.");
         return player;
     }
 }
