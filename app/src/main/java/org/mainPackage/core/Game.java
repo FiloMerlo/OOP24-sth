@@ -1,7 +1,7 @@
 package org.mainPackage.core;
 
 
-import org.mainPackage.state_management.GameStateManager;
+import org.mainPackage.engine.systems.GameStateManager;
 import org.mainPackage.util.SizeView;
 
 public class Game {

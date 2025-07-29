@@ -5,6 +5,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 import org.mainPackage.engine.events.impl.SubjectImpl;
+import org.mainPackage.engine.systems.GameStateManager;
 import org.mainPackage.util.SizeView;
 
 public abstract class GameState extends SubjectImpl {

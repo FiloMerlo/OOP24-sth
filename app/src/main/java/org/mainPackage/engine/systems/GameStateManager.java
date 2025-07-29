@@ -1,4 +1,4 @@
-package org.mainPackage.state_management;
+package org.mainPackage.engine.systems;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -9,11 +9,13 @@ import org.mainPackage.engine.components.InputComponent;
 import org.mainPackage.engine.components.WalletComponent;
 import org.mainPackage.engine.entities.api.Entity;
 import org.mainPackage.engine.entities.impl.EntityImpl;
-import org.mainPackage.engine.entities.impl.EntityManagerImpl;
 import org.mainPackage.engine.events.api.Event;
 import org.mainPackage.engine.events.api.Observer;
 import org.mainPackage.engine.events.impl.GameEvent;
-import org.mainPackage.level.LevelManager;
+import org.mainPackage.state_management.GameState;
+import org.mainPackage.state_management.MenuState;
+import org.mainPackage.state_management.PausedState;
+import org.mainPackage.state_management.PlayingState;
 
 /**
  * Gestisce i diversi stati del gioco (es. menu, gioco, pausa).

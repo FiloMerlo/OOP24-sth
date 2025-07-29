@@ -9,6 +9,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;      
 import java.awt.event.MouseAdapter;  
 import java.awt.event.MouseEvent;
+
+import org.mainPackage.engine.systems.GameStateManager;
 import org.mainPackage.engine.systems.InputManager;
 
 import java.awt.event.MouseMotionAdapter;

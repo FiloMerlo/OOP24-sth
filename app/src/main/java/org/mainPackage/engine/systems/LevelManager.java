@@ -1,14 +1,12 @@
-package org.mainPackage.level;
+package org.mainPackage.engine.systems;
 
 import org.mainPackage.engine.components.GoalComponent;
 import org.mainPackage.engine.components.TransformComponent;
 import org.mainPackage.engine.components.HUDComponent;
 import org.mainPackage.engine.entities.impl.EnemyFactory;
 import org.mainPackage.engine.entities.impl.EntityImpl;
-import org.mainPackage.engine.entities.impl.EntityManagerImpl;
 import org.mainPackage.engine.entities.impl.PlayerFactory;
 import org.mainPackage.engine.entities.impl.RingFactory;
-import org.mainPackage.engine.systems.InputManager;
 import org.mainPackage.enums.EnemyType;
 import org.mainPackage.engine.entities.api.Entity;
 
@@ -90,7 +88,7 @@ public class LevelManager {
                         System.out.println("Sonic posizionato a: " + xPos + ", " + (yPos + tileSize - sonicSize));
                     }
                     case 5 -> { // Anello
-                        EntityImpl ring = RingFactory.createRing(xPos, yPos, ringSize, tileSize, tileList, sonic);
+                        EntityImpl ring = RingFactory.createRing(xPos, yPos, ringSize, tileSize, tileList, sonic, false);
                         entityManager.addEntity(ring);
                     }
                     case 6 -> { // Obiettivo

@@ -3,6 +3,7 @@ package org.mainPackage.engine.entities.impl;
 import org.mainPackage.engine.components.TransformComponent;
 import org.mainPackage.engine.components.PhysicsTypes.EnemyPhysics;
 import org.mainPackage.engine.components.graphics.StaticEnemyAnimator;
+import org.mainPackage.engine.systems.EntityManagerImpl;
 import org.mainPackage.engine.components.graphics.ChasingEnemyAnimator;
 import org.mainPackage.enums.EnemyType;
 import java.awt.geom.Rectangle2D;

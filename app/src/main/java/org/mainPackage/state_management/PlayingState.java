@@ -3,12 +3,13 @@ package org.mainPackage.state_management;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
-import org.mainPackage.engine.entities.impl.EntityManagerImpl;
 import org.mainPackage.engine.components.GoalComponent;
 import org.mainPackage.engine.components.TransformComponent;
 import org.mainPackage.engine.components.PhysicsTypes.PlayerPhysics;
 import org.mainPackage.engine.components.graphics.SonicAnimator;
 import org.mainPackage.engine.entities.api.Entity;
+import org.mainPackage.engine.systems.EntityManagerImpl;
+import org.mainPackage.engine.systems.GameStateManager;
 import org.mainPackage.renderer.PlayingRenderer;
 import org.mainPackage.util.SizeView;
 

@@ -5,10 +5,10 @@ import java.util.ArrayList;
 
 import org.mainPackage.engine.components.graphics.RingAnimator;
 import org.mainPackage.engine.entities.impl.EntityImpl;
-import org.mainPackage.engine.entities.impl.EntityManagerImpl;
 import org.mainPackage.engine.events.api.EventType;
 import org.mainPackage.engine.events.impl.GameEvent;
 import org.mainPackage.engine.events.impl.SubjectImpl;
+import org.mainPackage.engine.systems.EntityManagerImpl;
 import org.mainPackage.enums.direction;
 
 

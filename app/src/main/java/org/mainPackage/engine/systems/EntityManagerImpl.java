@@ -1,4 +1,4 @@
-package org.mainPackage.engine.entities.impl;
+package org.mainPackage.engine.systems;
 
 import java.util.ArrayList;
 import java.util.List;

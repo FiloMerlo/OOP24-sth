@@ -6,7 +6,7 @@ import org.mainPackage.engine.components.TransformComponent;
 import org.mainPackage.engine.components.PhysicsTypes.PlayerPhysics;
 import org.mainPackage.engine.components.graphics.GenericAnimator;
 import org.mainPackage.engine.entities.api.Entity;
-import org.mainPackage.engine.entities.impl.EntityManagerImpl;
+import org.mainPackage.engine.systems.EntityManagerImpl;
 import org.mainPackage.enums.direction;
 
 import java.awt.*;

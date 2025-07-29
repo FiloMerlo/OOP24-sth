@@ -8,15 +8,18 @@ import org.mainPackage.engine.components.TransformComponent;
 import org.mainPackage.engine.components.WalletComponent;
 import org.mainPackage.engine.components.PhysicsTypes.PlayerPhysics;
 import org.mainPackage.engine.components.graphics.SonicAnimator;
+import org.mainPackage.engine.systems.EntityManagerImpl;
+import org.mainPackage.engine.systems.GameStateManager;
 import org.mainPackage.engine.systems.InputManager;
-import org.mainPackage.state_management.GameStateManager;
 
 public class PlayerFactory {
 
     public static EntityImpl createPlayer(ArrayList<Float> tileList, float sonicSize, float ringSize) {
         EntityImpl player = new EntityImpl();
         player.addComponent(new SonicAnimator());
-        player.addComponent(new WalletComponent(tileList, player, ringSize));
+        WalletComponent wallet = new WalletComponent(tileList, player, ringSize);
+        wallet.addObserver(EntityManagerImpl.getInstance());
+        player.addComponent(wallet);
         TransformComponent sonicTransform = new TransformComponent(0, 0, sonicSize, sonicSize);
         player.addComponent(sonicTransform);
         PlayerPhysics physics = new PlayerPhysics(player, tileList);

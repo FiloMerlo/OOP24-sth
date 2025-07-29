@@ -1,6 +1,8 @@
-package org.mainPackage.engine.entities.api;
+package org.mainPackage.engine.systems;
 
 import java.util.List;
+
+import org.mainPackage.engine.entities.api.Entity;
 
 
 /**

@@ -8,12 +8,10 @@ import org.mainPackage.engine.components.HUDComponent;
 import org.mainPackage.engine.entities.impl.*;
 import org.mainPackage.engine.events.api.EventType;
 import org.mainPackage.enums.EnemyType;
-import org.mainPackage.state_management.GameStateManager;
-import org.mainPackage.level.LevelManager;
 import org.mainPackage.level.LevelGenerator;
-import org.mainPackage.engine.systems.InputManager; 
-
-
+import org.mainPackage.engine.systems.GameStateManager;
+import org.mainPackage.engine.systems.InputManager;
+import org.mainPackage.engine.systems.LevelManager;
 
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;

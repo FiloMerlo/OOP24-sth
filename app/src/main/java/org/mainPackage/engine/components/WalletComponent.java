@@ -6,12 +6,13 @@ import org.mainPackage.engine.components.PhysicsTypes.RingPhysics;
 import org.mainPackage.engine.components.graphics.RingAnimator;
 import org.mainPackage.engine.entities.api.Entity;
 import org.mainPackage.engine.entities.impl.EntityImpl;
-import org.mainPackage.engine.entities.impl.EntityManagerImpl;
+import org.mainPackage.engine.entities.impl.RingFactory;
 import org.mainPackage.engine.events.api.Event;
 import org.mainPackage.engine.events.api.EventType;
 import org.mainPackage.engine.events.api.Observer;
 import org.mainPackage.engine.events.impl.GameEvent;
 import org.mainPackage.engine.events.impl.SubjectImpl;
+
 
 import java.awt.geom.Rectangle2D;
 
@@ -37,18 +38,19 @@ public class WalletComponent extends SubjectImpl implements Component, Observer{
 
     public void spawnRings(){
         TransformComponent playerTransform = owner.getComponent(TransformComponent.class);
-        while (ringAmount > 0){
-            EntityImpl newRing = new EntityImpl();            
-            TransformComponent newTransform = new TransformComponent(playerTransform.getX(), playerTransform.getY(), ringSize, ringSize);
-            newRing.addComponent(newTransform);
-            RingPhysics newPhysics = new RingPhysics(newRing, tiles, (EntityImpl)(EntityManagerImpl.getInstance().getEntities().getFirst()));
-            newRing.addComponent(newPhysics);
-            newRing.addComponent(new RingAnimator());
-            newRing.getComponent(RingPhysics.class).spreadOut();
-            newPhysics.addObserver(EntityManagerImpl.getInstance());
-            newRing.addObserver(EntityManagerImpl.getInstance());
-            EntityManagerImpl.getInstance().addEntity(newRing);
-            ringAmount--;
+        int tileSize = (int) ringSize;
+        while (ringAmount > 0) {
+        EntityImpl ring = RingFactory.createRing(
+            (int) playerTransform.getX(),
+            (int) playerTransform.getY(),
+            (int) ringSize,
+            tileSize,
+            tiles,
+            (EntityImpl) owner,
+            true
+        );
+        notifyObservers(new GameEvent(EventType.ENTITY_SPAWN, ring));
+        ringAmount--;
         }
     }
 
