@@ -1,17 +1,16 @@
 package org.mainPackage.engine.components.graphics;
 
 import org.mainPackage.util.SpriteLoader;
-
+import org.mainPackage.enums.RingState;
 /**
  * Handles the animation of collectible rings in the game.
  * 
  * Rings have a single looping animation state: SPINNING.
  * The GenericAnimator internally applies a looping strategy.
  */
-public class RingAnimator extends GenericAnimator<RingAnimator.State> {
+public class RingAnimator extends GenericAnimator<RingState> {
 
-    /** Enum representing the only state of the ring: spinning */
-    public enum State { SPINNING }
+     
 
     /** Sprite sheet path for the ring animation */
     private static final String SPRITE_PATH = "/rings2.png";
@@ -26,14 +25,14 @@ public class RingAnimator extends GenericAnimator<RingAnimator.State> {
     private static final int DELAY = 15;
 
     /**
-     * Constructs a RingAnimator and loads the SPINNING animation
-     * from the sprite sheet.
+     * Builds a RingAnimator and loads the SPINNING animation
+     * from the spritesheet.
      */
     public RingAnimator() {
         try {
             SpriteLoader loader = new SpriteLoader(SPRITE_PATH);
             addAnimation(
-                State.SPINNING,
+                RingState.SPINNING,
                 loader.getFramesByPixels(0, 0, FRAME_COUNT, SPRITE_SIZE, SPRITE_SIZE),
                 DELAY
             );

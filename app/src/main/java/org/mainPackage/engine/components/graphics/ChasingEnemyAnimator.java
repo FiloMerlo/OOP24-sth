@@ -4,7 +4,7 @@ import org.mainPackage.enums.ChasingEnemyState;
 import org.mainPackage.util.SpriteLoader;
 
 /**
- * Animator dedicated to the chasing enemy character.
+ * Animator of chasing enemy 
  * 
  * Loads and manages animations for different enemy states
  * such as idle and walking, using frames extracted from a sprite sheet.
@@ -24,8 +24,8 @@ public class ChasingEnemyAnimator extends GenericAnimator<ChasingEnemyState> {
     private static final int SPRITE_SIZE = 64;
 
     /**
-     * Constructs a ChasingEnemyAnimator by loading the idle and walk animations
-     * from the sprite sheet specified by {@link #SPRITE_SHEET_PATH}.
+     * Builds a ChasingEnemyAnimator by loading the idle and walk animations
+     * from the spritesheet specified by {@link #SPRITE_SHEET_PATH}.
      */
     public ChasingEnemyAnimator() {
         try {

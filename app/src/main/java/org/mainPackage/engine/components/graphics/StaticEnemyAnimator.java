@@ -20,7 +20,7 @@ public class StaticEnemyAnimator extends GenericAnimator<StaticEnemyState> {
     private static final int DELAY = 12;
 
     /**
-     * Constructs a StaticEnemyAnimator and loads the idle animation frame.
+     * Builds a StaticEnemyAnimator and loads the idle animation frame.
      */
     public StaticEnemyAnimator() {
         try {

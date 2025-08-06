@@ -24,8 +24,8 @@ public class SonicAnimator extends GenericAnimator<action> {
     private static final int SPRITE_SIZE = 54;
 
     /**
-     * Constructs a SonicAnimator and loads all animations
-     * from the sprite sheet specified by {@link #SPRITE_SHEET_PATH}.
+     * Builds a SonicAnimator and loads all animations
+     * from the spritesheet specified by {@link #SPRITE_SHEET_PATH}.
      * 
      * The animations and their frame counts and positions
      * are defined by the internal AnimConfig list.
@@ -59,7 +59,7 @@ public class SonicAnimator extends GenericAnimator<action> {
     }
 
     /**
-     * Container for animation metadata.
+     * Container for animation metadata
      *
      * @param state the animation state
      * @param x horizontal frame index in the sprite sheet

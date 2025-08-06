@@ -102,7 +102,7 @@ public abstract class GenericAnimator<T> implements Component {
     }
 
     /**
-     * Returns the current frame of the animation, if available.
+     * Returns the current frame of the animation, if available
      *
      * @return an Optional containing the current BufferedImage frame
      */
@@ -113,8 +113,8 @@ public abstract class GenericAnimator<T> implements Component {
     }
 
     /**
-     * Sets the current animation state.
-     * Resets frame index and tick if the state has changed.
+     * Sets the current animation state
+     * Resets frame index and tick if the state has changed
      *
      * @param newState the new animation state
      */
