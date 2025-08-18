@@ -15,10 +15,6 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.ImageIcon;
-import javax.xml.crypto.dsig.Transform;
-
-
 public class PlayingRenderer implements Renderer {
     
     private final EntityManagerImpl entityManager;

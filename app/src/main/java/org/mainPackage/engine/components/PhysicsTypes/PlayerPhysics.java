@@ -16,7 +16,7 @@ public class PlayerPhysics extends PhysicsComponent {
     private direction playerDir = direction.right;
     private action playerAction = action.idle;
     private float accelMod = 0.01f, maxSpeed = 3.1f, minSpeed = 0.1f, initFallSpeed = 0.1f, fallMod = 0.1f, lowestPoint = 0f, maxFallSpeed = 1, jSpeed = -1.5f;
-    private int jumpFrames = 0, maxJumpFrames = 100, brakeForce = 1, iFrames = 0, knockback = 0;
+    private int jumpFrames = 0, maxJumpFrames = 100, brakeForce = 1, iFrames = 0;
     protected HashMap<direction, Boolean> tryToMove = new HashMap<>();
     private boolean hit;
 
@@ -193,7 +193,6 @@ public class PlayerPhysics extends PhysicsComponent {
             e = new GameEvent(EventType.GAME_OVER, owner);
         }
         notifyObservers(e);
-        knockback = 200;
     }
 
     public void hit() { 
