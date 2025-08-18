@@ -67,31 +67,31 @@ public class LevelManager {
                 int yPos = r * tileSize;
 
                 switch (levelGrid[r][c]) {
-                    case 1 -> { // Tile
+                    case 1 -> { /* Tile*/
                         Rectangle2D.Float tile = new Rectangle2D.Float(xPos, yPos, tileSize, tileSize);
                         tileList.add(tile);
-                        //System.out.println("Tile posizionato a: " + xPos + ", " + yPos);
+                        /*System.out.println("Tile posizionato a: " + xPos + ", " + yPos);*/
                     }
-                    case 2 -> { // Nemico statico
+                    case 2 -> { /*static enemy*/
                         EntityImpl staticEnemy = EnemyFactory.createEnemy(EnemyType.STATIC, xPos, yPos, staticEnemySize, sonicSize, tileSize, tileList, sonic);
                         entityManager.addEntity(staticEnemy);
-                        //System.out.println("Nemico statico aggiunto");
+                        /*System.out.println("Nemico statico aggiunto");*/
                     }
-                    case 3 -> { // Nemico inseguitore
+                    case 3 -> { /* chasing enemy*/
                         EntityImpl chasingEnemy = EnemyFactory.createEnemy(EnemyType.CHASING, xPos, yPos, chasingEnemySize, sonicSize, tileSize, tileList, sonic);
                         entityManager.addEntity(chasingEnemy);
-                        //System.out.println("Nemico inseguitore aggiunto");
+                        /*System.out.println("Nemico inseguitore aggiunto");*/
                     }
-                    case 4 -> { // Posizione di Sonic
+                    case 4 -> { /* Sonic position */
                         sonic.getComponent(TransformComponent.class).setX(xPos);
                         sonic.getComponent(TransformComponent.class).setY(yPos + tileSize - sonicSize);
                         System.out.println("Sonic posizionato a: " + xPos + ", " + (yPos + tileSize - sonicSize));
                     }
-                    case 5 -> { // Anello
+                    case 5 -> { /* Ring */
                         EntityImpl ring = RingFactory.createRing(xPos, yPos, ringSize, tileSize, tileList, sonic, false);
                         entityManager.addEntity(ring);
                     }
-                    case 6 -> { // Obiettivo
+                    case 6 -> { /* Goal */
                         goal = new EntityImpl();
                         goal.addComponent(new TransformComponent(xPos, yPos, 1, 3200));
                         goal.addComponent(new GoalComponent(goal, sonic));
@@ -112,7 +112,7 @@ public class LevelManager {
     
     public void resetLevel(){
         EntityManagerImpl.getInstance().killAllEntities();
-        InputManager.getInstance().resetInputState(); // Resetta gli input
+        InputManager.getInstance().resetInputState(); /* Reset inputs */
 
         LevelManager.LevelLoadResult newLoadResult = loadLevel();
 
@@ -129,7 +129,7 @@ public class LevelManager {
     }
 
     /**
-     * Classe interna per incapsulare i risultati del caricamento del livello.
+     * Internal class that incapsulates the results of the level load.
      */
     public static class LevelLoadResult {
         public final EntityImpl sonic;

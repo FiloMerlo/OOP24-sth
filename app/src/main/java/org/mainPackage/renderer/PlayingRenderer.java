@@ -1,16 +1,22 @@
 package org.mainPackage.renderer;
 
 import org.mainPackage.core.GamePanel;
+import org.mainPackage.engine.components.GoalComponent;
 import org.mainPackage.engine.components.HUDComponent;
 import org.mainPackage.engine.components.TransformComponent;
 import org.mainPackage.engine.components.PhysicsTypes.PlayerPhysics;
 import org.mainPackage.engine.components.graphics.GenericAnimator;
 import org.mainPackage.engine.entities.api.Entity;
+import org.mainPackage.engine.entities.impl.EntityImpl;
 import org.mainPackage.engine.systems.EntityManagerImpl;
 import org.mainPackage.enums.direction;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.ImageIcon;
+import javax.xml.crypto.dsig.Transform;
 
 
 public class PlayingRenderer implements Renderer {
@@ -105,10 +111,23 @@ public class PlayingRenderer implements Renderer {
         /*drawHitboxes(g);*/
 
         drawHUB(g2d, width, height); /* Fix HUB position */
+
+        drawGoal(g);
         
         g.dispose();
     }
     
+    private void drawGoal(Graphics2D g) {
+        TransformComponent goalTransform = null;
+        ArrayList<Entity> entityList = entityManager.getEntities();
+        for (Entity e : entityList) {
+            if (e.hasComponent(GoalComponent.class)){
+                goalTransform = ((EntityImpl)e).getComponent(TransformComponent.class);
+            }
+        }
+        g.setColor(Color.RED);
+        g.fillRect((int)(goalTransform.getX()), (int)(goalTransform.getY()), 40, 40);
+    }
  
     private void drawBackground(Graphics2D g, int width, int height) {
         GradientPaint skyGradient = new GradientPaint(

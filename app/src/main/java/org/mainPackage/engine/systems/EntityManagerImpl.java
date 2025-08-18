@@ -82,7 +82,9 @@ public class EntityManagerImpl implements EntityManager, Observer {
      * ConcurrentModificationException if entities modify the list during update.
      */
     
-     public List<Entity> getEntities() {
+/*************  ✨ Windsurf Command ⭐  *************/
+/*******  0f57ae84-5107-4baf-a12a-e00b505ac91c  *******/
+     public ArrayList<Entity> getEntities() {
         return new ArrayList<>(entitiesToUpdate);
     }
 

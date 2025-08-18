@@ -17,7 +17,7 @@ public class App {
         int tileSize = 64, staticEnemySize = 32, chasingEnemySize = 48, ringSize = 16, sonicSize = 48;
 
         int levelRows = 5; 
-        int levelCols = 250; 
+        int levelCols = 30; 
         LevelGenerator levelGenerator = new LevelGenerator(levelRows, levelCols);
         
         

@@ -37,7 +37,7 @@ public class LevelGenerator {
         for (int c = 10; c < numCols - 10; c += 10) {
             levelGrid[2][c] = (c % 20 == 0) ? 2 : 5;
         }
-        levelGrid[2][4] = 2; // Nemico statico per migliorare il debug
+        levelGrid[2][4] = 2; /*Static number to improve the debug */
 
         for (int c = 60; c <= numCols - 60; c += 40) {
             levelGrid[numRows - 3][c] = 3;
