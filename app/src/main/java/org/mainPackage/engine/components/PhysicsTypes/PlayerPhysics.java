@@ -15,12 +15,10 @@ import java.util.*;
 public class PlayerPhysics extends PhysicsComponent {
     private direction playerDir = direction.right;
     private action playerAction = action.idle;
-    private float accelMod = 0.01f, maxSpeed = 3.1f, minSpeed = 0.1f, initFallSpeed = 0.1f, fallMod = 0.1f, maxFallSpeed = 1, jSpeed = -1.5f;
-    private int jumpFrames = 0, maxJumpFrames = 100, brakeForce = 1, iFrames = 0;
+    private float accelMod = 0.01f, maxSpeed = 3.1f, minSpeed = 0.1f, initFallSpeed = 0.1f, fallMod = 0.1f, lowestPoint = 0f, maxFallSpeed = 1, jSpeed = -1.5f;
+    private int jumpFrames = 0, maxJumpFrames = 100, brakeForce = 1, iFrames = 0, knockback = 0;
     protected HashMap<direction, Boolean> tryToMove = new HashMap<>();
     private boolean hit;
-
-    private boolean debug = false;
 
     public PlayerPhysics(EntityImpl o, ArrayList<Rectangle2D.Float> tList){
         super(o, tList);
@@ -28,7 +26,8 @@ public class PlayerPhysics extends PhysicsComponent {
         tryToMove.put(direction.left, false);
         tryToMove.put(direction.up, false);
         tryToMove.put(direction.right, false);
-        /*tryToMove per direction.down è sempre opposto a tryToMove per direction.up*/
+        /*tryToMove for direction.down is always the opposite of tryToMove for direction.up*/
+        lowestPoint = owner.getComponent(TransformComponent.class).getY() + 1000;
     }
 
     public void update(float deltaTime) {
@@ -45,11 +44,19 @@ public class PlayerPhysics extends PhysicsComponent {
         }
         moveY(deltaTime);
         determineAction();
+        checkDeathFall();
     }
+
+    private void checkDeathFall() {
+        if (owner.getComponent(TransformComponent.class).getY() >= lowestPoint){
+            takeDamage();
+        }
+    }
+
     public void moveX(float deltaTime){
         if (playerAction == action.hurt){
-            if (canGoThere(playerDir.opposite(), xSpeed)){
-                owner.getComponent(TransformComponent.class).moveX(xSpeed);
+            if (canGoThere(playerDir.opposite(), 0.2f * playerDir.opposite().getValue())){
+                owner.getComponent(TransformComponent.class).moveX(0.2f * playerDir.opposite().getValue());
             }
         } else {
             /*DETERMINE WHICH DIRECTION THE PLAYER IS TRYING TO MOVE TOWARDS*/
@@ -186,7 +193,7 @@ public class PlayerPhysics extends PhysicsComponent {
             e = new GameEvent(EventType.GAME_OVER, owner);
         }
         notifyObservers(e);
-        xSpeed = 0.2f * playerDir.opposite().getValue();
+        knockback = 200;
     }
 
     public void hit() { 

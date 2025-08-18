@@ -2,8 +2,6 @@ package org.mainPackage.engine.components;
 
 import java.util.ArrayList;
 
-import org.mainPackage.engine.components.PhysicsTypes.RingPhysics;
-import org.mainPackage.engine.components.graphics.RingAnimator;
 import org.mainPackage.engine.entities.api.Entity;
 import org.mainPackage.engine.entities.impl.EntityImpl;
 import org.mainPackage.engine.entities.impl.RingFactory;

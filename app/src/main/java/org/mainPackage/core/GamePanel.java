@@ -3,7 +3,6 @@ package org.mainPackage.core;
 import javax.swing.*;
 
 import org.mainPackage.util.SizeView;
-import org.mainPackage.state_management.*;
 
 import java.awt.event.KeyAdapter;    
 import java.awt.event.KeyEvent;      

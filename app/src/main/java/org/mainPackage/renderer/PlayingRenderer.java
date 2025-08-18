@@ -35,28 +35,27 @@ public class PlayingRenderer implements Renderer {
         this.tileWorldSize = tileSize;
         this.cameraX = 0;
         this.cameraY = 0;
-        /* manca il caricamento dell'immagine delle tiles */
     }
 
      public void updateCamera(int targetX, int targetY) {
-        // Calcola la posizione della telecamera per centrare il target
+        /*Calculate the position of the camera in order to center the target*/
         cameraX = targetX - currentScreenWidth / 2;
         cameraY = targetY - currentScreenHeight / 2;
 
-        // Calcola le dimensioni totali del mondo
+        /* Calculate the size of the world */
         int worldWidth = levelGrid[0].length * tileWorldSize;
         int worldHeight = levelGrid.length * tileWorldSize;
 
-        // Blocca il bordo sinistro
+        /*Blocks left border of the world*/
         if (cameraX < 0) cameraX = 0;
-        // Blocca il bordo superiore
+        /*Blocks upper border of the world */
         if (cameraY < 0) cameraY = 0;
         
         
         if (worldWidth < currentScreenWidth) {
             cameraX = (worldWidth - currentScreenWidth) / 2;
         } else if (cameraX + currentScreenWidth > worldWidth) {
-            // Blocca al bordo destro del mondo
+            /*Blocks right border of the world */
             cameraX = worldWidth - currentScreenWidth;
         }
 
@@ -64,17 +63,17 @@ public class PlayingRenderer implements Renderer {
         if (worldHeight < currentScreenHeight) {
             cameraY = (worldHeight - currentScreenHeight) / 2;
         } else if (cameraY + currentScreenHeight > worldHeight) {
-            // Blocca al bordo inferiore del mondo
+            /*Blocks down border of the world */
             cameraY = worldHeight - currentScreenHeight;
         }
     }
     
     public void updateViewPort(int screenWidth, int screenHeight) {
-        // Se le dimensioni dello schermo sono cambiate, aggiorna e ricalcola le dimensioni delle tiles.
+        /* If the screen size has changed, update the tile dimensions */
         if (this.currentScreenWidth != screenWidth || this.currentScreenHeight != screenHeight) {
             this.currentScreenWidth = screenWidth;
             this.currentScreenHeight = screenHeight;
-            //updateTileDimensions();
+            /*updateTileDimensions();*/
         }
     }
 
@@ -85,8 +84,7 @@ public class PlayingRenderer implements Renderer {
         
         this.tileWidth = Math.max(1, this.tileWidth);
         this.tileHeight = Math.max(1, this.tileHeight);
-    }
-    /* da modificare */
+    }*/
     
     
     
@@ -95,22 +93,18 @@ public class PlayingRenderer implements Renderer {
         
         Graphics2D g = (Graphics2D) g2d.create();
         
-        // Disegna lo sfondo fisso
+        /* Draw the background */
         drawBackground(g, width, height); 
         
-        g.translate(-cameraX, -cameraY); //effetto della camera
+        g.translate(-cameraX, -cameraY); /* Camera effect  */
         
         drawTiles(g); 
-        /* disegno delle entità */
+        /* Draw entities */
         drawGameEntities(g);
 
+        /*drawHitboxes(g);*/
 
-        drawHitboxes(g);
-
-        //drawTileHitboxes(g);
-
-
-        drawHUB(g2d, width, height); //sitemare la posizione dell'HUB
+        drawHUB(g2d, width, height); /* Fix HUB position */
         
         g.dispose();
     }
@@ -130,12 +124,12 @@ public class PlayingRenderer implements Renderer {
     private void drawClouds(Graphics2D g, int width, int height) {
         g.setColor(Color.WHITE);
         
-        // Nuvola 1
+        /* Cloud 1 */
         g.fillOval(100, 50, 60, 40);
         g.fillOval(120, 40, 80, 50);
         g.fillOval(140, 50, 60, 40);
         
-        // Nuvola 2
+        /* Cloud 2 */
         g.fillOval(width - 200, 80, 70, 45);
         g.fillOval(width - 180, 70, 90, 55);
         g.fillOval(width - 160, 80, 70, 45);
@@ -150,21 +144,18 @@ public class PlayingRenderer implements Renderer {
 
         for (int r = startRow; r < endRow; r++) {
             for (int c = startCol; c < endCol; c++) {
-                if (levelGrid[r][c] == 1) { // Disegna solo le tile di tipo '1'
+                if (levelGrid[r][c] == 1) { /* Draw only type 1 entities */
                     int x = c * tileWorldSize;
                     int y = r * tileWorldSize;
                     
-                    //if (tileImage != null) {
-                      //  g2d.drawImage(tileImage, x, y, tileWorldSize, tileWorldSize, null);
-                    //} else {
-                        g2d.setColor(Color.LIGHT_GRAY);
-                        g2d.fillRect(x, y, tileWorldSize, tileWorldSize);
-                        g2d.setColor(Color.DARK_GRAY);
-                        g2d.drawRect(x, y, tileWorldSize, tileWorldSize);
-                    }
+                    g2d.setColor(Color.LIGHT_GRAY);
+                    g2d.fillRect(x, y, tileWorldSize, tileWorldSize);
+                    g2d.setColor(Color.DARK_GRAY);
+                    g2d.drawRect(x, y, tileWorldSize, tileWorldSize);
                 }
             }
         }
+    }
     
     private void drawGameEntities(Graphics2D g) {
     List<Entity> entities = entityManager.getEntities();

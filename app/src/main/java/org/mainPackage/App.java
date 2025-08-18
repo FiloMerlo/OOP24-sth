@@ -2,15 +2,10 @@ package org.mainPackage;
 
 import org.mainPackage.core.Game;
 import org.mainPackage.engine.components.*;
-import org.mainPackage.engine.components.PhysicsTypes.PlayerPhysics;
 import org.mainPackage.engine.components.graphics.*;
-import org.mainPackage.engine.components.HUDComponent;
 import org.mainPackage.engine.entities.impl.*;
-import org.mainPackage.engine.events.api.EventType;
-import org.mainPackage.enums.EnemyType;
 import org.mainPackage.level.LevelGenerator;
 import org.mainPackage.engine.systems.GameStateManager;
-import org.mainPackage.engine.systems.InputManager;
 import org.mainPackage.engine.systems.LevelManager;
 
 import java.awt.geom.Rectangle2D;
