@@ -20,14 +20,15 @@ public class PlayerPhysics extends PhysicsComponent {
     protected HashMap<direction, Boolean> tryToMove = new HashMap<>();
     private boolean hit;
 
-    private boolean debug = false;
-
     public PlayerPhysics(EntityImpl o, ArrayList<Rectangle2D.Float> tList){
         super(o, tList);
         ySpeed = initFallSpeed;
-        tryToMove.put(direction.left, false);
-        tryToMove.put(direction.up, false);
-        tryToMove.put(direction.right, false);
+        tryToMove = new HashMap<>(Map.of(
+        direction.left, false,
+        direction.up, false,
+        direction.right, false
+        ));
+
         /*tryToMove per direction.down è sempre opposto a tryToMove per direction.up*/
     }
 

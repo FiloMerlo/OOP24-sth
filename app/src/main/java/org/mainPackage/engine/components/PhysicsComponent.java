@@ -43,7 +43,7 @@ public abstract class PhysicsComponent extends SubjectImpl implements Component{
         } else if (dir == direction.up || dir == direction.down){
             wannaBeThere.setRect(hitbox.getX(), hitbox.getY() + distance, hitbox.getWidth(), hitbox.getHeight());
         }
-    
+        
         /*check if moving as the entity wants to would cause it to compenetrate in any tile*/
         for (Rectangle2D.Float tile : tiles) {
             if (wannaBeThere.intersects(tile)){
@@ -52,26 +52,7 @@ public abstract class PhysicsComponent extends SubjectImpl implements Component{
         }
         return true;
     }
-/*  TODO  public boolean canGoThere(direction dir, float distance) {
-        Rectangle2D.Float wannaBeThere = new Rectangle2D.Float();
-        float currentY = hitbox.getY();
-        float height = hitbox.getHeight();
 
-            if (dir == direction.right || dir == direction.left) {
-                wannaBeThere.setRect(hitbox.getX() + distance, currentY, hitbox.getWidth(), height);
-            
-            } else if (dir == direction.up || dir == direction.down) {
-                wannaBeThere.setRect(hitbox.getX(), currentY + distance, hitbox.getWidth(), height);
-            }
-
-    for (Rectangle2D.Float tile : tiles) {
-        if (wannaBeThere.intersects(tile)) {
-            return false;
-        }
-    }
-    return true;
-}
-*/    
     public void landing() {
         /*If the falling speed don't connect precisely the Entity and the ground under it, the Entity will just
          * keep floating and falling endlessly, or compenetrate in the ground. 
