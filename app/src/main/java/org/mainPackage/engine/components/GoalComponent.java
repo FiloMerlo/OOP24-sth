@@ -8,7 +8,7 @@ import org.mainPackage.engine.events.impl.GameEvent;
 import org.mainPackage.engine.events.impl.SubjectImpl;
 
     
-/** This {@link Component }represent the objective to finish the level. 
+/** This {@link Component} represent the objective to finish the level. 
  * It can be anything, from an enemy to kill to simply a point the player has to get to
  * Has to be a {@link SubjectImpl} , since it has to notify {@link org.mainPackage.engine.systems.GameStateManager}
 */

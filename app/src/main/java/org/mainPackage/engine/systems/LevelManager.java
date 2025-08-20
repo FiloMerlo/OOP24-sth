@@ -13,13 +13,12 @@ import org.mainPackage.engine.entities.api.Entity;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
-
-
 /**
- * Gestisce la creazione e il reset del livello di gioco.
- * Questa classe è responsabile di istanziare e posizionare tutti gli elementi del livello,
- * come Sonic, i nemici, gli anelli, i blocchi (tiles) e l'obiettivo.
+ * Manages the creation and restoration of the game level.
+ * This class is responsible for instantiating and positioning all level elements,
+ * such as Sonic, enemies, rings, tiles, and the objective.
  */
+
 public class LevelManager {
 
     private final int tileSize;
@@ -32,6 +31,17 @@ public class LevelManager {
     private Entity sonicEntity;
     private GoalComponent goal;
 
+    /**
+     * Constructs a LevelManager with the specified parameters.
+     *
+     * @param tileSize The size of each tile in the level.
+     * @param staticEnemySize The size of static enemies.
+     * @param chasingEnemySize The size of chasing enemies.
+     * @param ringSize The size of rings.
+     * @param sonicSize The size of Sonic.
+     * @param levelGrid A 2D array representing the level layout.
+     */
+
     public LevelManager(int tileSize, int staticEnemySize, int chasingEnemySize, int ringSize, int sonicSize, int[][] levelGrid) {
         this.tileSize = tileSize;
         this.staticEnemySize = staticEnemySize;
@@ -39,19 +49,28 @@ public class LevelManager {
         this.ringSize = ringSize;
         this.sonicSize = sonicSize;
         this.levelGrid = levelGrid;
-        System.out.println("LevelManager: Inizializzazione livello");
     }
 
+    /**
+     * Loads the level by scanning the {@code levelGrid} and instantiating entities accordingly.
+     * <p>
+     * Each integer value in the grid corresponds to an entity type
+     *
+     * @return A {@link LevelLoadResult} object containing references to
+     * the created Sonic entity, the list of tile rectangles, and the goal component
+     * 
+     */
 
     public LevelLoadResult loadLevel() {
         
         ArrayList<Rectangle2D.Float> tileList = new ArrayList<>();
         EntityManagerImpl entityManager = EntityManagerImpl.getInstance();
-        System.out.println("LevelManager: Inizio caricamento livello");
-
+        
+        // --- Clear previous entities ---
         entityManager.killAllEntities(); 
         
-       EntityImpl sonic = PlayerFactory.createPlayer(tileList, sonicSize, ringSize);
+        // --- Create Sonic entity and HUB ---
+        EntityImpl sonic = PlayerFactory.createPlayer(tileList, sonicSize, ringSize);
         HUDComponent hudRing = new HUDComponent(sonic);
         EntityImpl hud = new EntityImpl();
         hud.addComponent(hudRing);
@@ -60,42 +79,36 @@ public class LevelManager {
 
         EntityImpl goal = null;
 
-        
         for (int r = 0; r < levelGrid.length; r++) {
             for (int c = 0; c < levelGrid[0].length; c++) {
                 int xPos = c * tileSize;
                 int yPos = r * tileSize;
 
                 switch (levelGrid[r][c]) {
-                    case 1 -> { /* Tile*/
+                    case 1 -> { // --- Tile ---
                         Rectangle2D.Float tile = new Rectangle2D.Float(xPos, yPos, tileSize, tileSize);
                         tileList.add(tile);
-                        /*System.out.println("Tile posizionato a: " + xPos + ", " + yPos);*/
-                    }
-                    case 2 -> { /*static enemy*/
+                        }
+                    case 2 -> { // --- Static enemy ---
                         EntityImpl staticEnemy = EnemyFactory.createEnemy(EnemyType.STATIC, xPos, yPos, staticEnemySize, sonicSize, tileSize, tileList, sonic);
                         entityManager.addEntity(staticEnemy);
-                        /*System.out.println("Nemico statico aggiunto");*/
                     }
-                    case 3 -> { /* chasing enemy*/
+                    case 3 -> { // --- Chasing enemy ---
                         EntityImpl chasingEnemy = EnemyFactory.createEnemy(EnemyType.CHASING, xPos, yPos, chasingEnemySize, sonicSize, tileSize, tileList, sonic);
                         entityManager.addEntity(chasingEnemy);
-                        /*System.out.println("Nemico inseguitore aggiunto");*/
                     }
-                    case 4 -> { /* Sonic position */
+                    case 4 -> { // --- Sonic position ---
                         sonic.getComponent(TransformComponent.class).setX(xPos);
                         sonic.getComponent(TransformComponent.class).setY(yPos + tileSize - sonicSize);
-                        System.out.println("Sonic posizionato a: " + xPos + ", " + (yPos + tileSize - sonicSize));
                     }
-                    case 5 -> { /* Ring */
+                    case 5 -> { // --- Rings ---
                         EntityImpl ring = RingFactory.createRing(xPos, yPos, ringSize, tileSize, tileList, sonic, false);
                         entityManager.addEntity(ring);
                     }
-                    case 6 -> { /* Goal */
+                    case 6 -> { // --- Goal ---
                         goal = new EntityImpl();
                         goal.addComponent(new TransformComponent(xPos, yPos, 1, 3200));
                         goal.addComponent(new GoalComponent(goal, sonic));
-                        
                         entityManager.addEntity(goal);
                         System.out.println("Entità obiettivo creata");
                     }
@@ -104,12 +117,23 @@ public class LevelManager {
         }
 
         if (goal == null) {
-            System.err.println("ATTENZIONE: Nessun obiettivo (goal) trovato nella griglia del livello!");
+            System.err.println("Nessun obiettivo trovato");
         }
 
         return new LevelLoadResult(sonic, tileList, goal != null ? goal.getComponent(GoalComponent.class) : null);
     }
     
+    /**
+     * Resets the current level by:
+     * <ul>
+     *   <li>Removing all entities from the {@link EntityManagerImpl}</li>
+     *   <li>Resetting input states {@link InputManager}</li>
+     *   <li>Reloading the level grid</li>
+     * </ul>
+     * <p>
+     * This method allows restarting the game without recreating a new {@code LevelManager}.
+     */
+
     public void resetLevel(){
         EntityManagerImpl.getInstance().killAllEntities();
         InputManager.getInstance().resetInputState(); /* Reset inputs */
@@ -120,10 +144,18 @@ public class LevelManager {
         this.goal = newLoadResult.goalComponent;
     }
 
+    /**
+     * @return The Sonic entity.
+     */
+
     public Entity getSonicEntity() {
         return sonicEntity;
     }
     
+    /**
+     * @return The goal component.
+     */
+
     public GoalComponent getGoal() {
         return goal;
     }
@@ -131,7 +163,8 @@ public class LevelManager {
     /**
      * Internal class that incapsulates the results of the level load.
      */
-    public static class LevelLoadResult {
+    
+     public static class LevelLoadResult {
         public final EntityImpl sonic;
         public final ArrayList<Rectangle2D.Float> tileList;
         public final GoalComponent goalComponent;
