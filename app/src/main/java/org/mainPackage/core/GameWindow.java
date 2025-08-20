@@ -4,38 +4,60 @@ import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+/**
+ * Represents the game window for the application.
+ * 
+ * <p>This class extends {@link JFrame} and is responsible for displaying
+ * the {@link GamePanel}, handling window events, and managing integration 
+ * with the {@link Game} instance.</p>
+ * 
+ * <p>Main responsibilities:
+ * <ul>
+ *   <li>Sets up the main frame properties.</li>
+ *   <li>Embeds the {@code GamePanel} as the main drawing surface.</li>
+ *   <li>Handles the window closing event to properly stop the game loop.</li>
+ * </ul>
+ * </p>
+ */
 
 public class GameWindow extends JFrame {
     private GamePanel gamePanel;
     private Game game;
 
-public GameWindow(String title, GamePanel gamePanel, Game game) {
-        super(title);
-        System.out.println("GameWindow: Inizializzazione della finestra di gioco con titolo: " + title);
+    /**
+     * Constructs a new GameWindow with the specified title, game panel, and game instance.
+     *
+     * @param title the title of the window
+     * @param gamePanel the panel that will display the game content
+     * @param game the game instance used to stop the loop on window close
+     */
 
+    public GameWindow(String title, GamePanel gamePanel, Game game) {
+        super(title);
         this.gamePanel = gamePanel;
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // oppure DO_NOTHING_ON_CLOSE
+        
+        // --- Frame setup ---
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(true);
         add(gamePanel);
-        pack(); // adatta la finestra alla dimensione del pannello
-        setLocationRelativeTo(null); // centra la finestra
+        pack();
+        setLocationRelativeTo(null);
         setVisible(true);
+
+        // --- Ensure the game panel has focus ---
         gamePanel.requestFocusInWindow();
         
+        // --- Window listener for closing event ---
         addWindowListener(new WindowAdapter() {
-            
             @Override
             public void windowClosing(WindowEvent e) {
                 if (game != null) {
                     game.stop();
-                    System.out.println("Gioco chiuso correttamente");
                 } else {
-                    System.err.println("Errore in chiusura gioco");
                     System.exit(0);
                 }
             }
         });
     }
-
 }
 
