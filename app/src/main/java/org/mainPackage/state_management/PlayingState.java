@@ -13,10 +13,19 @@ import org.mainPackage.engine.systems.GameStateManager;
 import org.mainPackage.renderer.PlayingRenderer;
 import org.mainPackage.util.SizeView;
 
-/* 
- * il render dello stato è delegato al PlayingRenderer
+/**
+ * PlayingState represents the state of the game when it is actively being played.
+ * <p>
+ * It manages the rendering of the game world, including the player character and
+ * the level grid, and updates game elements such as player animations and camera position.
+ * </p>
+ * 
+ * <p>
+ * The {@link PlayingState} extends {@link GameState}, reusing the input-handling structure
+ * and ensuring consistency with other states in the system. Rendering tasks are delegated
+ * to {@link PlayingRenderer}, which draws the game world based on the current state.
+ * </p>
  */
-
 public class PlayingState extends GameState {
 
     private PlayingRenderer playingRenderer;
@@ -25,48 +34,74 @@ public class PlayingState extends GameState {
     private int[][] levelGrid;
     private int tileWorldSize;
     private GoalComponent goal;
+    
+    /** Tracks the last update time for delta-time calculations. */
     private long lastUpdateTime = System.currentTimeMillis();
     
+    private static final float MILLIS_TO_SECONDS = 1000.0f;
+    
+    /**
+     * Constructs a new {@code PlayingState}.
+     *
+     * @param gameStateManager the manager responsible for handling state transitions
+     * @param sizeView utility for handling screen dimensions and scaling
+     * @param sonic the player entity
+     * @param grid the tile grid representing the level layout
+     * @param tileSize the size of each tile in world units
+     * @param goal the goal component representing the level objective
+     */
     
     public PlayingState(GameStateManager gameStateManager, SizeView sizeView, Entity sonic, int[][] grid, int tileSize, GoalComponent goal) {
         super(gameStateManager, sizeView);
-        System.out.println("PlayingState : inizializzato.");
         this.entityManager = EntityManagerImpl.getInstance();
         this.sonicPlayer = sonic;
         this.levelGrid = grid;
         this.tileWorldSize = tileSize;
+        //this.goal = goal;
         this.playingRenderer = new PlayingRenderer(entityManager, levelGrid, tileWorldSize);
-
+        
         if (this.sonicPlayer == null) {
-            System.err.println("Sonic non è stato trovato");
+            throw new IllegalArgumentException("Sonic player entity cannot be null in PlayingState constructor.");
         }
     }
 
     /**
-     * Aggiorna gli elementi di gioco e ricrea il PlayingRenderer per garantire 
-     * che sia sincronizzato con il nuovo stato del gioco.
+     * Updates the game elements and reinitializes the {@link PlayingRenderer}.
+     * <p>
+     * This method can be called to refresh the state whenever the grid, 
+     * player entity, tile size, or goal changes.
+     * </p>
+     *
+     * @param sonic the player entity
+     * @param grid the updated level grid
+     * @param tileSize the updated tile size
+     * @param goal the updated goal component
      */
+
     public void updateGameElements(Entity sonic, int[][] grid, int tileSize, GoalComponent goal) {
         this.sonicPlayer = sonic;
         this.levelGrid = grid;
         this.tileWorldSize = tileSize;
         this.goal = goal;
-        
-        
         this.playingRenderer = new PlayingRenderer(entityManager, levelGrid, tileWorldSize);
-        
-        System.out.println("PlayingState - Elementi di gioco aggiornati e PlayingRenderer ricreato.");
     }
 
-    
+    /**
+     * Updates all game entities, animations, and the camera position.
+     * <p>
+     * Uses {@code deltaTime} to ensure consistent updates independent of frame rate.
+     * Also updates Sonic's animation state and centers the camera on Sonic 
+     * if the entity exists.
+     * </p>
+     */
+
     @Override
     public void update() {
-    
         long currentTime = System.currentTimeMillis();
-        float deltaTime = (currentTime - lastUpdateTime) / 1000.0f;
+        float deltaTime = (currentTime - lastUpdateTime) / MILLIS_TO_SECONDS;
         lastUpdateTime = currentTime;
-
-    entityManager.updateEntities(deltaTime);
+        
+        entityManager.updateEntities(deltaTime);
 
         if (sonicPlayer != null) { 
             if (sonicPlayer.hasComponent(SonicAnimator.class) && sonicPlayer.hasComponent(PlayerPhysics.class)) {
@@ -79,10 +114,20 @@ public class PlayingState extends GameState {
                 playingRenderer.updateCamera((int) sonicTransform.getX(), (int) sonicTransform.getY());
             }
         } else {
-            System.err.println("Errore: sonicPlayer è null durante l'update del PlayingState. Impossibile aggiornare animazione o camera.");
+            throw new IllegalStateException("Sonic player entity is null in PlayingState update method.");
         }
     }
     
+    /**
+     * Draws the current frame of the game world.
+     * <p>
+     * Delegates rendering to {@link PlayingRenderer}, which handles 
+     * camera transformations and level rendering.
+     * </p>
+     *
+     * @param g the {@link Graphics} context used for rendering
+     */
+
     @Override
     public void draw(Graphics g) { 
         Graphics2D g2d = (Graphics2D) g;
@@ -93,15 +138,24 @@ public class PlayingState extends GameState {
         playingRenderer.render(g2d, currentWidth, currentHeight);
     }
     
-    /* Delegati gli input all'InputManager 
-     * mantengo questi medoti anche se non sono utilizzati in questo stato
-     * per coerenza con gli altri stati e per eventuali estensioni future.
+    /**
+     * Handles keyboard key press events.
+     * <p>
+     * Currently unused in this state, but kept for consistency and possible future use.
+     * </p>
      */
-     
+
     @Override
     public void keyPressed(KeyEvent e) {
     }
 
+    /**
+     * Handles keyboard key release events.
+     * <p>
+     * Currently unused in this state, but kept for consistency and possible future use.
+     * </p>
+     */
+    
     @Override
     public void keyReleased(KeyEvent e) {
     }

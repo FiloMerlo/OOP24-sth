@@ -136,7 +136,7 @@ public class LevelManager {
 
     public void resetLevel(){
         EntityManagerImpl.getInstance().killAllEntities();
-        InputManager.getInstance().resetInputState(); /* Reset inputs */
+        InputManager.getInstance().resetInputState();
 
         LevelManager.LevelLoadResult newLoadResult = loadLevel();
 
