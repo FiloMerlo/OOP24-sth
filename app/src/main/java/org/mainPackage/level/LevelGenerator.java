@@ -53,46 +53,56 @@ public class LevelGenerator {
      */
 
     private void generateLevel() {
-        for (int r = 0; r < numRows; r++) {
-            for (int c = 0; c < numCols; c++) {
-                levelGrid[r][c] = EMPTY;
-            }
-        }
-        
-        // --- Fill the grid with tiles and borders ---
+    // --- Initialize the grid with empty cells ---
+    for (int r = 0; r < numRows; r++) {
         for (int c = 0; c < numCols; c++) {
-            levelGrid[4][c] = TILE; 
+            levelGrid[r][c] = EMPTY;
         }
-        
-        // --- Set the first and last row as borders ---
-        for (int r = 0; r < numRows; r++) {
-            levelGrid[r][0] = TILE;
-            levelGrid[r][numCols - 1] = TILE;
-        }
-
-        // --- Set positions for Sonic ---
-       levelGrid[3][1] = SONIC;
-
-        // --- Place static enemies and rings ---
-        for (int c = 10; c < numCols - 10; c += 10) {
-            levelGrid[2][c] = (c % 20 == 0) ? ENEMY_STATIC : RING;
-        }
-        
-        //levelGrid[2][4] = ENEMY_STATIC;
-
-        // --- Place chasing enemies ---
-        for (int c = 60; c <= numCols - 60; c += 40) {
-            levelGrid[numRows - 3][c] = ENEMY_CHASING;
-        }
-
-        for (int c = 30; c < numCols - 10; c += 60) {
-            levelGrid[numRows - 1][c] = EMPTY;           
-            levelGrid[numRows - 1][c + 1] = EMPTY;         
-        }
-
-        // --- Place Goal ---
-        levelGrid[3][numCols - 3] = GOAL;
     }
+
+    // --- Ground line (bottom row filled with tiles) ---
+    for (int c = 0; c < numCols; c++) {
+        levelGrid[numRows - 1][c] = TILE;
+    }
+
+    // --- Borders (left and right columns) ---
+    for (int r = 0; r < numRows; r++) {
+        levelGrid[r][0] = TILE;
+        levelGrid[r][numCols - 1] = TILE;
+    }
+
+    // --- Sonic spawn point (above the ground, near the left) ---
+    levelGrid[numRows - 2][1] = SONIC;
+
+    // --- Simple low floating platforms ---
+    int platformWidth = 8; // each platform is 4 tiles wide
+    for (int c = 6; c < numCols - platformWidth - 1; c += 15) {
+        int height = numRows - 3; // just one cell above Sonic's head
+        for (int w = 0; w < platformWidth; w++) {
+            levelGrid[height][c + w] = TILE;
+        }
+    }
+
+    // --- Place static enemies on the ground ---
+    for (int c = 12; c < numCols - 10; c += 20) {
+        levelGrid[numRows - 2][c] = ENEMY_STATIC;
+    }
+
+    // --- Place chasing enemies on the ground further away ---
+    for (int c = 25; c < numCols - 25; c += 40) {
+        levelGrid[numRows - 2][c] = ENEMY_CHASING;
+    }
+
+    // --- Place rings above ground ---
+    /*for (int c = 8; c < numCols - 8; c += 10) {
+        levelGrid[numRows - 3][c] = RING;
+    }*/
+
+    // --- Goal at the end of the level ---
+    levelGrid[numRows - 2][numCols - 3] = GOAL;
+}
+
+
 
     /**
      * Returns the generated level grid.

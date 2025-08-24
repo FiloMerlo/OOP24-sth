@@ -31,7 +31,7 @@ public class App {
      */
     public static void main(String[] args) {
         // --- Game parameters ---
-        int tileSize = 64, staticEnemySize = 32, chasingEnemySize = 48, ringSize = 16, sonicSize = 48;
+        int tileSize = 48, staticEnemySize = 32, chasingEnemySize = 48, ringSize = 16, sonicSize = 48;
         int levelRows = 5; 
         int levelCols = 150; 
         
