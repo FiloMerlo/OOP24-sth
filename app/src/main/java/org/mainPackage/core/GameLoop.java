@@ -91,7 +91,7 @@ import org.mainPackage.engine.systems.GameStateManager;
             deltaFPS += (currentTime - previousTime) / timeForFrame;
             previousTime = currentTime;
 
-            // --- Process updates at fixed rate ---
+            // --- Process updates at target UPS ---
             while (deltaUPS >= 1.0) {
                 update(); 
                 updates++;
