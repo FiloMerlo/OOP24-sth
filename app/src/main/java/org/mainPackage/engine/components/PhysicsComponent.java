@@ -78,20 +78,21 @@ public abstract class PhysicsComponent extends SubjectImpl implements Component{
          * This method come in handy for that problem, asserting the Tile that forms a floor, closest to 
          * the Entity, and "fixing" the Entity to it.
         */
-        float minDist = Float.MAX_VALUE;
+        float maxHeight = Float.MAX_VALUE;
+        ArrayList<Rectangle2D.Float> candidates = new ArrayList<>();
         TransformComponent transform = owner.getComponent(TransformComponent.class);
         for (Rectangle2D.Float tile : tiles) {
-            if (tile.getY() >= transform.getY() + transform.getHeight() && canGoThere(direction.down, (float)(tile.getY() - (transform.getY() + transform.getHeight()))) == true){
-                float newDist = (float)(tile.getY() - (transform.getY() + transform.getHeight()));
-                if (newDist < minDist){
-                    minDist = newDist;
-                }
+            Rectangle2D.Float projection = new Rectangle2D.Float(transform.getX(), (float) tile.getY(), transform.getWidth(), transform.getHeight());
+            if (projection.intersects(tile) && tile.getY() >= transform.getY() + transform.getHeight()) {
+                candidates.add(projection);
             }
         }
-        if(minDist == Float.MAX_VALUE){
-            minDist = 0;
+        for (Rectangle2D.Float candidate : candidates) {
+            if (candidate.getY() < maxHeight) {
+                maxHeight = (float)candidate.getY();
+            }
         }
-        transform.moveY(minDist);
+        transform.setY(maxHeight - transform.getHeight());
         ySpeed = 0;
     }
 

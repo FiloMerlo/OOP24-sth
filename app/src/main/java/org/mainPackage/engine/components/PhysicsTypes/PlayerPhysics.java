@@ -22,7 +22,7 @@ public class PlayerPhysics extends PhysicsComponent {
 
     public PlayerPhysics(EntityImpl o, ArrayList<Rectangle2D.Float> tList){
         super(o, tList);
-        ySpeed = initFallSpeed;
+        ySpeed = 0;
         tryToMove.put(direction.left, false);
         tryToMove.put(direction.up, false);
         tryToMove.put(direction.right, false);
@@ -101,7 +101,7 @@ public class PlayerPhysics extends PhysicsComponent {
             } else { 
                 /*hitting the ceiling causes him to start falling */
                 jumpFrames = 0;
-                ySpeed = initFallSpeed;
+                ySpeed = 0;
             }
         }
         /*FALLING.   Sonic starts to fall only one update after he ran out of jumpingFrames*/
@@ -178,7 +178,6 @@ public class PlayerPhysics extends PhysicsComponent {
     public void smallJump(){
         jumpFrames += 10;
     }
-//TODO l'animazione di danno dovrebbe durare meno
     public void takeDamage(){
         System.out.println("Sonic took damage!");
         playerAction = action.hurt;
