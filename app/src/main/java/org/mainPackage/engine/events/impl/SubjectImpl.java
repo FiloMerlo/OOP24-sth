@@ -5,10 +5,12 @@ import org.mainPackage.engine.events.api.Event;
 import org.mainPackage.engine.events.api.Observer;
 import org.mainPackage.engine.events.api.Subject;
 import java.util.ArrayList;
+
 /**
  * Implementaion of {@link Subject} , it comes with a list of {@link Observer}s
  */
-public class SubjectImpl implements Subject {
+
+ public class SubjectImpl implements Subject {
     private List<Observer> observers = new ArrayList<>();
 
     @Override
@@ -23,9 +25,14 @@ public class SubjectImpl implements Subject {
         observers.remove(o);
     }
 
+    /**
+     * Notify all observers in the list, using a copy of the list to avoid
+     * ConcurrentModificationException if an observer modifies the list during notification.
+     */
+    
     @Override
     public void notifyObservers(Event e) {
-        observers.stream().forEach(o -> o.onNotify(e));
+        new ArrayList<>(observers).forEach(o -> o.onNotify(e));
     }
     
 }

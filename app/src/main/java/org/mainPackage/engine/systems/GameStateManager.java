@@ -126,13 +126,9 @@ public class GameStateManager implements Observer {
         if (this.pausedState == null) {
             this.pausedState = new PausedState(this, sizeView);
         }
-        //fix this
-        if (this.goal != null) { 
-            this.goal.removeObserver(this); 
-        }
-        this.goal = goal; 
-        if (this.goal != null) { 
-            this.goal.addObserver(this); 
+
+        if (goal != null) {
+        goal.addObserver(this);
         }
     }
 
@@ -348,15 +344,11 @@ public class GameStateManager implements Observer {
     @Override
     public void onNotify(Event e) {
         if (e instanceof GameEvent){
-            
-            EntityImpl currentSonic = (EntityImpl) this.sonicEntity; 
-
             switch (e.getType()){
                 case GAME_OVER:
                 case STAGE_CLEARED:
                     resetGame();
                     setState(State.MENU);
-                    removeObservers(currentSonic);
                     break;
                 case LEVEL_STARTED:
                     setState(State.PLAYING);
@@ -379,10 +371,12 @@ public class GameStateManager implements Observer {
      * This method is typically triggered by events such as {@code GAME_OVER} 
      * or {@code STAGE_CLEARED}. It uses the {@link LevelManager} to reset 
      * the level data and reinitializes the {@link PlayingState}.
+     * Removes observers from the current player entity to avoid memory leaks.
      * </p>
      */
 
     private void resetGame() {
+        removeObservers((EntityImpl) this.sonicEntity);
         levelManager.resetLevel();
         initGame(levelManager.getSonicEntity(), storedLevelGrid, storedTileSize, levelManager.getGoal());
     }
