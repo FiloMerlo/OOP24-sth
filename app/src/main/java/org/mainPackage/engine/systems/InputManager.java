@@ -49,7 +49,6 @@ public class InputManager extends SubjectImpl implements KeyListener{
     @Override
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
-        System.out.println("DEBUG: InputManager - keyPressed: " + KeyEvent.getKeyText(key));
         if (!keysDown.contains(key)) {
             keysDown.add(key);
             InputEvent i = new InputEvent(EventType.KEY_DOWN, e);
@@ -61,7 +60,6 @@ public class InputManager extends SubjectImpl implements KeyListener{
      */
     @Override
     public void keyReleased(KeyEvent e) {
-        System.out.println("DEBUG: InputManager - keyReleased: " + KeyEvent.getKeyText(e.getKeyCode()));
         InputEvent i = new InputEvent(EventType.KEY_RELEASED, e);
         keysDown.remove(Integer.valueOf(e.getKeyCode()));
         notifyObservers(i);
@@ -82,7 +80,6 @@ public class InputManager extends SubjectImpl implements KeyListener{
     }
 
         public void resetInputState() {
-        System.out.println("DEBUG: InputManager - Resetting input state (clearing keysDown).");
         keysDown.clear();
     }
 }

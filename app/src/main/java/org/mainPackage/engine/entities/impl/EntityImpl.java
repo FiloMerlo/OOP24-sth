@@ -13,7 +13,9 @@ import org.mainPackage.engine.events.impl.SubjectImpl;
  */
 public class EntityImpl extends SubjectImpl implements Entity {
     private HashMap<Class<? extends Component>, Component> components = new HashMap<>();
-    public EntityImpl() {}
+    
+    public EntityImpl() {
+    }
     
     @Override
     public void update(float deltaTime){
@@ -21,20 +23,24 @@ public class EntityImpl extends SubjectImpl implements Entity {
             c.update(deltaTime);
         }
     }
+   
     @Override
     public Boolean hasComponent(Class<? extends Component> componentClass){
         return components.containsKey(componentClass);
     }
+    
     @Override
     public <T extends Component> T getComponent(Class<T> componentClass){
         return componentClass.cast(components.get(componentClass));
 
     }
+    
     /**
      * Given a {@link Component} @param c , it is added to {@link Components}
      * To allow abstraction with update methods, I add superclasses and interfaces
      * that are assignable from {@link Component}
      */
+    
     @SuppressWarnings("unchecked")
     @Override
     public void addComponent(Component c){

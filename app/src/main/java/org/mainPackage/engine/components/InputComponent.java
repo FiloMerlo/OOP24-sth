@@ -26,9 +26,8 @@ public class InputComponent implements Component, Observer{
     public InputComponent(Entity owner){
         this.owner = owner;
         this.playerPhysics = owner.getComponent(PlayerPhysics.class);
-        System.out.println("InputComponent inizializzato per " + owner.getClass().getSimpleName() + ".");
         if (playerPhysics == null) {
-            System.err.println("PlayerPhysics non trovato per InputComponent di " + owner.getClass().getSimpleName());
+            throw new IllegalStateException("PlayerPhysics non trovato per InputComponent di " + owner.getClass().getSimpleName());
         }
     }
 
@@ -38,13 +37,11 @@ public class InputComponent implements Component, Observer{
         }
         if (InputManager.getInstance().isKeyDown(KeyEvent.VK_RIGHT)){
             playerPhysics.setWill(direction.right, true);
-            System.out.println("InputComponent - Update, Movimento destra.");
         } else {
             playerPhysics.setWill(direction.right, false);
         }
         if (InputManager.getInstance().isKeyDown(KeyEvent.VK_LEFT)){
             playerPhysics.setWill(direction.left, true);
-            System.out.println("InputComponent - Update, Movimento sinistra.");
         } else {
             playerPhysics.setWill(direction.left, false);
         }
@@ -57,15 +54,12 @@ public class InputComponent implements Component, Observer{
     /* L'opizione di accedere alla pausa tramite esc è stata rimossa, adesso solo tramite il pulsante p */
     @Override
     public void onNotify(Event event) {
-        System.out.println("InputComponent - onNotify ricevuto evento di tipo: " + event.getType());
         if (event instanceof InputEvent){
             InputEvent i = (InputEvent) event;
-            System.out.println("InputComponent - InputEvent key: " + KeyEvent.getKeyText(i.getKeyEvent().getKeyCode()));
             switch (i.getKeyEvent().getKeyCode()){
                 case (KeyEvent.VK_SPACE):
                     if (playerPhysics != null) {
                         if (i.getType() == EventType.KEY_DOWN) {
-                            System.out.println("InputComponent - Salto KEY_DOWN");
                             if (playerPhysics.getAction() != action.jumping){ // This if fixes a previous bug which let player 'double' jumping if they pressed multiple space multiple times
                             playerPhysics.jump();
                             }
@@ -78,7 +72,6 @@ public class InputComponent implements Component, Observer{
                         EventType pauseEvent = pause ? EventType.PAUSE : EventType.RESUME;
                         GameEvent e = new GameEvent(pauseEvent, owner);
                         ((EntityImpl) owner).notifyObservers(e);
-                        System.out.println("InputComponent - Evento PAUSE/RESUME notificato: " + pauseEvent);
                     }
                     break;
                 default:
