@@ -153,12 +153,14 @@ public class GameStateManager implements Observer {
 
     /** 
      * Changes the current game state.
+     * Resets input states to avoid stuck keys.
      * @param state the new state to transition to
      */
 
     public void setState(State state) {
         this.currentEnumState = state;
-        
+        InputManager.getInstance().resetInputState();
+
         switch (state) {
             case MENU:
                 currentState = new MenuState(this, sizeView);

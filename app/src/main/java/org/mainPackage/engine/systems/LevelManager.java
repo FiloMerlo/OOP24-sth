@@ -77,7 +77,7 @@ public class LevelManager {
         entityManager.addEntity(sonic);
         entityManager.addEntity(hud);
 
-        EntityImpl goal = null;
+        EntityImpl goal = new EntityImpl();
 
         for (int r = 0; r < levelGrid.length; r++) {
             for (int c = 0; c < levelGrid[0].length; c++) {
@@ -106,40 +106,22 @@ public class LevelManager {
                         entityManager.addEntity(ring);
                     }
                     case 6 -> { // --- Goal ---
-                        goal = new EntityImpl();
                         goal.addComponent(new TransformComponent(xPos, yPos, 1, 3200));
                         goal.addComponent(new GoalComponent(goal, sonic));
                         entityManager.addEntity(goal);
-                        System.out.println("Entità obiettivo creata");
                     }
                 }
             }
         }
-
-        if (goal == null) {
-            System.err.println("Nessun obiettivo trovato");
-        }
-
         return new LevelLoadResult(sonic, tileList, goal != null ? goal.getComponent(GoalComponent.class) : null);
     }
     
     /**
-     * Resets the current level by:
-     * <ul>
-     *   <li>Removing all entities from the {@link EntityManagerImpl}</li>
-     *   <li>Resetting input states {@link InputManager}</li>
-     *   <li>Reloading the level grid</li>
-     * </ul>
-     * <p>
      * This method allows restarting the game without recreating a new {@code LevelManager}.
      */
 
     public void resetLevel(){
-        EntityManagerImpl.getInstance().killAllEntities();
-        InputManager.getInstance().resetInputState();
-
         LevelManager.LevelLoadResult newLoadResult = loadLevel();
-
         this.sonicEntity = newLoadResult.sonic;
         this.goal = newLoadResult.goalComponent;
     }

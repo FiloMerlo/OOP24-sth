@@ -31,7 +31,6 @@ public class PlayerFactory {
         player.addObserver(EntityManagerImpl.getInstance());
         player.addObserver(GameStateManager.getInstance());
         InputManager.getInstance().addObserver(player.getComponent(InputComponent.class));
-        System.out.println("PlayerFactory: Player creato con successo.");
         return player;
     }
 }

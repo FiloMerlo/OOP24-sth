@@ -167,17 +167,28 @@ public class PlayingRenderer implements Renderer {
      *
      * @param g the Graphics2D object used for drawing
      */
-
-    private void drawGoal(Graphics2D g) {
+    
+     private void drawGoal(Graphics2D g) {
         TransformComponent goalTransform = null;
         ArrayList<Entity> entityList = entityManager.getEntities();
+
         for (Entity e : entityList) {
-            if (e.hasComponent(GoalComponent.class)){
-                goalTransform = ((EntityImpl)e).getComponent(TransformComponent.class);
+            if (e.hasComponent(GoalComponent.class)) {
+                goalTransform = ((EntityImpl) e).getComponent(TransformComponent.class);
             }
         }
-        g.setColor(Color.RED);
-        g.fillRect((int)(goalTransform.getX()), (int)(goalTransform.getY()), 40, 40);
+
+        int x = (int) goalTransform.getX();
+        int y = (int) goalTransform.getY();
+        // --- Ground ---
+        g.setColor(new Color(200, 180, 120)); 
+        g.fillRect(x, y, 48, 48);
+        // --- Pole ---
+        g.setColor(new Color(180, 180, 180));
+        g.fillRect(x + 18, y - 60, 4, 60);
+        // --- Flag ---
+        g.setColor(Color.BLUE);
+        g.fillPolygon(new int[]{x + 22, x + 40, x + 22},new int[]{y - 60, y - 50, y - 40},3);
     }
     
     /** 
@@ -247,9 +258,13 @@ public class PlayingRenderer implements Renderer {
                     int x = c * tileWorldSize;
                     int y = r * tileWorldSize;
                     
-                    g2d.setColor(Color.LIGHT_GRAY);
+                    Color baseColor = new Color(200, 180, 120);
+                    Color borderColor = new Color(130, 100, 60); 
+
+                    g2d.setColor(baseColor);
                     g2d.fillRect(x, y, tileWorldSize, tileWorldSize);
-                    g2d.setColor(Color.DARK_GRAY);
+
+                    g2d.setColor(borderColor);
                     g2d.drawRect(x, y, tileWorldSize, tileWorldSize);
                 }
             }

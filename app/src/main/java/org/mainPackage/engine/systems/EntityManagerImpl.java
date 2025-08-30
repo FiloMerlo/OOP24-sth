@@ -27,7 +27,6 @@ public class EntityManagerImpl implements EntityManager, Observer {
     public static EntityManagerImpl getInstance(){
         if (instance == null){
             instance = new EntityManagerImpl();
-            System.out.println("EntityManagerImpl - Istanza creata.");
         }
         return instance;
     }
@@ -82,8 +81,7 @@ public class EntityManagerImpl implements EntityManager, Observer {
      * ConcurrentModificationException if entities modify the list during update.
      */
     
-/*************  ✨ Windsurf Command ⭐  *************/
-/*******  0f57ae84-5107-4baf-a12a-e00b505ac91c  *******/
+
      public ArrayList<Entity> getEntities() {
         return new ArrayList<>(entitiesToUpdate);
     }
@@ -97,7 +95,6 @@ public class EntityManagerImpl implements EntityManager, Observer {
   
     @Override
     public void killAllEntities() {
-        System.out.println("EntityManagerImpl - Chiamato killAllEntities(). Svuoto tutte le liste.");
         entitiesToUpdate.clear();
         entitiesToAdd.clear();
         entitiesToRemove.clear();

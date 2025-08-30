@@ -179,7 +179,6 @@ public class PlayerPhysics extends PhysicsComponent {
         jumpFrames += 10;
     }
     public void takeDamage(){
-        System.out.println("Sonic took damage!");
         playerAction = action.hurt;
         hit = false;
         iFrames = 480;
@@ -188,7 +187,6 @@ public class PlayerPhysics extends PhysicsComponent {
             e = new GameEvent(EventType.PLAYER_HIT, owner);
         }
         else {
-            System.out.println("GAME OVER!!!!!");
             e = new GameEvent(EventType.GAME_OVER, owner);
         }
         notifyObservers(e);

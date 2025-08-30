@@ -32,7 +32,6 @@ public class EnemyPhysics extends PhysicsComponent{
         if (checkIntersection(sonic.getComponent(TransformComponent.class))){
             if (sonic.getComponent(PlayerPhysics.class).getAction() == action.jumping){
                 notifyObservers(new GameEvent(EventType.ENTITY_DEAD, this.owner));   
-                System.out.println("Enemy killed!");
             } else {
                 sonic.getComponent(PlayerPhysics.class).hit();
             }

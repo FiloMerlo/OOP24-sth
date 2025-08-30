@@ -81,7 +81,6 @@ public class PausedRenderer implements Renderer {
             // --- Derive new fonts with updated sizes ---
             pauseFont = pauseFont.deriveFont(newPauseFont);
             exitButtonFont = exitButtonFont.deriveFont(newExitButtonFont);
-            System.out.println("Font aggiornato");
         }
     }
 

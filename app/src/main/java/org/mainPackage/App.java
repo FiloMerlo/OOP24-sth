@@ -33,7 +33,7 @@ public class App {
         // --- Game parameters ---
         int tileSize = 48, staticEnemySize = 32, chasingEnemySize = 48, ringSize = 16, sonicSize = 48;
         int levelRows = 5; 
-        int levelCols = 150; 
+        int levelCols = 250; 
         
         // --- Level generation ---
         LevelGenerator levelGenerator = new LevelGenerator(levelRows, levelCols);
