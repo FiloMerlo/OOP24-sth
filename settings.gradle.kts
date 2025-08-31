@@ -6,9 +6,8 @@
  */
 
 plugins {
-    // Apply the foojay-resolver plugin to allow automatic download of JDKs
+    // questo plugin puoi lasciarlo, non dà fastidio
     id("org.gradle.toolchains.foojay-resolver-convention") version "0.10.0"
 }
 
-rootProject.name = "Physics test"
-include("app")
+rootProject.name = "OOP24-SonicTheHedgehog"
