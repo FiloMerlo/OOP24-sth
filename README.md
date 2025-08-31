@@ -1,77 +1,30 @@
-# OOP24-STH
-Email dei componenti:
+# Sonic the Hedgehog
 
-samuele.bizzocchi3@studio.unibo.it
+A **2D arcade game inspired by "Sonic the Hedgehog" (1991)**.  
+The game features a single level with a path filled with **enemies, obstacles, and collectible rings**.
 
-filippo.merlini2@studio.unibo.it
+## Gameplay
 
-nicolas.mancini@studio.unibo.it
+The player can **move freely through the level**, avoiding obstacles and pitfalls.
+ 
+### Obstacles
+Colliding with obstacles causes the player to lose rings.
 
-frances.giancaterin2@studio.unibo.it
+### Game Over
+The player dies if hit while holding zero rings **or if they fall into a pit**.
 
-Il gruppo si pone come obbiettivo di realizzare un gioco arcade in 2D ispirato fortemente a "Sonic the Hedgehog" del 1991. Il gioco avrà disponibile un solo livello composto da un percorso con nemici ed ostacoli da evitare, e bonus da prendere (detti anelli); al completamento del percorso al giocatore verrà assegnato un punteggio in base al tempo di completamento e al numero di anelli raccolti e portati fino al traguardo, con ostacoli che se non evitati causano la perdita di anelli.
+## Core Features
 
+- **Player movement physics**: walking, running, jumping  
+- **Home screen and pause menu**  
+- **Enemies & obstacles**: rings are lost when the player is hit  
+- **Level goal**: reach the end of the level to complete the run
 
-Funzionalità principali:
+## How to Play
 
-Fisica del movimento del giocatore: camminata, corsa, salto.
+- **Move** the character using the **arrow keys**  
+- **Jump** using the **spacebar**  
+- **Pause** the game by pressing **P**
 
-Schermata Home, e menù di pausa.
-
-Nemici/ostacoli: venire colpiti quando hai degli anelli ti causa di perderli.
-
-Game over: venire colpiti da un ostacolo quando non si ha nessun anello causa il game over.
-
-Traguardo di fine livello.
-
-
-
-Funzionalità aggiuntive:
-
-Sistema di punti basato su tempo di completamento e bonus raccolti: cronometro, bonus, calcolo del punteggio finale. Salvataggio in locale di tutti i punteggi ottenuti.
-
-Visualizzazione della classifica migliori punteggi.
-
-Randomizzazione della posizione dei nemici.
-
-Power up: boost alla velocità, invincibilità, ecc… .
-
-Effetti sonori e colonna sonora.
-
-Sfondo del tracciato.
-
-Quando colpito il giocatore perde i bonus, ma anziché sparire nel nulla questi vengono sparpagliati intorno a lui, e possono essere recuperati.
-
-Trampolini.
-
-
-
-Challenge principali:
-
-Creazione dell'engine.
-
-Implementazione delle animazioni e altre parti grafiche.
-
-Meccanica delle collisioni.
-
-
-
-Suddivisione del lavoro:
-
-Filippo Merlini: Game engine, gestione degli eventi e delle entità.
-
-Samuele Bizzocchi: Fisica di base e meccanica delle collisioni.
-
-Francesco Giancaterino: Rendering dell'ambiente e gameloop. Schermata home (di apertura del gioco) e pausa
-
-Nicolas Mancini: Nemici e ostacoli fissi, aspetto del personaggio.
-
-COSA CI MANCA:
-> Avere un GameLoop che funziona
-> Rifare tutta la branch Main caricando dalle nostre singole branch solo le singole cartelle/files strettamente necessari.
-> Scrivere il report.
-> Fare i test.
-> Sistemare i checkStyles di Gradle.
-> Aggiustare le dimensioni e le velocità.
-
-
+## License
+Distributed under the MIT License. See `LICENSE` for more information.
