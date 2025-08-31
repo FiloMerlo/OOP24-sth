@@ -37,6 +37,15 @@ application {
     mainClass = "org.mainPackage.App"
 }
 
+tasks.named<ShadowJar>("shadowJar") {
+    archiveFileName.set("OOP24-SonicTheHedgehog-all.jar")
+    mergeServiceFiles() 
+}
+
+tasks.named("build") {
+    dependsOn(tasks.named("shadowJar"))
+}
+
 tasks.named<Test>("test") {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
